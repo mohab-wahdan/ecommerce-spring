@@ -1,6 +1,6 @@
 package com.example.ecommerce.models;
 
-import com.chickly.Enums.Status;
+import com.example.ecommerce.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
