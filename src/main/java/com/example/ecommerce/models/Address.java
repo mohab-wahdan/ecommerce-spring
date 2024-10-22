@@ -1,8 +1,7 @@
-package com.example.ecommerce.Entities;
+package com.example.ecommerce.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 

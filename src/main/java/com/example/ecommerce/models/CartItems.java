@@ -1,7 +1,7 @@
-package com.example.ecommerce.Entities;
+package com.example.ecommerce.models;
 
 
-import com.example.ecommerce.Entities.EntitiesEmbeddedId.CustomerProductId;
+import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

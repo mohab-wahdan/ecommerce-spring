@@ -1,6 +1,6 @@
-package com.example.ecommerce.Entities;
+package com.example.ecommerce.models;
 
-import com.example.ecommerce.Entities.EntitiesEmbeddedId.OrderProductId;
+import com.example.ecommerce.models.EntitiesEmbeddedId.OrderProductId;
 import jakarta.persistence.*;
 import lombok.*;
 

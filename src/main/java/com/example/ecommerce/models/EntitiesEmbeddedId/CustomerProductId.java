@@ -1,4 +1,4 @@
-package com.example.ecommerce.Entities.EntitiesEmbeddedId;
+package com.example.ecommerce.models.EntitiesEmbeddedId;
 
 import lombok.*;
 

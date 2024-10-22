@@ -1,4 +1,4 @@
-package com.example.ecommerce.Entities;
+package com.example.ecommerce.models;
 
 import com.chickly.Enums.Color;
 import com.chickly.Enums.Size;

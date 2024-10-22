@@ -1,4 +1,4 @@
-package com.example.ecommerce.Enums;
+package com.example.ecommerce.enums;
 
 public enum Size {
     SMALL,

@@ -1,7 +1,6 @@
-package com.example.ecommerce.Entities;
+package com.example.ecommerce.models;
 
 import jakarta.persistence.*;
-import java.util.Set;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
