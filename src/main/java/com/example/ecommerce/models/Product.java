@@ -2,7 +2,7 @@ package com.example.ecommerce.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import com.chickly.Enums.Gender;
+import com.example.ecommerce.enums.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Data
 public class Product implements Serializable {
 
     @Id
