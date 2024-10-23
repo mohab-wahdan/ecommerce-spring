@@ -2,7 +2,7 @@ package com.example.ecommerce.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import com.chickly.Enums.Gender;
+import com.example.ecommerce.enums.Gender;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
