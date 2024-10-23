@@ -5,10 +5,7 @@ import com.example.ecommerce.dtos.SubCategoryDTO;
 import com.example.ecommerce.models.SubCategory;
 import com.example.ecommerce.services.CategoryService;
 import com.example.ecommerce.services.SubCategoryService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +33,9 @@ public class TestCategoryAndSub {
     @GetMapping("/sub/{id}")
     public SubCategory getSubCategoryById(@PathVariable int id) {
         return subCategoryService.findSubCategoryById(id);
+    }
+    @PostMapping()
+    public void addSubCategory() {
+
     }
 }
