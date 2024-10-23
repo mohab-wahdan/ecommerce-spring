@@ -12,6 +12,7 @@ import lombok.*;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @RequiredArgsConstructor
 @IdClass(CustomerProductId.class)
 public class CartItems {
