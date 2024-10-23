@@ -3,7 +3,7 @@ package com.example.ecommerce.controllers;
 import com.example.ecommerce.dtos.ProductJsonAddDTO;
 import com.example.ecommerce.dtos.ProductViewDTO;
 import com.example.ecommerce.models.Product;
-import com.example.ecommerce.service.ProductService;
+import com.example.ecommerce.Services.ProductService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

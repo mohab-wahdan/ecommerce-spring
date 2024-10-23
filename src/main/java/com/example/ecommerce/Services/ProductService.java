@@ -1,9 +1,8 @@
-package com.example.ecommerce.service;
+package com.example.ecommerce.Services;
 
 import com.example.ecommerce.dtos.ProductJsonAddDTO;
 import com.example.ecommerce.dtos.ProductViewDTO;
 import com.example.ecommerce.mappers.ProductMapper;
-import com.example.ecommerce.models.Category;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.models.SubCategory;
 import com.example.ecommerce.repositories.ProductRepository;

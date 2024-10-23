@@ -5,7 +5,7 @@ import com.example.ecommerce.dtos.SubProductFilterDTO;
 import com.example.ecommerce.enums.Color;
 import com.example.ecommerce.enums.Gender;
 import com.example.ecommerce.enums.Size;
-import com.example.ecommerce.service.SubProductService;
+import com.example.ecommerce.Services.SubProductService;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,9 +79,18 @@ public List<SubProductDTO> filterSubProducts( @RequestParam(value = "color", req
             @RequestParam("size") String size,
             @RequestParam("quantity") int stock,
             @RequestParam("price") BigDecimal price,
-            @RequestPart("image") MultipartFile imagePart) throws IOException {
+            @RequestPart(value = "image",required = false) MultipartFile imagePart) throws IOException {
         SubProductDTO subProductDTO = subProductService.createSubProductDTO( colorParam, mainProductId, size, stock, price, imagePart);
+        System.out.println(subProductDTO);
         return subProductDTO;
+    }
+    @PutMapping("{id}")
+    public void updateSubProductDTO( @PathVariable int subProductId,
+                                              @RequestParam("quantity") int stock,
+                                              @RequestParam("price") BigDecimal price,
+                                              @RequestPart(value = "newImage") MultipartFile imagePart){
+       subProductService.updateSubProduct(subProductId,stock,price,imagePart);
+
     }
 
     @DeleteMapping("{id}")
