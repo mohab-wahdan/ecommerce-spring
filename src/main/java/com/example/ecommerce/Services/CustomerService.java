@@ -1,87 +1,62 @@
 package com.example.ecommerce.Services;
 
-
+import com.example.ecommerce.dtos.CustomerDTO;
+import com.example.ecommerce.mapper.CustomerMapper;
 import com.example.ecommerce.models.Customer;
+
 import com.example.ecommerce.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
 
+    private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
 
     @Autowired
-    private CustomerRepository customerRepository;
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
     }
 
-    public String addCustomer(Customer customer) {
-        customerRepository.save(customer);
-        return "Customer "+ +customer.getId()+" added successfully";
-    }
-    public Customer getCustomerById(Long id) {
-        customerRepository.findById(id);
-        return customerRepository.findById(id).get();
-    }
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+        Customer customer = customerMapper.toEntity(customerDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        return customerMapper.toDTO(savedCustomer);
     }
 
-    public boolean login(String username, String password) {
-        Optional<Customer> customer = customerRepository.
-                findByAccount_UserNameAndAccount_Password(username, password);
-        return customer.isPresent();
+    public List<CustomerDTO> getAllCustomers() {
+        return customerRepository.findAll().stream()
+                .map(customerMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
-//public String updateCustomer(Long id, Customer customer) {
-//        customerRepository.save(customer);
-//        return "Customer "+ +customer.getId()+" updated successfully";
-//
-//}
+    public CustomerDTO getCustomerById(Integer id) {
+        return customerRepository.findById(id)
+                .map(customerMapper::toDTO)
+                .orElse(null); // Handle not found case as needed
+    }
 
-    public String updateCustomer(Long id, Customer customer) {
+    public CustomerDTO updateCustomer(Integer id, CustomerDTO customerDTO) {
         if (!customerRepository.existsById(id)) {
-            return "Customer with ID: " + id + " not found. Update failed.";
+            return null; // Handle not found case as needed
         }
-
-        customer.setId(Math.toIntExact(id)); // Ensure the ID remains the same
-        customerRepository.save(customer);
-        return "Customer with ID: " + id + " updated successfully.";
+        Customer customer = customerMapper.toEntity(customerDTO);
+        customer.setId(id);
+        Customer updatedCustomer = customerRepository.save(customer);
+        return customerMapper.toDTO(updatedCustomer);
     }
 
-
-
-//    public String deleteCustomer(Long id) {
-//        customerRepository.deleteById(id);
-//        return "Customer with ID : "+id + " deleted successfully";
-//    }
-
-    public String deleteCustomer(Long id) {
-        if (!customerRepository.existsById(id)) {
-            return "Customer with ID: " + id + " does not exist or has already been deleted.";
-        }
-
+    public void deleteCustomer(Integer id) {
         customerRepository.deleteById(id);
-        return "Customer with ID: " + id + " deleted successfully.";
     }
 
-//
-//    public String deleteAllCustomers() {
-//        customerRepository.deleteAll();
-//        return "All customers deleted successfully";
-//    }
-
-    public String deleteAllCustomers() {
-        if (customerRepository.count() == 0) {
-            return "No customers to delete. The list is already empty.";
-        }
-
+    public void deleteAllCustomers() {
         customerRepository.deleteAll();
-        return "All customers deleted successfully.";
     }
 
 }
