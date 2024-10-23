@@ -37,4 +37,51 @@ public class CustomerService {
         return customer.isPresent();
     }
 
+//public String updateCustomer(Long id, Customer customer) {
+//        customerRepository.save(customer);
+//        return "Customer "+ +customer.getId()+" updated successfully";
+//
+//}
+
+    public String updateCustomer(Long id, Customer customer) {
+        if (!customerRepository.existsById(id)) {
+            return "Customer with ID: " + id + " not found. Update failed.";
+        }
+
+        customer.setId(Math.toIntExact(id)); // Ensure the ID remains the same
+        customerRepository.save(customer);
+        return "Customer with ID: " + id + " updated successfully.";
+    }
+
+
+
+//    public String deleteCustomer(Long id) {
+//        customerRepository.deleteById(id);
+//        return "Customer with ID : "+id + " deleted successfully";
+//    }
+
+    public String deleteCustomer(Long id) {
+        if (!customerRepository.existsById(id)) {
+            return "Customer with ID: " + id + " does not exist or has already been deleted.";
+        }
+
+        customerRepository.deleteById(id);
+        return "Customer with ID: " + id + " deleted successfully.";
+    }
+
+//
+//    public String deleteAllCustomers() {
+//        customerRepository.deleteAll();
+//        return "All customers deleted successfully";
+//    }
+
+    public String deleteAllCustomers() {
+        if (customerRepository.count() == 0) {
+            return "No customers to delete. The list is already empty.";
+        }
+
+        customerRepository.deleteAll();
+        return "All customers deleted successfully.";
+    }
+
 }
