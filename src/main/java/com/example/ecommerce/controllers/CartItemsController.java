@@ -1,50 +1,51 @@
 package com.example.ecommerce.controllers;
-import com.example.ecommerce.Services.CartItemsServices;
-import com.example.ecommerce.models.CartItems;
-import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
+
+import com.example.ecommerce.Services.CartItemsService;
+import com.example.ecommerce.dtos.CartItemsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cartItems")
 public class CartItemsController {
 
-    private CartItemsServices cartItemsService;
+
+    private CartItemsService cartItemsService;
 
     @Autowired
-    public CartItemsController(CartItemsServices cartItemsService) {
-    this.cartItemsService = cartItemsService;
-}
+    public CartItemsController (CartItemsService cartItemsService) {
+        this.cartItemsService = cartItemsService;
+    }
 
     @GetMapping
-    public ResponseEntity<List<CartItems>> getAllCartItems() {
-        List<CartItems> cartItems = cartItemsService.getAllCartItems();
+    public ResponseEntity<List<CartItemsDTO>> getAllCartItems() {
+        List<CartItemsDTO> cartItems = cartItemsService.getAllCartItems();
         return ResponseEntity.ok(cartItems);
     }
 
-    @PostMapping
-    public ResponseEntity<CartItems> addOrUpdateCartItem(@RequestBody CartItems cartItem) {
-        CartItems savedCartItem = cartItemsService.addOrUpdateCartItem(cartItem);
-        return ResponseEntity.ok(savedCartItem);
-    }
-
-    @GetMapping("/{customerId}/{subProductId}")
-    public ResponseEntity<CartItems> getCartItemById(@PathVariable Integer customerId, @PathVariable Integer subProductId) {
-        CustomerProductId id = new CustomerProductId(customerId, subProductId);
-        Optional<CartItems> cartItem = cartItemsService.getCartItemById(id);
-        return cartItem.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
+//    @PostMapping
+//    public ResponseEntity<CartItemsDTO> createCartItem(@RequestBody CartItemsDTO cartItemsDTO) {
+//        CartItemsDTO createdCartItem = cartItemsService.createCartItem(cartItemsDTO);
+//        return ResponseEntity.status(201).body(createdCartItem);
+//    }
 
 
-    @DeleteMapping("/{customerId}/{subProductId}")
-    public ResponseEntity<Void> deleteCartItem(@PathVariable Integer customerId, @PathVariable Integer subProductId) {
-        CustomerProductId id = new CustomerProductId(customerId, subProductId);
-        cartItemsService.deleteCartItem(id);
-        return ResponseEntity.noContent().build();
-    }
-
-
+//    @PutMapping
+//    public ResponseEntity<CartItemsDTO> updateCartItem(@RequestBody CartItemsDTO cartItemsDTO) {
+//        CartItemsDTO createdCartItem = cartItemsService.updateCartItem(cartItemsDTO);
+//        return ResponseEntity.status(201).body(createdCartItem);
+//    }
+//    @DeleteMapping
+//    public ResponseEntity<CartItemsDTO> deleteCartItem(Integer cartItemsId) {
+//        cartItemsService.deleteCartItem(cartItemsId);
+//        return ResponseEntity.status(204).build();
+//    }
+@DeleteMapping
+    public ResponseEntity<CartItemsDTO> deleteAllCartItems() {
+        cartItemsService.deleteAllCartItems();
+        return ResponseEntity.status(204).build();
+}
 }
