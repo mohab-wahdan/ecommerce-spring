@@ -21,7 +21,8 @@ public class CustomerMapper {
         dto.setEmail(customer.getEmail());
         dto.setPhoneNumber(customer.getPhoneNumber());
         dto.setJob(customer.getJob());
-        // Map Address and Account if needed
+        dto.setAddress(customer.getAddress()); // Set the address
+
         return dto;
     }
 
@@ -38,7 +39,7 @@ public class CustomerMapper {
         customer.setEmail(dto.getEmail());
         customer.setPhoneNumber(dto.getPhoneNumber());
         customer.setJob(dto.getJob());
-        // Set Address and Account if needed
+        customer.setAddress(dto.getAddress()); // Set the address
         return customer;
     }
 }

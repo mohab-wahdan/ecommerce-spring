@@ -36,7 +36,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n  \r\n        \"firstName\": \"John1\",\r\n        \"lastName\": \"Doe1\",\r\n        \"creditLimit\": 5000.00,\r\n        \"dateOfBirth\": \"1990-01-01\",\r\n        \"email\": \"john.doe@example.com1\",\r\n        \"phoneNumber\": \"123-456-78901\",\r\n        \"job\": \"Developer\"\r\n    }",
+							"raw": " {\r\n        \"firstName\": \"John1\",\r\n        \"lastName\": \"Doe1\",\r\n        \"creditLimit\": 5000.00,\r\n        \"dateOfBirth\": \"1990-01-01\",\r\n        \"email\": \"john.doe@example.com2\",\r\n        \"phoneNumber\": \"123-456-78902\",\r\n        \"job\": \"Developer\",\r\n        \"address\": {\r\n            \"street\": \"123 Main St1\",\r\n            \"city\": \"New York1\",\r\n            \"zip\": \"100011\",\r\n            \"description\": \"Regular customer\"\r\n        }\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,7 +64,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n        \"id\": 1,\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"creditLimit\": 5.00,\r\n        \"dateOfBirth\": \"1990-01-01\",\r\n        \"email\": \"john.doe@example.com\",\r\n        \"phoneNumber\": \"123-456-7890\",\r\n        \"job\": \"Developer\"\r\n    }",
+							"raw": " {\r\n        \"id\": 7,\r\n        \"firstName\": \"John1\",\r\n        \"lastName\": \"Doe1\",\r\n        \"creditLimit\": 5.00,\r\n        \"dateOfBirth\": \"1990-01-01\",\r\n        \"email\": \"john.doe@example.com1\",\r\n        \"phoneNumber\": \"123-456-78901\",\r\n        \"job\": \"Developer\",\r\n        \"address\": {\r\n            \"street\": \"123 Main St1\",\r\n            \"city\": \"New York1\",\r\n            \"zip\": \"100011\",\r\n            \"description\": \"Regular customer\"\r\n        }\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -72,7 +72,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customers/1",
+							"raw": "http://localhost:8080/customers/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -80,7 +80,7 @@
 							"port": "8080",
 							"path": [
 								"customers",
-								"1"
+								"7"
 							]
 						}
 					},
@@ -92,7 +92,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/customers/2",
+							"raw": "http://localhost:8080/customers/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -100,7 +100,7 @@
 							"port": "8080",
 							"path": [
 								"customers",
-								"2"
+								"7"
 							]
 						}
 					},
@@ -113,7 +113,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"janesmith\",\r\n    \"password\": \"password456\"\r\n}\r\n",
+							"raw": "{\r\n    \"username\": \"janesmith\",\r\n    \"password\": \"password456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -121,14 +121,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customers/login",
+							"raw": "http://localhost:8080/auth/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"customers",
+								"auth",
 								"login"
 							]
 						}
@@ -305,7 +305,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"customerId\": 1,\r\n    \"subProductId\": 101,\r\n    \"quantity\": 5\r\n}\r\n",
+							"raw": "{\r\n    \"customerId\": 1,\r\n    \"subProductId\": 102,\r\n    \"quantity\": 5\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"

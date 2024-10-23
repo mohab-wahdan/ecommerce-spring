@@ -1,5 +1,6 @@
 package com.example.ecommerce.dtos;
 
+import com.example.ecommerce.models.Address;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
 @Data
@@ -42,5 +44,9 @@ public class CustomerDTO implements Serializable {
 
     @NotEmpty
     private String job;
+
+
+    @NonNull
+    private Address address; // Changed to use Address class
 
 }
