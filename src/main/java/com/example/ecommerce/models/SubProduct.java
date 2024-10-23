@@ -1,7 +1,8 @@
 package com.example.ecommerce.models;
 
-import com.chickly.Enums.Color;
-import com.chickly.Enums.Size;
+
+import com.example.ecommerce.enums.Color;
+import com.example.ecommerce.enums.Size;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
