@@ -1,9 +1,5 @@
 package com.example.ecommerce.models;
 
-
-import com.example.ecommerce.enums.Status;
-
-
 import com.example.ecommerce.enums.*;
 import jakarta.persistence.*;
 import lombok.*;
