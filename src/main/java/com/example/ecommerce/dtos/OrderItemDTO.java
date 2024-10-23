@@ -4,6 +4,6 @@ public interface OrderItemDTO {
 
     String getQuantity();
     String getPrice();
-    String getProductName();
+//    String getProductName();
 
 }

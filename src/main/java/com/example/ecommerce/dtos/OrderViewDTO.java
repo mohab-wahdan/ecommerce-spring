@@ -7,6 +7,6 @@ public interface OrderViewDTO {
     Integer getId();
     String getStatus();
     String getCreatedAt();  // Assuming you convert Date to String format
-    String getDestination();
+//    String getDestination();
 
 }

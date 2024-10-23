@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 public interface OrderMapper {
 
 //    OrderMapper INSTANCE = Mapper.getMapper(OrderMapper.class);
-
-    @Mapping(source = "createdAt", target = "createdAt", dateFormat = "yyyy-MM-dd HH:mm:ss") // format the date to String
-    OrderViewDTO toOrderViewDTO(Order order);
+//
+//    @Mapping(source = "createdAt", target = "createdAt", dateFormat = "yyyy-MM-dd HH:mm:ss") // format the date to String
+//    OrderViewDTO toOrderViewDTO(Order order);
 }
