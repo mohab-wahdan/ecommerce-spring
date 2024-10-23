@@ -2,6 +2,9 @@ package com.example.ecommerce.models;
 
 
 import com.example.ecommerce.enums.Status;
+
+
+import com.example.ecommerce.enums.*;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +18,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@Data
 public class Order{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

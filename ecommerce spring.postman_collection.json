@@ -1,0 +1,112 @@
+{
+	"info": {
+		"_postman_id": "8d814fb6-76a8-46f4-9b9f-50c0a7ea38ed",
+		"name": "ecommerce spring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28913830",
+		"_collection_link": "https://planetary-firefly-446053.postman.co/workspace/first~e976863d-3e63-4f49-90fd-b670da3ed243/collection/28913830-8d814fb6-76a8-46f4-9b9f-50c0a7ea38ed?action=share&source=collection_link&creator=28913830"
+	},
+	"item": [
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "allCustomers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addCustomer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"firstName\": \"John90\",\r\n        \"lastName\": \"Doe90\",\r\n        \"creditLimit\": 10000.00,\r\n        \"dateOfBirth\": \"1990-01-15\",\r\n        \"email\": \"john.doe@example.com90\",\r\n        \"phoneNumber\": \"+1234567890290\",\r\n        \"job\": \"Software Engineer\",\r\n        \"address\": {\r\n            \"street\": \"123 Main St\",\r\n            \"city\": \"New York\",\r\n            \"zip\": \"10001\",\r\n            \"description\": \"Regular customer\"\r\n        },\r\n        \"account\": {\r\n            \"userName\": \"john_doe90\",\r\n            \"password\": \"securePassword1232590\"\r\n        },\r\n        \"orders\": [],\r\n        \"shoppingCart\": [],\r\n        \"interests\": []\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "customerID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"john_doe\",\r\n    \"password\": \"securePassword123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
