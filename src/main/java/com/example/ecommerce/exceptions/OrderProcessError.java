@@ -1,11 +1,12 @@
 package com.example.ecommerce.exceptions;
 
 
+import com.example.ecommerce.dtos.SubProductDTO;
 import com.example.ecommerce.models.Order;
 
 public class OrderProcessError {
     private Order order;
-//    private SubProductDTO subProductDTO;
+    private SubProductDTO subProductDTO;
 
     public Order getOrder() {
         return order;
@@ -15,11 +16,11 @@ public class OrderProcessError {
         this.order = order;
     }
 
-//    public SubProductDTO getSubProductDTO() {
-//        return subProductDTO;
-//    }
+    public SubProductDTO getSubProductDTO() {
+        return subProductDTO;
+    }
 
-//    public void setSubProductDTO(SubProductDTO subProductDTO) {
-//        this.subProductDTO = subProductDTO;
-//    }
+    public void setSubProductDTO(SubProductDTO subProductDTO) {
+        this.subProductDTO = subProductDTO;
+    }
 }
