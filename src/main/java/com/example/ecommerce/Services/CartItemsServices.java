@@ -12,9 +12,13 @@ import java.util.Optional;
 @Service
 public class CartItemsServices {
 
-
-    @Autowired
     private CartItemsRepository cartItemsRepository;
+    @Autowired
+   public CartItemsServices(CartItemsRepository cartItemsRepository){
+        this.cartItemsRepository = cartItemsRepository;
+
+   }
+
 
     public List<CartItems> getAllCartItems() {
         return cartItemsRepository.findAll();

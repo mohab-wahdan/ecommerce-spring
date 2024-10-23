@@ -175,6 +175,61 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "cartItems",
+			"item": [
+				{
+					"name": "allCartItems",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "customerCartItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cartItems/1/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cartItems",
+								"1",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "customerCartItem delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cartItems/1/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cartItems",
+								"1",
+								"101"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

@@ -4,11 +4,12 @@ import com.example.ecommerce.models.CartItems;
 import com.example.ecommerce.models.Customer;
 import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface CartItemsRepository extends JpaRepository<CartItems, CustomerProductId> {
-
 }
