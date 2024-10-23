@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface CartItemsRepository extends JpaRepository<CartItems, Integer> {
+public interface CartItemsRepository extends JpaRepository<CartItems, CustomerProductId> {
 
 }
