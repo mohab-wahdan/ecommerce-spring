@@ -6,7 +6,7 @@ import com.example.ecommerce.dtos.SubProductDTO;
 import com.example.ecommerce.enums.Status;
 import com.example.ecommerce.exceptions.OrderProcessError;
 import com.example.ecommerce.mappers.OrderItemMapper;
-import com.example.ecommerce.mappers.OrderMapper;
+import com.example.ecommerce.mappers.OrderMapperStruct;
 import com.example.ecommerce.models.*;
 import com.example.ecommerce.repositories.CartItemsRepository;
 import com.example.ecommerce.repositories.CustomerRepository;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
-    private final OrderMapper orderMapper;
+    private final OrderMapperStruct orderMapperStruct;
     private final OrderItemMapper orderItemMapper;
     private final OrderRepository orderRepository ;
     private final SubProductRepository subProductRepository;
@@ -29,12 +29,12 @@ public class OrderService {
     private final CartItemsRepository cartRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, SubProductRepository subProductRepository, CustomerRepository customerRepository,OrderMapper orderMapper,OrderItemMapper orderItemMapper
-    ,CartItemsRepository cartRepository) {
+    public OrderService(OrderRepository orderRepository, SubProductRepository subProductRepository, CustomerRepository customerRepository, OrderMapperStruct orderMapperStruct, OrderItemMapper orderItemMapper
+    , CartItemsRepository cartRepository) {
         this.orderRepository = orderRepository;
         this.subProductRepository = subProductRepository;
         this.customerRepository = customerRepository;
-        this.orderMapper = orderMapper;
+        this.orderMapperStruct = orderMapperStruct;
         this.orderItemMapper = orderItemMapper;
         this.cartRepository = cartRepository;
     }
@@ -156,14 +156,14 @@ public class OrderService {
 
     public List<OrderViewDTO> getAllOrdersOfSpecificCustomer(Integer customerId) {
         List<Order> orders = orderRepository.findOrdersByCustomerId(customerId);
-        return orders.stream().map(orderMapper::toDTO).collect(Collectors.toList());
+        return orders.stream().map(orderMapperStruct::toDTO).collect(Collectors.toList());
     }
     public void updateOrderStatus(Integer id, Status status) {
         int result = orderRepository.updateOrderStatus(id, status.name());
     }
 
     public OrderViewDTO getOrderById(Integer orderId) {
-        return orderMapper.toDTO(orderRepository.findOrderById(orderId));
+        return orderMapperStruct.toDTO(orderRepository.findOrderById(orderId));
     }
 
     public Order saveOrder(Order order) {

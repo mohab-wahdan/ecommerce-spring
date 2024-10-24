@@ -7,9 +7,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface OrderMapper {
+public interface OrderMapperStruct {
 
-    OrderMapper INSTANCE = Mappers.getMapper(OrderMapper.class);
+    OrderMapperStruct INSTANCE = Mappers.getMapper(OrderMapperStruct.class);
 
     @Mapping(target = "destination", expression = "java(getDestination(order))")
     OrderViewDTO toDTO(Order order);
