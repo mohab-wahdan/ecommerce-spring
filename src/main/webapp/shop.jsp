@@ -179,39 +179,21 @@
             </div>
 
 
-            <div id="product-list"></div>
+
 
 
             <div class="col-lg-9 col-md-9">
                 <div class="product-list-wrapper">
                     <div class="row" id="product-list">
                         <!-- Products will be updated here -->
-                        <c:forEach var="subProduct" items="${subProducts}">
-                            <div class="col-lg-4 col-md-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="${subProduct.imageURL}">
-                                        <c:if test="${subProduct.isNewArrival}">
-                                            <div class="label new">New</div>
-                                        </c:if>
-                                        <ul class="product__hover">
-                                            <li><a href="${subProduct.imageURL}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                            <li><a class="buttonAddToCart" data-id="${subProduct.id}" data-name="${subProduct.productName}" data-price="${subProduct.price}" data-image="${subProduct.imageURL}" data-stock="${subProduct.stock}"><span class="icon_bag_alt"></span></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <h6><a href="/product-details?product=${subProduct.id}" class="product-detail-button">${subProduct.productName}</a></h6>
-                                        <div class="product__price">$ ${subProduct.price}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </c:forEach>
+                             <div id="product-list" class="row"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function () {
     fetchAllProducts();
@@ -266,11 +248,33 @@ function fetchAllProducts() {
 
 function renderProducts(products) {
     // Clear existing products and render new ones
-    $('#product-list').empty(); // Assuming you have a div to display products
+    $('#product-list').empty(); // Clear the product list
     products.forEach(function (product) {
-        $('#product-list').append('<div>' + product.description + ' - ' + product.price + '</div>');
+        $('#product-list').append(`
+            <div class="col-lg-4 col-md-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg="${product.imageURL}">
+                        <ul class="product__hover">
+                            <li><a href="${product.imageURL}" class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li><a class="buttonAddToCart" data-id="${product.id}" data-name="${product.description}" data-price="${product.price}" data-image="${product.imageURL}" data-stock="${product.stock}"><span class="icon_bag_alt"></span></a></li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="/product-details?product=${product.id}" class="product-detail-button">`+product.description+`</a></h6>
+                        <div class="product__price">$`+ product.price+`</div>
+                    </div>
+                </div>
+            </div>
+        `);
+    });
+
+    // Set background images for elements with the "set-bg" class
+    $('.set-bg').each(function() {
+        var bg = $(this).data('setbg'); // Get the image URL
+        $(this).css('background-image', 'url(' + bg + ')'); // Set it as a background image
     });
 }
+
 </script>
 
 
@@ -282,6 +286,7 @@ function renderProducts(products) {
 
 
 <script>
+/*
     var user = '<c:out value="${sessionScope.user}" escapeXml="true" />';
 
     $(document).ready(function () {
@@ -355,6 +360,6 @@ function renderProducts(products) {
             }
         });
     }
-
+*/
 </script>
 <%@ include file="footer.jsp" %>
