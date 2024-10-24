@@ -10,6 +10,7 @@ import com.example.ecommerce.enums.Size;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.models.SubProduct;
 import com.example.ecommerce.repositories.ProductRepository;
+import com.example.ecommerce.repositories.SubProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -127,11 +128,5 @@ public class SubProductMapper implements Serializable {
         subProduct.setImageURL(subProductDTO.getImageURL());
         return subProduct;
     }
-//    public static SubProduct convertSubProductCartDTOToEntity(SubProductDTO subProductDTO){
-//        SubProductRepository subProductRepository = new SubProductRepository();
-//        SubProduct product = subProductRepository.findBy("id",subProductDTO.getId());
-//        return product;
-//
-//
-//    }
+
 }
