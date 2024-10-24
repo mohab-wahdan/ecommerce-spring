@@ -7,6 +7,7 @@ import com.example.ecommerce.enums.Status;
 import com.example.ecommerce.exceptions.OrderProcessError;
 import com.example.ecommerce.mappers.OrderItemMapper;
 import com.example.ecommerce.mappers.OrderMapper;
+import com.example.ecommerce.mappers.OrderMapperStruct;
 import com.example.ecommerce.models.*;
 import com.example.ecommerce.repositories.CustomerRepository;
 import com.example.ecommerce.repositories.OrderRepository;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
-    private final OrderMapper orderMapper;
+    private final OrderMapperStruct orderMapper;
     private final OrderItemMapper orderItemMapper;
     private final OrderRepository orderRepository ;
     private final SubProductRepository subProductRepository;
@@ -28,7 +29,7 @@ public class OrderService {
 //    private final CartRepository cartRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, SubProductRepository subProductRepository, CustomerRepository customerRepository,OrderMapper orderMapper,OrderItemMapper orderItemMapper) {
+    public OrderService(OrderRepository orderRepository, SubProductRepository subProductRepository, CustomerRepository customerRepository,OrderMapperStruct orderMapper,OrderItemMapper orderItemMapper) {
         this.orderRepository = orderRepository;
         this.subProductRepository = subProductRepository;
         this.customerRepository = customerRepository;

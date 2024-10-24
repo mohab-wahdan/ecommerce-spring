@@ -30,7 +30,7 @@ public class SubProductMapper implements Serializable {
 
         SubProductDTO dto = new SubProductDTO();
         dto.setId(subProduct.getId());
-        dto.setProductName(subProduct.getProduct().getName());
+//        dto.setProductName(subProduct.getProduct().getName());
         dto.setPrice(subProduct.getPrice());
         dto.setImageURL(subProduct.getImageURL());
         dto.setColor(subProduct.getColor().name());
@@ -51,7 +51,7 @@ public class SubProductMapper implements Serializable {
 
         SubProductForAdminDTO dto = new SubProductForAdminDTO();
         dto.setId(subProduct.getId());
-        dto.setProductName(subProduct.getProduct().getName());
+//        dto.setProductName(subProduct.getProduct().getName());
         dto.setPrice(subProduct.getPrice());
         dto.setImageURL(subProduct.getImageURL());
         dto.setColor(subProduct.getColor().name());

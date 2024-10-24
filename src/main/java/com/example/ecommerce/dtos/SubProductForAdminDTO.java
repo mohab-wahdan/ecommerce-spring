@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 
 public class SubProductForAdminDTO {
     private Integer id;
-    private String productName;
+//    private String productName;
     private BigDecimal price;
     private String imageURL;
     private String color;

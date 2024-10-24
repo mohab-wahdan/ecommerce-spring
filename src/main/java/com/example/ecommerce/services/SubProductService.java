@@ -100,7 +100,7 @@ public class SubProductService {
 
     public SubProductDTO createSubProductDTO(String colorParam, String mainProductId, String size, int stock, BigDecimal price, MultipartFile imagePart) throws IOException {
         SubProductDTO subProduct = new SubProductDTO();
-        subProduct.setProductName(mainProductId);
+//        subProduct.setProductName(mainProductId);
         subProduct.setStock(stock);
         subProduct.setPrice(price);
         subProduct.setColor(colorParam);
@@ -118,7 +118,7 @@ public class SubProductService {
             Files.copy(imagePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             subProduct.setImageURL(uploadDir + uniqueFileName);
         }
-        addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
+//        addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
         return subProduct;
     }
 
