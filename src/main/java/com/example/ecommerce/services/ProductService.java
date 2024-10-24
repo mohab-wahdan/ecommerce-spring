@@ -1,4 +1,4 @@
-package com.example.ecommerce.Services;
+package com.example.ecommerce.services;
 
 import com.example.ecommerce.dtos.ProductJsonAddDTO;
 import com.example.ecommerce.dtos.ProductViewDTO;
@@ -6,7 +6,6 @@ import com.example.ecommerce.mappers.ProductMapper;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.models.SubCategory;
 import com.example.ecommerce.repositories.ProductRepository;
-import com.example.ecommerce.services.SubCategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
