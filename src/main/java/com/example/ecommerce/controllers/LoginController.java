@@ -1,7 +1,7 @@
 package com.example.ecommerce.controllers;
 
-
 import com.example.ecommerce.Services.LoginService;
+import com.example.ecommerce.dtos.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +15,8 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
-        boolean isAuthenticated = loginService.authenticate(username, password);
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+        boolean isAuthenticated = loginService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
         if (isAuthenticated) {
             return ResponseEntity.ok("Login successful");
         } else {
