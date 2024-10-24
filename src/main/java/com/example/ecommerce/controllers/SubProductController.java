@@ -5,7 +5,7 @@ import com.example.ecommerce.dtos.SubProductFilterDTO;
 import com.example.ecommerce.enums.Color;
 import com.example.ecommerce.enums.Gender;
 import com.example.ecommerce.enums.Size;
-import com.example.ecommerce.Services.SubProductService;
+import com.example.ecommerce.services.SubProductService;
 
 import com.example.ecommerce.models.SubProduct;
 import org.springframework.http.ResponseEntity;
