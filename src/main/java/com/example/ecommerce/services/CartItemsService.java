@@ -1,7 +1,7 @@
 package com.example.ecommerce.services;
 
 import com.example.ecommerce.dtos.CartItemsDTO;
-import com.example.ecommerce.mapper.CartItemsMapper;
+import com.example.ecommerce.mappers.CartItemsMapper;
 import com.example.ecommerce.models.CartItems;
 import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
 import com.example.ecommerce.repositories.CartItemsRepository;

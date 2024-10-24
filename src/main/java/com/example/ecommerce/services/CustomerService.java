@@ -1,7 +1,7 @@
 package com.example.ecommerce.services;
 
 import com.example.ecommerce.dtos.CustomerDTO;
-import com.example.ecommerce.mapper.CustomerMapper;
+import com.example.ecommerce.mappers.CustomerMapper;
 import com.example.ecommerce.models.Customer;
 
 import com.example.ecommerce.repositories.CustomerRepository;
