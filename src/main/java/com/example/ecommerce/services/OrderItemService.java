@@ -2,8 +2,6 @@ package com.example.ecommerce.services;
 
  import com.example.ecommerce.dtos.OrderItemDTO;
  import com.example.ecommerce.mappers.OrderItemMapper;
- import com.example.ecommerce.mappers.OrderMapper;
- import com.example.ecommerce.models.OrderItem;
  import com.example.ecommerce.repositories.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
