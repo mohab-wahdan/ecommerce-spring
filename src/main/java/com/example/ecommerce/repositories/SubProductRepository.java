@@ -7,6 +7,8 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public interface SubProductRepository extends JpaRepository<SubProduct, Integer> ,CustomSubProductRepository {
     @Query("select sub from SubProduct sub where sub.product.id=?1")

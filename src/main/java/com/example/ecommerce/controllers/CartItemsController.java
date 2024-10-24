@@ -1,10 +1,10 @@
 package com.example.ecommerce.controllers;
 
 
-import com.example.ecommerce.Services.CartItemsService;
 
 import com.example.ecommerce.dtos.CartItemsDTO;
 import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
+import com.example.ecommerce.services.CartItemsService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

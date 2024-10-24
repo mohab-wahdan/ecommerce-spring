@@ -1,8 +1,9 @@
 package com.example.ecommerce.controllers;
 
-import com.example.ecommerce.Services.LoginService;
+
 import com.example.ecommerce.dtos.CustomerDTO;
 import com.example.ecommerce.dtos.LoginRequest;
+import com.example.ecommerce.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

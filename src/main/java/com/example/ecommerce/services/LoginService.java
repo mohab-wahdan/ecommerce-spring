@@ -1,4 +1,4 @@
-package com.example.ecommerce.Services;
+package com.example.ecommerce.services;
 
 import com.example.ecommerce.dtos.CustomerDTO;
 import com.example.ecommerce.mapper.CustomerMapper;
