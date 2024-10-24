@@ -1,5 +1,5 @@
 <%@ include file="header.jsp" %>
-
+<link rel="stylesheet" href="/css/login.css">
 <div class="login-container">
     <div id="message-container"></div> <!-- Message container for alerts -->
 

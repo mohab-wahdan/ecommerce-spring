@@ -6,15 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-<<<<<<< HEAD
-public interface OrderViewDTO {
-
-    Integer getId();
-    String getStatus();
-    String getCreatedAt();  // Assuming you convert Date to String format
-//    String getDestination();
-
-=======
 import java.util.Date;
 @Getter
 @Setter
@@ -25,5 +16,4 @@ public class OrderViewDTO {
     private Status status ;
     private Date createdAt;
     private String  destination;
->>>>>>> 6c390d291bb1ad329302c76764060f5e72760a81
 }
