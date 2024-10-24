@@ -1,7 +1,7 @@
 package com.example.ecommerce.controllers;
 
 
-import com.example.ecommerce.Services.CustomerService;
+import com.example.ecommerce.services.CustomerService;
 import com.example.ecommerce.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +28,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable Long id) {
+    public Customer getCustomerById(@PathVariable Integer id) {
         return customerService.getCustomerById(id);
     }
 

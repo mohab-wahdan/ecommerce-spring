@@ -4,6 +4,7 @@ import com.example.ecommerce.dtos.OrderItemDTO;
 import com.example.ecommerce.models.EntitiesEmbeddedId.OrderProductId;
 import com.example.ecommerce.models.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +13,6 @@ import java.util.List;
 public interface OrderItemRepository extends JpaRepository<OrderItem, OrderProductId>{
 
 
-//    List<OrderItemDTO>  getOrderItemsByOrderId(Integer id);
-    List<OrderItemDTO>  findOrderItemsByOrderId(Integer id);
+    @Query(value = "SELECT * FROM OrderItem WHERE customer_id = ?1", nativeQuery = true)
+    List<OrderItem>  findOrderItemsByOrderId(Integer id);
 }
