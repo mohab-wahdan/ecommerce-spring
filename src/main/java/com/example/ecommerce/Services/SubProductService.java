@@ -33,15 +33,23 @@ public class SubProductService {
         this.productService = productService;
     }
     public List<SubProduct> findAllSubProducts() {
-        return subProductRepository.findAll();
+        return subProductRepository.findAllByIsDeletedFalse();
     }
     public List<SubProductDTO> findAllSubProductsDto() {
-        List<SubProduct> subProducts = subProductRepository.findAll();
+        List<SubProduct> subProducts = subProductRepository.findAllByIsDeletedFalse();
         return subProducts.stream().map(SubProductMapper::convertEntityToDTO).collect(Collectors.toList());
     }
 
     public Optional<SubProduct> findSubProductById(int id) {
-        return subProductRepository.findById(id);
+        Optional<SubProduct> subProduct = subProductRepository.findById(id);
+        if (subProduct.isPresent()) {
+            if (subProduct.get().getIsDeleted()) {
+                return Optional.empty();
+            } else {
+                return subProduct;
+            }
+        }
+        return Optional.empty();
     }
 
     public void saveSubProduct(SubProduct subProduct) {
