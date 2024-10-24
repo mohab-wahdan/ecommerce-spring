@@ -59,7 +59,6 @@ public class CustomerDTO implements Serializable {
 
     private Set<CartItemsDTO> shoppingCart = new HashSet<>();
 
-    // set of order dto
-
+    private Set<OrderDTO> orders = new HashSet<>();
 
 }

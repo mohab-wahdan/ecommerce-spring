@@ -1,6 +1,5 @@
 package com.example.ecommerce.repositories;
 
-import com.example.ecommerce.dtos.OrderItemDTO;
 import com.example.ecommerce.models.EntitiesEmbeddedId.OrderProductId;
 import com.example.ecommerce.models.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;

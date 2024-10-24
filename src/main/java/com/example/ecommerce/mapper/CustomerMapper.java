@@ -3,19 +3,28 @@ package com.example.ecommerce.mapper;
 
 import com.example.ecommerce.dtos.CartItemsDTO;
 import com.example.ecommerce.dtos.CustomerDTO;
+import com.example.ecommerce.dtos.OrderDTO;
 import com.example.ecommerce.models.CartItems;
 import com.example.ecommerce.models.Customer;
-import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
 import com.example.ecommerce.models.Order;
 import com.example.ecommerce.models.SubProduct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
 public class CustomerMapper {
+
+    @Autowired
+    private OrderMapper orderMapper;
+
+//    @Autowired
+//    public CustomerMapper(OrderMapper orderMapper) {
+//        this.orderMapper = orderMapper;
+//    }
+
 
     public CustomerDTO toDTO(Customer customer) {
         if (customer == null) {
@@ -41,6 +50,12 @@ public class CustomerMapper {
                         cartItem.getQuantity()))
                 .collect(Collectors.toSet());
         dto.setShoppingCart(cartItemsDTOs);
+
+// Use OrderMapper to map orders to OrderDTO
+        Set<OrderDTO> orderDTOs = customer.getOrders().stream()
+                .map(orderMapper::toDTO) // Call the predefined OrderMapper
+                .collect(Collectors.toSet());
+        dto.setOrders(orderDTOs); // Set orders in CustomerDTO
 
         return dto;
     }
@@ -79,6 +94,12 @@ public class CustomerMapper {
                 })
                 .collect(Collectors.toSet());
         customer.setShoppingCart(cartItems);
+
+       // Map OrderDTO to Order using OrderMapper
+        Set<Order> orders = dto.getOrders().stream()
+                .map(orderMapper::toEntity) // Call the predefined OrderMapper
+                .collect(Collectors.toSet());
+        customer.setOrders(orders); // Set orders in Customer
 
         return customer;
     }
