@@ -66,7 +66,7 @@ public class OrderService {
 //    }
     private boolean hasStockErrors(List<SubProductDTO> subProductList, OrderProcessError orderProcessError) {
         for (SubProductDTO subProductDTO : subProductList) {
-            SubProduct subProduct = subProductRepository.findSubProductById(subProductDTO.getId());
+            SubProduct subProduct = subProductRepository.findById(subProductDTO.getId()).get();
             if (subProductDTO.getQuantity() > subProduct.getStock()) {
                 orderProcessError.setSubProductDTO(subProductDTO);
                 return true;
