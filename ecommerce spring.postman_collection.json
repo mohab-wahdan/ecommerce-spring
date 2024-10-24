@@ -36,7 +36,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n        \"firstName\": \"John90\",\r\n        \"lastName\": \"Doe90\",\r\n        \"creditLimit\": 10000.00,\r\n        \"dateOfBirth\": \"1990-01-15\",\r\n        \"email\": \"john.doe@example.com90\",\r\n        \"phoneNumber\": \"+1234567890290\",\r\n        \"job\": \"Software Engineer\",\r\n        \"address\": {\r\n            \"street\": \"123 Main St\",\r\n            \"city\": \"New York\",\r\n            \"zip\": \"10001\",\r\n            \"description\": \"Regular customer\"\r\n        },\r\n        \"account\": {\r\n            \"userName\": \"john_doe90\",\r\n            \"password\": \"securePassword1232590\"\r\n        },\r\n        \"orders\": [],\r\n        \"shoppingCart\": [],\r\n        \"interests\": []\r\n    }\r\n",
+							"raw": "{\r\n\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"creditLimit\": 5000.00,\r\n        \"dateOfBirth\": \"1990-01-01\",\r\n        \"email\": \"john.doe@example.com11\",\r\n        \"phoneNumber\": \"123-456-789110\",\r\n        \"job\": \"Developer\",\r\n        \"address\": {\r\n            \"street\": \"123 Main St11\",\r\n            \"city\": \"New York11\",\r\n            \"zip\": \"10001\",\r\n            \"description\": \"Regular customer\"\r\n        },\r\n        \"account\": {\r\n            \"userName\": \"johndoe11\",\r\n            \"password\": \"password1231\"\r\n        }\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -52,6 +52,35 @@
 							"port": "8080",
 							"path": [
 								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editCustomer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 1,\r\n        \"firstName\": \"John\",\r\n        \"lastName\": \"Doe\",\r\n        \"creditLimit\": 5.00,\r\n        \"dateOfBirth\": \"1990-01-01\",\r\n        \"email\": \"john.doe@example.com\",\r\n        \"phoneNumber\": \"123-456-7890\",\r\n        \"job\": \"Developer\",\r\n        \"address\": {\r\n            \"street\": \"123 Main St\",\r\n            \"city\": \"New York\",\r\n            \"zip\": \"10001\",\r\n            \"description\": \"Regular customer\"\r\n        },\r\n        \"account\": {\r\n            \"userName\": \"johndoe\",\r\n            \"password\": \"password123\"\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/customers/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"1"
 							]
 						}
 					},
@@ -84,7 +113,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"john_doe\",\r\n    \"password\": \"securePassword123\"\r\n}\r\n",
+							"raw": "{\r\n    \"username\": \"johndoe\",\r\n    \"password\": \"password123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -92,7 +121,46 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customers/login",
+							"raw": "http://localhost:8080/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletall",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/customers/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -100,13 +168,195 @@
 							"port": "8080",
 							"path": [
 								"customers",
-								"login"
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "session-status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auth/session-status?username=johndoe11",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auth",
+								"session-status"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "johndoe11"
+								}
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "cartItems",
+			"item": [
+				{
+					"name": "allCartItems",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cartItems",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cartItems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CartItem",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cartItems/1/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cartItems",
+								"1",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delAllCartItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cartItems",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cartItems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCustomerCartItem",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 3\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cartItems/1/102",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cartItems",
+								"1",
+								"102"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "customerCartItem delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/cartItems/1/101",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cartItems",
+								"1",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addCustomerCartItem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerId\": 1,\r\n    \"subProductId\": 102,\r\n    \"quantity\": 5\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cartItems",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cartItems"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": []
 		}
 	]
 }

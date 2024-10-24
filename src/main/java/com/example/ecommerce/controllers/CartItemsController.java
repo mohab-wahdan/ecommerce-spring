@@ -1,6 +1,8 @@
 package com.example.ecommerce.controllers;
 
-import com.example.ecommerce.services.*;
+
+import com.example.ecommerce.Services.CartItemsService;
+
 import com.example.ecommerce.dtos.CartItemsDTO;
 import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
 import jakarta.persistence.EntityNotFoundException;

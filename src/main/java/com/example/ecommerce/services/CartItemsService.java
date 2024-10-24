@@ -1,4 +1,5 @@
 package com.example.ecommerce.services;
+
 import com.example.ecommerce.dtos.CartItemsDTO;
 import com.example.ecommerce.mapper.CartItemsMapper;
 import com.example.ecommerce.models.CartItems;
@@ -50,14 +51,6 @@ public class CartItemsService {
         return cartItemsMapper.toDto(cartItems);
     }
 
-//    // Delete a specific cart item
-//    public boolean deleteCartItem(Integer id) {
-//        if (cartItemsRepository.existsById(id)) {
-//            cartItemsRepository.deleteById(id);
-//            return true;
-//        }
-//        return false;
-//    }
 
     // Delete all cart items
     public void deleteAllCartItems() {

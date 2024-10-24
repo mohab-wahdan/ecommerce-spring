@@ -26,4 +26,7 @@ public interface SubProductRepository extends JpaRepository<SubProduct, Integer>
 Long countSubProducts();
 
     List<SubProduct> findByIsDeletedFalse();
+
+    Optional<SubProduct> findById(Integer subProductId);
+
 }
