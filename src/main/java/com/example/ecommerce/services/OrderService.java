@@ -36,6 +36,12 @@ public class OrderService {
         this.orderItemMapper = orderItemMapper;
 //        this.cartRepository = cartRepository;
     }
+//    private BigDecimal decreaseCustomerCreditLimit(Customer customer, CartService cartService){
+//        return customer.getCreditLimit().subtract(cartService.getTotalPrice());
+//    }
+//    private List<SubProductDTO> convertCartServiceMapToList(CartService cartService){
+//        return cartService.getItems().keySet().stream().collect(Collectors.toList());
+//    }
     public Order createOrder(OrderRequestDTO orderRequestDTO) {
         Customer customer = customerRepository.findById(orderRequestDTO.getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
@@ -58,15 +64,9 @@ public class OrderService {
         // Save the order and return it
         return orderRepository.save(order);
     }
-//    private BigDecimal decreaseCustomerCreditLimit(Customer customer, CartService cartService){
-//        return customer.getCreditLimit().subtract(cartService.getTotalPrice());
-//    }
-//    private List<SubProductDTO> convertCartServiceMapToList(CartService cartService){
-//        return cartService.getItems().keySet().stream().collect(Collectors.toList());
-//    }
     private boolean hasStockErrors(List<SubProductDTO> subProductList, OrderProcessError orderProcessError) {
         for (SubProductDTO subProductDTO : subProductList) {
-            SubProduct subProduct = subProductRepository.findSubProductById(subProductDTO.getId());
+            SubProduct subProduct = subProductRepository.findById(subProductDTO.getId()).get();
             if (subProductDTO.getQuantity() > subProduct.getStock()) {
                 orderProcessError.setSubProductDTO(subProductDTO);
                 return true;
@@ -85,12 +85,11 @@ public class OrderService {
         orderRepository.save(order);
         return order;
     }
-
 //    private Set<OrderItem> createOrderItems(List<SubProductDTO> subProductList, CartService cartService, Order order, OrderProcessError orderProcessError) {
 //        Set<OrderItem> orderItems = new HashSet<>();
 //
 //        for (SubProductDTO subProductDTO : subProductList) {
-//            SubProduct subProduct = subProductRepository.findSubProductById(subProductDTO.getId());
+//            SubProduct subProduct = subProductRepository.findBy("id", subProductDTO.getId());
 //
 //            if (subProductDTO.getQuantity() > subProduct.getStock()) {
 //                orderProcessError.setSubProductDTO(subProductDTO);
@@ -112,7 +111,7 @@ public class OrderService {
 //    private void updateSubProductStock(SubProduct subProduct, SubProductDTO subProductDTO, CartService cartService) {
 //        int newStock = subProduct.getStock() - cartService.getQuantityOfSubProduct(subProductDTO);
 //        subProduct.setStock(newStock);
-//        subProductRepository.save(subProduct);
+//        subProductRepository.update(subProduct);
 //    }
 //    private void finalizeOrder(Order order, Set<OrderItem> orderItems, Customer customer, CartService cartService) {
 //        order.getOrderItems().clear();
@@ -122,17 +121,14 @@ public class OrderService {
 //        customer.setCreditLimit(customer.getCreditLimit().subtract(totalPrice));
 //
 //        clearCustomerShoppingCart(customer);
-//        customerRepository.save(customer);
+//        customerRepository.merge(customer);
 //    }
-
 //    private void clearCustomerShoppingCart(Customer customer) {
 //        List<CartItems> cartItems = cartRepository.findAllByID(customer.getId()).orElse(Collections.emptyList());
 //        if (!cartItems.isEmpty()) {
 //            customer.getShoppingCart().clear();
 //        }
 //    }
-
-
 //    public OrderProcessError createOrder(CartService cartService, Customer customer) {
 //        BigDecimal remainingCustomerCreditLimit = decreaseCustomerCreditLimit(customer,cartService);
 //        List<SubProductDTO> subProductList = convertCartServiceMapToList(cartService);
@@ -155,6 +151,7 @@ public class OrderService {
 //        }
 //        return orderProcessError;
 //    }
+
     public List<OrderViewDTO> getAllOrdersOfSpecificCustomer(Integer customerId) {
         List<Order> orders = orderRepository.findOrdersByCustomerId(customerId);
         return orders.stream().map(orderMapper::toDTO).collect(Collectors.toList());
