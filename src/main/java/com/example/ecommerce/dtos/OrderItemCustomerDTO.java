@@ -1,4 +1,4 @@
-// OrderItemDTO.java
+// OrderItemCustomerDTO.java
 package com.example.ecommerce.dtos;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItemDTO {
+public class OrderItemCustomerDTO {
     private Integer productId;
     private Integer orderId;
     private Integer quantity;

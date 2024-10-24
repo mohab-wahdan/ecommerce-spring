@@ -19,5 +19,5 @@ public class OrderDTO {
     private Status status;
     private Date createdAt;
     private Integer customerId;
-    private Set<OrderItemDTO> orderItems;
+    private Set<OrderItemCustomerDTO> orderItems;
 }

@@ -2,7 +2,7 @@
 package com.example.ecommerce.mapper;
 
 import com.example.ecommerce.dtos.OrderDTO;
-import com.example.ecommerce.dtos.OrderItemDTO;
+import com.example.ecommerce.dtos.OrderItemCustomerDTO;
 import com.example.ecommerce.models.Customer;
 import com.example.ecommerce.models.Order;
 import com.example.ecommerce.models.OrderItem;
@@ -25,15 +25,15 @@ public class OrderMapper {
         dto.setCreatedAt(order.getCreatedAt());
         dto.setCustomerId(order.getCustomer().getId());
 
-        // Map OrderItems to OrderItemDTO
-        Set<OrderItemDTO> orderItemDTOs = order.getOrderItems().stream()
-                .map(orderItem -> new OrderItemDTO(
+        // Map OrderItems to OrderItemCustomerDTO
+        Set<OrderItemCustomerDTO> orderItemCustomerDTOS = order.getOrderItems().stream()
+                .map(orderItem -> new OrderItemCustomerDTO(
                         orderItem.getSubProduct().getId(),
                         orderItem.getOrder().getId(),
                         orderItem.getQuantity(),
                         orderItem.getPrice()))
                 .collect(Collectors.toSet());
-        dto.setOrderItems(orderItemDTOs);
+        dto.setOrderItems(orderItemCustomerDTOS);
 
         return dto;
     }
@@ -53,16 +53,16 @@ public class OrderMapper {
         customer.setId(dto.getCustomerId());
         order.setCustomer(customer);
 
-        // Map OrderItemDTO to OrderItem
+        // Map OrderItemCustomerDTO to OrderItem
         Set<OrderItem> orderItems = dto.getOrderItems().stream()
-                .map(orderItemDTO -> {
+                .map(orderItemCustomerDTO -> {
                     OrderItem orderItem = new OrderItem();
-                    orderItem.setQuantity(orderItemDTO.getQuantity());
-                    orderItem.setPrice(orderItemDTO.getPrice());
+                    orderItem.setQuantity(orderItemCustomerDTO.getQuantity());
+                    orderItem.setPrice(orderItemCustomerDTO.getPrice());
 
                     // Set the SubProduct entity based on the productId from DTO
                     SubProduct subProduct = new SubProduct();
-                    subProduct.setId(orderItemDTO.getProductId());
+                    subProduct.setId(orderItemCustomerDTO.getProductId());
                     orderItem.setSubProduct(subProduct);
 
                     // Set the Order entity based on the orderId from DTO
