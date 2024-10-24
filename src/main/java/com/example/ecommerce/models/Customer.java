@@ -31,8 +31,6 @@ public class Customer{
     @NonNull
     private String lastName;
 
-
-
     @NotNull
     @NonNull
     private BigDecimal creditLimit;
@@ -71,11 +69,9 @@ public class Customer{
     @OneToMany(mappedBy = "customer", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Set<CartItems> shoppingCart = new HashSet<>();
 
-
     public void addOrder(Order order){
         order.setCustomer(this);
         orders.add(order);
     }
-
 
 }
