@@ -1,6 +1,9 @@
 package com.example.ecommerce.dtos;
 
+import com.example.ecommerce.models.Account;
 import com.example.ecommerce.models.Address;
+import com.example.ecommerce.models.CartItems;
+import com.example.ecommerce.models.Order;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +11,8 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,5 +53,13 @@ public class CustomerDTO implements Serializable {
 
     @NonNull
     private Address address; // Changed to use Address class
+
+    @NonNull
+    private Account account;
+
+    private Set<CartItemsDTO> shoppingCart = new HashSet<>();
+
+    // set of order dto
+
 
 }

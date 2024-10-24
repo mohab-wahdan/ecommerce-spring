@@ -1,9 +1,18 @@
 package com.example.ecommerce.mapper;
 
 
+import com.example.ecommerce.dtos.CartItemsDTO;
 import com.example.ecommerce.dtos.CustomerDTO;
+import com.example.ecommerce.models.CartItems;
 import com.example.ecommerce.models.Customer;
+import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
+import com.example.ecommerce.models.Order;
+import com.example.ecommerce.models.SubProduct;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class CustomerMapper {
@@ -22,6 +31,16 @@ public class CustomerMapper {
         dto.setPhoneNumber(customer.getPhoneNumber());
         dto.setJob(customer.getJob());
         dto.setAddress(customer.getAddress()); // Set the address
+        dto.setAccount(customer.getAccount());
+
+        // Map shopping cart items to CartItemsDTO
+        Set<CartItemsDTO> cartItemsDTOs = customer.getShoppingCart().stream()
+                .map(cartItem -> new CartItemsDTO(
+                        cartItem.getCustomer().getId(),    // Get customer ID from the customer entity
+                        cartItem.getSubProduct().getId(),  // Get subProduct ID from the subProduct entity
+                        cartItem.getQuantity()))
+                .collect(Collectors.toSet());
+        dto.setShoppingCart(cartItemsDTOs);
 
         return dto;
     }
@@ -40,6 +59,27 @@ public class CustomerMapper {
         customer.setPhoneNumber(dto.getPhoneNumber());
         customer.setJob(dto.getJob());
         customer.setAddress(dto.getAddress()); // Set the address
+        customer.setAccount(dto.getAccount());
+
+        // Map CartItemsDTO to CartItems
+        Set<CartItems> cartItems = dto.getShoppingCart().stream()
+                .map(cartItemDTO -> {
+                    CartItems cartItem = new CartItems();
+                    // Set the Customer and SubProduct entities based on IDs from DTO
+                    Customer customerEntity = new Customer();
+                    customerEntity.setId(cartItemDTO.getCustomerId());
+                    SubProduct subProductEntity = new SubProduct();
+                    subProductEntity.setId(cartItemDTO.getSubProductId());
+
+                    // Set the fields of CartItems
+                    cartItem.setCustomer(customerEntity);
+                    cartItem.setSubProduct(subProductEntity);
+                    cartItem.setQuantity(cartItemDTO.getQuantity());
+                    return cartItem;
+                })
+                .collect(Collectors.toSet());
+        customer.setShoppingCart(cartItems);
+
         return customer;
     }
 }
