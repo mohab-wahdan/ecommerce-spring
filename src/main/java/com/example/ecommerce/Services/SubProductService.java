@@ -1,9 +1,8 @@
-package com.example.ecommerce.service;
+package com.example.ecommerce.services;
 
 import com.example.ecommerce.dtos.SubProductDTO;
 import com.example.ecommerce.dtos.SubProductFilterDTO;
 import com.example.ecommerce.dtos.SubProductForAdminDTO;
-import com.example.ecommerce.dtos.SubProductJsonAddDTO;
 import com.example.ecommerce.mappers.SubProductMapper;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.models.SubProduct;
@@ -12,8 +11,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -36,15 +33,23 @@ public class SubProductService {
         this.productService = productService;
     }
     public List<SubProduct> findAllSubProducts() {
-        return subProductRepository.findAll();
+        return subProductRepository.findAllByIsDeletedFalse();
     }
     public List<SubProductDTO> findAllSubProductsDto() {
-        List<SubProduct> subProducts = subProductRepository.findAll();
+        List<SubProduct> subProducts = subProductRepository.findAllByIsDeletedFalse();
         return subProducts.stream().map(SubProductMapper::convertEntityToDTO).collect(Collectors.toList());
     }
 
     public Optional<SubProduct> findSubProductById(int id) {
-        return subProductRepository.findById(id);
+        Optional<SubProduct> subProduct = subProductRepository.findById(id);
+        if (subProduct.isPresent()) {
+            if (subProduct.get().getIsDeleted()) {
+                return Optional.empty();
+            } else {
+                return subProduct;
+            }
+        }
+        return Optional.empty();
     }
 
     public void saveSubProduct(SubProduct subProduct) {
@@ -115,6 +120,31 @@ public class SubProductService {
         }
         addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
         return subProduct;
+    }
+
+    public void updateSubProduct(int subProductId,int quantity,BigDecimal price ,MultipartFile imagePart)   {
+        String imageUrl ="";
+        if (!imagePart.isEmpty()) {
+            String fileName = Paths.get(imagePart.getOriginalFilename()).getFileName().toString();
+            String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+            String uploadDir = "uploads/";
+            File uploads = new File(uploadDir);
+            if (!uploads.exists()) {
+                uploads.mkdirs(); // Create the directory if it doesn't exist
+            }
+            File file = new File(uploads, uniqueFileName);
+            try (InputStream input = imagePart.getInputStream()) {
+                Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new RuntimeException("error in image input stream");
+            }
+            imageUrl=uploadDir+uniqueFileName;
+        }
+        SubProduct subProduct=subProductRepository.findById(subProductId).get();
+        subProduct.setPrice(price);
+        subProduct.setStock(quantity);
+        subProduct.setImageURL(imageUrl);
+        subProductRepository.save(subProduct);
     }
 
 }
