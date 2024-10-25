@@ -9,9 +9,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
+    private CustomerRepository customerRepository;
+    private CustomerMapper customerMapper ;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    public LoginService(CustomerRepository customerRepository, CustomerMapper customerMapper) {
+        this.customerRepository = customerRepository;
+        this.customerMapper = customerMapper;
+    }
 
     public boolean authenticate(String username, String password) {
         Customer customer = customerRepository.findByAccountUserName(username);
@@ -29,7 +34,6 @@ public class LoginService {
             System.out.println("Customer not found for username: " + username);
             return null;
         }
-        CustomerMapper customerMapper = new CustomerMapper();
         return customerMapper.toDTO(customer);
     }
 
