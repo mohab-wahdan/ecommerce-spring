@@ -4,6 +4,7 @@ package com.example.ecommerce.services;
 import com.example.ecommerce.models.Customer;
 import com.example.ecommerce.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +15,14 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
-    public CustomerService(CustomerRepository customerRepository) {
+    private PasswordEncoder passwordEncoder;
+    public CustomerService(CustomerRepository customerRepository, PasswordEncoder passwordEncoder) {
         this.customerRepository = customerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String addCustomer(Customer customer) {
+        customer.getAccount().setPassword(passwordEncoder.encode(customer.getAccount().getPassword()));
         customerRepository.save(customer);
         return "Customer "+ +customer.getId()+" added successfully";
     }

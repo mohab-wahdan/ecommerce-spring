@@ -13,4 +13,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 //    String findAccountByEmail(String email);
 
     Optional<Customer> findByAccount_UserNameAndAccount_Password(String userName, String password);
+
+    Optional<Customer> findByAccount_UserName(String  username);
 }

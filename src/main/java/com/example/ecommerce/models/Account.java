@@ -20,4 +20,6 @@ public class Account {
     @NonNull
     @NotEmpty
     private String password;
+
+    private String roles;
 }
