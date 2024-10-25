@@ -34,9 +34,11 @@ public class CategoryService {
         category.setName(categoryName);
         categoryRepository.save(category);
     }
-    public Category findCategoryById(String id){
-        Long idToFind = Long.parseLong(id);
-        return categoryRepository.findById(idToFind).orElse(null);
+    public Category findCategoryById(int id){
+        return categoryRepository.findById(id).orElse(new Category());
+    }
+    public CategoryDTO findCategoryByIdDto(int id){
+        return categoryMapper.toDTO(categoryRepository.findById(id).orElse(new Category()));
     }
 
 }

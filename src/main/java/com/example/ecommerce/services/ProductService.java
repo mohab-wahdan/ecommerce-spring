@@ -6,7 +6,6 @@ import com.example.ecommerce.mappers.ProductMapper;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.models.SubCategory;
 import com.example.ecommerce.repositories.ProductRepository;
-import com.example.ecommerce.services.SubCategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
