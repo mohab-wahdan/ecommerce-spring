@@ -11,10 +11,11 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class SubProductDTO implements Serializable {
 
     private int id;
-    private String productName;
+//    private String productName;
     private BigDecimal price;
     private String imageURL;
     private String color;

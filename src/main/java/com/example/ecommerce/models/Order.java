@@ -14,7 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@Data
+//@Data
 public class Order{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Order{
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false)
+    @Column(name="createdAt",updatable = false)
     private Date createdAt;
 
     @ManyToOne
