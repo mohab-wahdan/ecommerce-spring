@@ -26,15 +26,31 @@ public class LoginController {
         }
     }
 
+//
+//    // New method to get session status
+//    @GetMapping("/session-status")
+//    public ResponseEntity<CustomerDTO> getSessionStatus(@RequestParam String username) {
+//        CustomerDTO customerDTO = loginService.getCustomerByUsername(username);
+//        if (customerDTO != null) {
+//            return ResponseEntity.ok(customerDTO);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+//        }
+//    }
 
-    // New method to get session status
     @GetMapping("/session-status")
     public ResponseEntity<CustomerDTO> getSessionStatus(@RequestParam String username) {
-        CustomerDTO customerDTO = loginService.getCustomerByUsername(username);
-        if (customerDTO != null) {
-            return ResponseEntity.ok(customerDTO);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        try {
+            CustomerDTO customerDTO = loginService.getCustomerByUsername(username);
+            if (customerDTO != null) {
+                return ResponseEntity.ok(customerDTO);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } catch (Exception e) {
+            // Log the exception for debugging
+            e.printStackTrace(); // Or use a logger, e.g., logger.error("Error getting session status", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

@@ -24,7 +24,14 @@ public class LoginService {
 
     public CustomerDTO getCustomerByUsername(String username) {
         Customer customer = customerRepository.findByAccountUserName(username);
+        if (customer == null) {
+            // Log a message to indicate that the customer was not found
+            System.out.println("Customer not found for username: " + username);
+            return null;
+        }
         CustomerMapper customerMapper = new CustomerMapper();
         return customerMapper.toDTO(customer);
     }
+
+
 }
