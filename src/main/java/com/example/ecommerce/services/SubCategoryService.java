@@ -41,7 +41,7 @@ public class SubCategoryService {
                 collect(Collectors.toList());
     }
 
-    public void createSubCategory(String categoryId, String subCategoryName) {
+    public void createSubCategory(int categoryId, String subCategoryName) {
         Category category = categoryService.findCategoryById(categoryId);
 
         SubCategory subCategory = new SubCategory();
