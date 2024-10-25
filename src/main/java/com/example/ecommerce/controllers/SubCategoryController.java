@@ -1,41 +1,35 @@
 package com.example.ecommerce.controllers;
 
-import com.example.ecommerce.dtos.CategoryDTO;
 import com.example.ecommerce.dtos.SubCategoryDTO;
 import com.example.ecommerce.models.SubCategory;
-import com.example.ecommerce.services.CategoryService;
 import com.example.ecommerce.services.SubCategoryService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@RestController()
-@RequestMapping("/cat")
-public class TestCategoryAndSub {
+@RestController
+@RequestMapping("/subcategory")
+public class SubCategoryController {
 
-    private final CategoryService categoryService;
     private final SubCategoryService subCategoryService;
 
-    public TestCategoryAndSub(CategoryService categoryService, SubCategoryService subCategoryService) {
-        this.categoryService = categoryService;
+    public SubCategoryController(SubCategoryService subCategoryService) {
         this.subCategoryService = subCategoryService;
     }
 
     @GetMapping()
-    public List<CategoryDTO> getCategory() {
-        return categoryService.getAllCategories();
-    }
-    @GetMapping("/sub")
     public List<SubCategoryDTO> getSubCategory() {
         return subCategoryService.getAllSubCategories();
     }
-    @GetMapping("/sub/{id}")
+    @GetMapping("/{id}")
     public SubCategory getSubCategoryById(@PathVariable int id) {
         return subCategoryService.findSubCategoryById(id);
     }
-    @PostMapping()
-    public void addSubCategory() {
 
+    @PostMapping
+    public void createSubCategory(@RequestBody SubCategoryDTO subCategoryDTO) {
+        subCategoryService.createSubCategory(subCategoryDTO.getCategoryID(), subCategoryDTO.getName());
     }
+
+
 }
