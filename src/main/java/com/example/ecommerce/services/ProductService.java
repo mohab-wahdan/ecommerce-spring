@@ -27,8 +27,9 @@ public class ProductService {
 
     public void createProduct(ProductJsonAddDTO jsonProduct) {
         Product product=ProductMapper.fromProductJsonAddDTOToProductEntity(jsonProduct);
-       SubCategory subCategory= subCategoryService.findSubCategoryById(jsonProduct.getSubCategoryId());
+        SubCategory subCategory= subCategoryService.findSubCategoryById(jsonProduct.getSubCategoryId());
         product.setSubCategory(subCategory);
+        product.setIsDeleted("No");
         productRepository.save(product);
     }
 //    public void deleteProduct(int id) {

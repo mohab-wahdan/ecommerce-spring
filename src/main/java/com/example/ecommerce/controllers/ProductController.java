@@ -4,9 +4,13 @@ import com.example.ecommerce.dtos.ProductJsonAddDTO;
 import com.example.ecommerce.dtos.ProductViewDTO;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.services.ProductService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +24,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity< List<ProductViewDTO> > getProducts() {
+    public ResponseEntity< List<ProductViewDTO>> getProducts() {
         return ResponseEntity.ok( productService.getAllProdcutsForView());
     }
 
@@ -39,17 +43,16 @@ public class ProductController {
 //    }
 
     @PostMapping
-    public ResponseEntity <Void> addProduct(@RequestBody ProductJsonAddDTO product) {
-        System.out.println(product.toString());
+    public ResponseEntity<String> addProduct(@RequestBody ProductJsonAddDTO product,
+                                             HttpSession session) {
         try {
             productService.createProduct(product);
-            return ResponseEntity.ok().build();
-        }catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            session.setAttribute("successMessage", "Product added successfully!");
+            return ResponseEntity.ok("Product added successfully!"); // Send a success message
+        } catch (Exception e) {
+            session.setAttribute("errorMessage", "Failed to add product. Please try again.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add product. Please try again."); // Send an error message
         }
-
-
     }
 
 }

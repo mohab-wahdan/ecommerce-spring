@@ -40,7 +40,7 @@ public class Product implements Serializable {
 
 
     @ManyToOne
-    @JoinColumn(name = "subCategory_id")
+    @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
 

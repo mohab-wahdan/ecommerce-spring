@@ -44,6 +44,5 @@
     </form>
 </div>
 <script src="../js/adminjs/addSubCategory.js"></script>>
-
 </body>
 </html>
