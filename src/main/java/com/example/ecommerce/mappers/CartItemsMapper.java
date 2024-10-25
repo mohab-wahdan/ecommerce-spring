@@ -1,9 +1,10 @@
-package com.example.ecommerce.mappers;
+package com.example.ecommerce.mapper;
 
 import com.example.ecommerce.dtos.CartItemsDTO;
 import com.example.ecommerce.models.CartItems;
 import com.example.ecommerce.models.Customer;
 import com.example.ecommerce.models.SubProduct;
+import com.example.ecommerce.repositories.CartItemsRepository;
 import com.example.ecommerce.repositories.CustomerRepository;
 import com.example.ecommerce.repositories.SubProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,8 @@ public class CartItemsMapper {
         CartItems cartItems = new CartItems();
         // Here you need to set the customer and subProduct by fetching from the repository
         // Example:
-         Customer customer = customerRepository.findById(cartItemsDTO.getCustomerId()).orElse(null);
-         SubProduct subProduct = subProductRepository.findById(cartItemsDTO.getSubProductId()).orElse(null);
+        Customer customer = customerRepository.findById(cartItemsDTO.getCustomerId()).orElse(null);
+        SubProduct subProduct = subProductRepository.findById(cartItemsDTO.getSubProductId()).orElse(null);
         cartItems.setQuantity(cartItemsDTO.getQuantity());
         return cartItems;
     }

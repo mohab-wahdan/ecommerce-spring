@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Builder
 public class SubProductJsonAddDTO {
     private int id;
-//    private String productName;
+    private String productName;
     private BigDecimal price;
     private String imageURL;
     private String color;

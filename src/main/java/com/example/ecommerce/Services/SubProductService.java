@@ -40,16 +40,16 @@ public class SubProductService {
         return subProducts.stream().map(SubProductMapper::convertEntityToDTO).collect(Collectors.toList());
     }
 
-    public SubProduct findSubProductById(int id) {
+    public Optional<SubProduct> findSubProductById(int id) {
         Optional<SubProduct> subProduct = subProductRepository.findById(id);
         if (subProduct.isPresent()) {
             if (subProduct.get().getIsDeleted()) {
-                return null;
+                return Optional.empty();
             } else {
-                return subProduct.get();
+                return subProduct;
             }
         }
-        return null;
+        return Optional.empty();
     }
 
     public void saveSubProduct(SubProduct subProduct) {
@@ -100,7 +100,7 @@ public class SubProductService {
 
     public SubProductDTO createSubProductDTO(String colorParam, String mainProductId, String size, int stock, BigDecimal price, MultipartFile imagePart) throws IOException {
         SubProductDTO subProduct = new SubProductDTO();
-//        subProduct.setProductName(mainProductId);
+        subProduct.setProductName(mainProductId);
         subProduct.setStock(stock);
         subProduct.setPrice(price);
         subProduct.setColor(colorParam);
@@ -118,7 +118,7 @@ public class SubProductService {
             Files.copy(imagePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             subProduct.setImageURL(uploadDir + uniqueFileName);
         }
-//        addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
+        addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
         return subProduct;
     }
 

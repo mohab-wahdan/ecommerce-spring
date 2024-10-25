@@ -16,8 +16,4 @@ public class CartItemsDTO implements Serializable {
     private Integer customerId;     // Assuming customer ID is Long
     private Integer subProductId;   // Assuming subProduct ID is Long
     private Integer quantity;
-
 }
-
-
-

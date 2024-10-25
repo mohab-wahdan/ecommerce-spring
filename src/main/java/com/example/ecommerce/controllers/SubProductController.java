@@ -33,11 +33,11 @@ public class SubProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubProduct> getSubProduct( @PathVariable int id) {
+    public ResponseEntity<SubProduct> getSubProduct(int id) {
 
-        SubProduct subProduct = subProductService.findSubProductById(id);
-        if (subProduct !=null) {
-            return ResponseEntity.ok(subProduct);
+        Optional<SubProduct> subProduct = subProductService.findSubProductById(id);
+        if (subProduct.isPresent()) {
+            return ResponseEntity.ok(subProduct.get());
         } else {
             return ResponseEntity.notFound().build();
         }
