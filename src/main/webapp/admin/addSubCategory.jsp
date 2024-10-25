@@ -23,7 +23,7 @@
         <h2 class="header-font">Add New SubCategory</h2>
     </div>
 
-    <form action="addSubCategory" method="post" enctype="multipart/form-data">
+    <form action="/subcategory" method="post" enctype="multipart/form-data">
 
         <div class="form-group">
             <label for="category">Main Category</label>

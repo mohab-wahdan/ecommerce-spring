@@ -3,8 +3,12 @@ package com.example.ecommerce.controllers;
 import com.example.ecommerce.dtos.SubCategoryDTO;
 import com.example.ecommerce.models.SubCategory;
 import com.example.ecommerce.services.SubCategoryService;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -27,8 +31,18 @@ public class SubCategoryController {
     }
 
     @PostMapping
-    public void createSubCategory(@RequestBody SubCategoryDTO subCategoryDTO) {
-        subCategoryService.createSubCategory(subCategoryDTO.getCategoryID(), subCategoryDTO.getName());
+    public void addSubCategory(
+            @RequestParam("category") Integer categoryId,
+            @RequestParam("subcategory") String subcategoryName,
+            HttpSession session,
+            HttpServletResponse response) throws IOException {
+        try {
+            subCategoryService.createSubCategory(categoryId, subcategoryName);
+            session.setAttribute("successMessage", "SubCategory added successfully!");
+        } catch (Exception e) {
+            session.setAttribute("errorMessage", "Failed to add subcategory. Please try again.");
+        }
+        response.sendRedirect("/admin/adminDashboard.jsp");
     }
 
 

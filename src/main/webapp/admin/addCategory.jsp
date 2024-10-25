@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="../css/admincss/addCategory.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
 </head>
 <body>
 <div class="container mt-5">
@@ -22,7 +20,7 @@
     <div class="header-container">
         <h2 class="header-font">Add New Category</h2>
     </div>
-    <form action="/categories" method="post" enctype="multipart/form-data">
+    <form action="/category" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="categoryname">Category</label>
             <input type="text" class="form-control" id="categoryname" name="categoryname" placeholder="Enter category name" required>
@@ -31,8 +29,6 @@
             <i class="fas fa-plus"></i> Add Category
         </button>
     </form>
-
 </div>
-
 </body>
 </html>

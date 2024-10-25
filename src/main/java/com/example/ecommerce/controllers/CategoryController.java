@@ -2,8 +2,11 @@ package com.example.ecommerce.controllers;
 
 import com.example.ecommerce.dtos.CategoryDTO;
 import com.example.ecommerce.services.CategoryService;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController()
@@ -25,8 +28,19 @@ public class CategoryController {
         return categoryService.findCategoryByIdDto(id);
     }
 
-    @PostMapping()
-    public void addCategory(@RequestBody String name) {
-        categoryService.createCategory(name);
+    @PostMapping
+    public void addCategory(
+            @RequestParam("categoryname") String categoryName,
+            HttpSession session,
+            HttpServletResponse response) throws IOException {
+
+        try {
+            categoryService.createCategory(categoryName);
+            session.setAttribute("successMessage", "Category added successfully!");
+        } catch (Exception e) {
+            session.setAttribute("errorMessage", "Failed to add category. Please try again.");
+        }
+        response.sendRedirect("/admin/adminDashboard.jsp");
     }
+
 }
