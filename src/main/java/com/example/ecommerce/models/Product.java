@@ -36,6 +36,7 @@ public class Product implements Serializable {
     private Gender gender;
 
     @NonNull
+    @Column(name="is_deleted")
     private String isDeleted;
 
 

@@ -26,7 +26,7 @@ public class Order{
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="createdAt",updatable = false)
+    @Column(name="created_at",updatable = false)
     private Date createdAt;
 
     @ManyToOne

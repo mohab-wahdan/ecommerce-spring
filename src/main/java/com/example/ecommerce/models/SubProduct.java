@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "subProduct")
+@Table(name = "sub_product")
 @Getter
 @Setter
 @ToString
@@ -39,10 +39,13 @@ public class SubProduct implements Serializable {
     @NotNull
     private BigDecimal price;
 
+    @Column(name="imageurl")
     private String imageURL;
 
+    @Column(name="is_deleted")
     private Boolean isDeleted = false;
 
+    @Column(name="is_new_arrival")
     private Boolean isNewArrival = false;
 
     @ManyToOne
