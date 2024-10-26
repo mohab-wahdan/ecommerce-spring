@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/auth")
 public class LoginController {
@@ -26,31 +28,16 @@ public class LoginController {
         }
     }
 
-//
-//    // New method to get session status
-//    @GetMapping("/session-status")
-//    public ResponseEntity<CustomerDTO> getSessionStatus(@RequestParam String username) {
-//        CustomerDTO customerDTO = loginService.getCustomerByUsername(username);
-//        if (customerDTO != null) {
-//            return ResponseEntity.ok(customerDTO);
-//        } else {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-//        }
-//    }
-
-    @GetMapping("/session-status")
+    @GetMapping("/getSessionStatus")
     public ResponseEntity<CustomerDTO> getSessionStatus(@RequestParam String username) {
-        try {
-            CustomerDTO customerDTO = loginService.getCustomerByUsername(username);
-            if (customerDTO != null) {
-                return ResponseEntity.ok(customerDTO);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            }
-        } catch (Exception e) {
-            // Log the exception for debugging
-            e.printStackTrace(); // Or use a logger, e.g., logger.error("Error getting session status", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        CustomerDTO customerDTO = loginService.getCustomerByUsername(username);
+        if (customerDTO == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+        return ResponseEntity.ok(customerDTO);
     }
+
+
+
+
 }

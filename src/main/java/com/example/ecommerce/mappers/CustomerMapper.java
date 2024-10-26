@@ -9,6 +9,7 @@ import com.example.ecommerce.models.SubProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,9 @@ public class CustomerMapper {
 
     public CustomerDTO toDTO(Customer customer) {
         if (customer == null) {
-            return null;
+            throw new IllegalArgumentException("Customer cannot be null");
         }
+
         CustomerDTO dto = new CustomerDTO();
         dto.setId(customer.getId());
         dto.setFirstName(customer.getFirstName());
