@@ -9,35 +9,39 @@
     <title>View Products - Chicly Admin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard/css/viewProducts.css">
+    <link rel="stylesheet" href="../css/admincss/viewProducts.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 <body>
 <div class="container mt-5">
     <div class="mb-4">
-        <a href="AdminDashBoardController" class="btn btn-black">
+        <a href="/admin/adminDashboard.jsp" class="btn btn-black">
             <i class="fas fa-arrow-left"></i> Back to Dashboard</a>
     </div>
     <div class="header-container">
         <h2 class="header-font">Manage Products</h2>
     </div>
     <c:choose>
-        <c:when test="${not empty param.successMessage}">
+        <c:when test="${not empty sessionScope.successMessage}">
             <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 1.1em; font-weight: bold;">
-                <i class="fas fa-check-circle"></i> ${param.successMessage}
+                <i class="fas fa-check-circle"></i> ${sessionScope.successMessage}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="removeQueryParam()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <!-- Remove message after displaying -->
+            <c:remove var="successMessage" scope="session"/>
         </c:when>
-        <c:when test="${not empty param.errorMessage}">
+        <c:when test="${not empty sessionScope.errorMessage}">
             <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 1.1em; font-weight: bold;">
-                <i class="fas fa-exclamation-triangle"></i> ${param.errorMessage}
+                <i class="fas fa-exclamation-triangle"></i> ${sessionScope.errorMessage}
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="removeQueryParam()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            <!-- Remove message after displaying -->
+            <c:remove var="errorMessage" scope="session"/>
         </c:when>
     </c:choose>
     <div class="row">
@@ -77,73 +81,13 @@
 
             </div>
 
-            <div class="row">
-                <c:if test="${empty subProducts}">
-                    <div class="col-md-12">
-                        <p class="text-center text-muted">No products found.</p>
-                    </div>
-                </c:if>
-
-                <c:forEach var="subProduct" items="${subProducts}">
-                    <div class="col-md-4 product-list">
-                        <div class="card mb-4">
-                            <img src="${subProduct.imageURL}" class="card-img-top" alt="${subProduct.productName}">
-                            <div class="card-body">
-                                <h5 class="card-title">${subProduct.productName}</h5>
-                                <p class="card-text">Price: $${subProduct.price}</p>
-                                <p class="card-text">Colour: ${subProduct.color}</p>
-                                <p class="card-text">Size: ${subProduct.size}</p>
-                                <p class="card-text">Quantity: ${subProduct.stock}</p>
-                                <a href="updateSubProduct?subproduct_Id=${subProduct.id}" class="btn btn-black">
-                                    <i class="fas fa-edit"></i> Update
-                                </a>
-                                <a href="deleteSubProduct?subproduct_Id=${subProduct.id}" class="btn btn-red">
-                                    <i class="fas fa-trash"></i> Delete
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
+            <div class="row" id="products">
+                <!-- I will show all customers here -->
             </div>
         </div>
     </div>
 </div>
-
-<script>
-    function searchProducts() {
-        const id = document.getElementById('searchId').value;
-        var searchBtn = document.getElementById("searchBtn");
-        if (id==="") {
-            searchBtn.disabled = true;
-        }else{
-            searchBtn.disabled = false;
-            window.location.href = 'productView?searchId=' + encodeURIComponent(id);
-        }
-
-    }
-
-    function filterProducts() {
-        const subcategory = document.getElementById('subcategory').value;
-        var searchBtn = document.getElementById("searchBtn");
-        if(subcategory ===""){
-            searchBtn.disabled = true;
-        }else{
-            window.location.href = 'productView?subcategory=' + encodeURIComponent(subcategory);
-            searchBtn.disabled = false;
-        }
-
-    }
-    function addNewProduct() {
-        window.location.href = 'addsubProduct';
-    }
-    function resetFilters() {
-        window.location.href = 'productView';
-    }
-    function removeQueryParam() {
-        const url = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        window.history.replaceState({}, document.title, url);
-    }
-</script>
+<script src="../js/adminjs/view-products.js"></script>>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

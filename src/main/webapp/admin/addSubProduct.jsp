@@ -15,7 +15,7 @@
 <div class="container mt-5">
     <!-- Back Button -->
     <div class="mb-4">
-        <a href="productView" class="btn btn-black">
+        <a href="/admin/view-products.jsp" class="btn btn-black">
             <i class="fas fa-arrow-left"></i> Back to Products</a>
     </div>
     <div class="header-container">

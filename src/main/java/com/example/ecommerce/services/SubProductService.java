@@ -51,6 +51,10 @@ public class SubProductService {
         }
         return null;
     }
+    public SubProductForAdminDTO findSubProductForAdminById(Integer id) {
+        SubProduct subProduct = subProductRepository.findById(id).get();
+        return SubProductMapper.convertEntityToSubProdcutAdminDTO(subProduct);
+    }
 
     public void saveSubProduct(SubProduct subProduct) {
         subProductRepository.save(subProduct);

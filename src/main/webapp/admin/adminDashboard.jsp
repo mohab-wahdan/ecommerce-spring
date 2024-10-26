@@ -27,7 +27,7 @@
             <a href="/admin/addProduct.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-boxes"></i> Manage Products
             </a>
-            <a href="/admin/addSubProduct.jsp" class="list-group-item list-group-item-action bg-black text-white">
+            <a href="/admin/view-products.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-cubes"></i> Manage SubProducts
             </a>
             <a href="/admin/customerProfiles.jsp" class="list-group-item list-group-item-action bg-black text-white">

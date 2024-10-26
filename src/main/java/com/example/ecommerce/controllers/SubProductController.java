@@ -2,6 +2,7 @@ package com.example.ecommerce.controllers;
 
 import com.example.ecommerce.dtos.SubProductDTO;
 import com.example.ecommerce.dtos.SubProductFilterDTO;
+import com.example.ecommerce.dtos.SubProductForAdminDTO;
 import com.example.ecommerce.enums.Color;
 import com.example.ecommerce.enums.Gender;
 import com.example.ecommerce.enums.Size;
@@ -41,7 +42,16 @@ public class SubProductController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @GetMapping("/subproductId/{id}")
+    public ResponseEntity<SubProductForAdminDTO> getSubProductForAdmin(@PathVariable Integer id) {
 
+        SubProductForAdminDTO subProduct = subProductService.findSubProductForAdminById(id);
+        if (subProduct !=null) {
+            return ResponseEntity.ok(subProduct);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 
