@@ -40,7 +40,7 @@ public class AuthController {
         if(authentication.isAuthenticated()) {
             map.put("username",loginRequest.getUsername());
             UserPrinciple userPrinciple=(UserPrinciple) authentication.getPrincipal();
-            map.put("role",userPrinciple.getAuthorities().toString());
+            map.put("role",userPrinciple.getAccount().getRoles());
             map.put("jwt-token",jwtService.generateToken(loginRequest.getUsername()));
             map.values().forEach(System.out::println);
            return ResponseEntity.ok(map);
