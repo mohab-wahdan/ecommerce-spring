@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Component
 public class OrderMapper {
 
-    public OrderDTO toDTO(Order order) {
+    public  OrderDTO toDTO(Order order) {
         if (order == null) {
             return null;
         }
@@ -38,7 +38,7 @@ public class OrderMapper {
         return dto;
     }
 
-    public Order toEntity(OrderDTO dto) {
+    public  Order toEntity(OrderDTO dto) {
         if (dto == null) {
             return null;
         }
