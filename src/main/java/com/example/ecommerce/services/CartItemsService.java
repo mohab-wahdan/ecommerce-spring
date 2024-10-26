@@ -31,6 +31,15 @@ public class CartItemsService {
         this.subProductRepository = subProductRepository;
 
     }
+    public List<CartItemsDTO> getCartByCustomerId(Integer customerId) {
+        // Fetch cart items from the repository
+        List<CartItems> cartItems = cartItemsRepository.findByCustomerId(customerId);
+
+        // Map the entities to DTOs
+        return cartItems.stream()
+                .map(cartItemsMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
     public List<CartItemsDTO> getAllCartItems() {
         return cartItemsRepository.findAll()

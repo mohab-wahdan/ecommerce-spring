@@ -11,13 +11,7 @@
                     <!-- Filter Form -->
                     <form id="filter-form">
                         <!-- Displaying Searched Product Name -->
-                        <c:if test="${not empty param.searchkeyword}">
-                            <div class="section-title">
-                                <h5>You searched for: ${param.searchkeyword} <span class="icon_search search-switch"></span></h5>
-                            </div>
-                        <!-- Hidden input field for searchkeyword if it exists -->
-                            <input type="hidden" name="searchkeyword" value="${fn:escapeXml(param.searchkeyword)}" />
-                        </c:if>
+
                         <!-- Price Filter -->
                         <div class="sidebar__filter">
                             <div class="section-title"><h4>Shop by price</h4>
@@ -25,7 +19,7 @@
                             <div class="filter-range-wrap">
                                 <div class="range-slider">
                                     <div class="price-input">
-                                        <label for="minamount">Min Price: </label>
+                                        <label for="minamount">Min Price:     </label>
                                         <input type="text" name="minPrice" id="minamount" value="${param.minPrice != null ? param.minPrice : 50}" /><br>
                                         <label for="maxamount">Max Price: </label>
                                         <input type="text" name="maxPrice" id="maxamount" value="${param.maxPrice != null ? param.maxPrice : 1500}" />
@@ -167,11 +161,6 @@
                     </form>
                 </div>
             </div>
-
-
-
-
-
             <div class="col-lg-9 col-md-9">
                 <div class="product-list-wrapper">
                     <div class="row" id="product-list">
@@ -183,44 +172,86 @@
         </div>
     </div>
 </section>
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
+
 $(document).ready(function () {
     fetchCategories();
     fetchAllProducts();
-    $('#filter-form').on('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
+    filterSubProducts();
+    $(".buttonAddToCart").click(handleAddToCartClick);
 
-        // Manually gather form data
-        var filterData = {
-           "color": "BLACK",
-             "size": "MEDIUM",
-             "maxPrice": 200,
-             "minPrice": 50,
-             "searchkeyword": "shirt",
-             "gender": "MALE",
-             "category": "shirts",
-             "page": 1
-        };
-
-        // Make the AJAX request
-        $.ajax({
-            url: 'http://localhost:8083/subProducts/filter',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(filterData),
-            success: function (data) {
-                // Handle success: render products
-                console.log(data);
-                renderProducts(data); // Define this function to display products
-            },
-            error: function (xhr, status, error) {
-                // Handle error
-                console.error(error);
-            }
-        });
-    });
 });
+function handleAddToCartClick(){
+    // Get product details from data attributes
+    const productData = {
+        id: $(this).data("id")
+    };
+
+    // AJAX request to add the product to the cart
+    $.ajax({
+        url: 'http://localhost:8083/cartItems', // API endpoint URL
+        type: 'POST', // Use POST method
+        contentType: 'application/json', // Set content type to JSON
+        data: JSON.stringify(cartItemsData), // Convert data to JSON string
+        success: function(response) {
+            alert("Your cart item has been added successfully!");
+            localStorage.setItem("productId",id);
+        },
+        error: function(xhr) {
+            if (xhr.status === 404) {
+                console.error('Customer or SubProduct not found.');
+            } else {
+                console.error('An error occurred:', xhr.status, xhr.responseText);
+            }
+            // Handle error, e.g., show error message
+        }
+    });
+}
+
+
+function filterSubProducts() {
+    $('#filter-form').on('submit', function (event) {
+        event.preventDefault();
+    // Get the values from input fields (adjust selectors to match your HTML structure)
+    const color = $('input[name="color"]:checked').val(); // Assuming radio buttons for color
+    const size = $('input[name="size"]:checked').val();   // Assuming radio buttons for size
+    const minPrice = $('#minamount').val();              // Assuming input field for minPrice
+    const maxPrice = $('#maxamount').val();              // Assuming input field for maxPrice
+    const gender = $('input[name="gender"]:checked').val(); // Assuming radio buttons for gender
+    const category = $('input[name="category"]:checked').val(); // Assuming radio buttons for category
+    const page = $('#page').val() || 1;                  // Assuming input field or default value for page
+
+    // Build the data object
+    const data = {
+        color: color,
+        size: size,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        gender: gender,
+        category: category,
+        page: page
+    };
+
+    // Send the AJAX POST request
+    $.ajax({
+        url: 'http://localhost:8083/subProducts/filter', // Adjust the URL if necessary (e.g., add context path)
+        type: 'POST',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // For form-encoded data
+        data: data,
+        success: function (response) {
+            // Handle success - response is a list of SubProductDTOs
+            console.log(response);
+            renderProducts(response); // Function to render the products on the page
+        },
+        error: function (xhr, status, error) {
+            // Handle error
+            console.error('Error occurred while filtering products:', error);
+        }
+    });
+    });
+}
 
 function fetchAllProducts() {
     $.ajax({
@@ -237,36 +268,39 @@ function fetchAllProducts() {
     });
 }
 
- function fetchCategories() {
-        $.ajax({
-            url: 'http://localhost:8083/cat', // API endpoint for categories
-            type: 'GET',
-            success: function (categories) {
-                // Render the categories in the HTML
-                renderCategories(categories);
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching categories:', error);
-            }
-        });
-    }
+function fetchCategories() {
+    $.ajax({
+        url: 'http://localhost:8083/cat', // API endpoint for categories
+        type: 'GET',
+        dataType: 'json',
+        success: function (categories) {
+            // Render the categories in the HTML
+            renderCategories(categories);
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching categories:', error);
+        }
+    });
+}
 
-    // Function to render categories into the HTML
-    function renderCategories(categories) {
-        const categoriesContainer = $('#categories'); // Get the container
-        categoriesContainer.empty(); // Clear existing content if any
+// Function to render categories into the HTML
+function renderCategories(categories) {
+    const categoriesContainer = $('#categories'); // Get the container
+    categoriesContainer.empty(); // Clear existing content if any
 
-        categories.forEach(function (category) {
-            const categoryHtml = `
-                <label for=`+category.name+`>
-                    `+category.name+`
-                    <input type="radio" name="category" id=`+category.id+` value=`+category.name+`  >
-                    <span class="checkmark"></span>
-                </label>
-            `;
-            categoriesContainer.append(categoryHtml); // Append the category HTML
-        });
-    }
+    categories.forEach(function (category) {
+    const size = category.name;
+        const categoryHtml = `
+                    <label for="`+category.name+`">
+                        `+category.name+`
+                        <input type="radio" name="category" id="`+category.name+`" value="`+category.name+` " />
+                        <span class="checkmark"></span>
+                    </label>
+
+                `;
+                categoriesContainer.append(categoryHtml);// Append the category HTML
+    });
+}
 
 function renderProducts(products) {
     // Clear existing products and render new ones
@@ -302,11 +336,6 @@ function renderProducts(products) {
 <script src="/js/main.js"></script>
 <script src="/js/product-display.js"></script>
 <link rel="stylesheet" href="/css/shop.css" type="text/css">
-
-
-
-
-
 
 <script>
 /*

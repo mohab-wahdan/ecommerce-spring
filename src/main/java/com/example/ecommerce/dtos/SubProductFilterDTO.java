@@ -23,7 +23,7 @@ public class SubProductFilterDTO {
     private Integer categoryId;
     private String categoryName;
     private Integer pageNumber;
-    private Integer pageSize = 6;
+    private Integer pageSize = 5;
     private Boolean isDeleted = Boolean.FALSE;
     private Boolean isNewArrival;
     private Boolean inStock = Boolean.TRUE;

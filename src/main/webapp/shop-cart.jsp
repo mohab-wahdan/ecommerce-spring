@@ -33,32 +33,9 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <c:if test="${cart.totalCartItems>0}">
-                            <tbody>
-                            <c:forEach var="entry" items="${cart.items}">
-                                <tr data-product-id="${entry.key.id}">
-                                    <td class="cart__product__item">
-                                        <img src="${entry.key.imageURL}" style="width: 90px; height: 90px;" alt="">
-                                        <div class="cart__product__item__title">
-                                            <h6>${entry.key.productName}</h6>
-
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ <span class="price-value">${entry.key.price}</span></td>
-                                    <td class="cart__quantity">
-                                        <div class="pro-qtyy">
-                                            <button class="qty-btn minus-btn">-</button>
-                                                <input type="text" value="${entry.value}" class="quantity-input" min="1" max="${entry.key.stock}" data-max="${entry.key.stock}" data-price="${entry.key.price}"  readonly>
-                                            <button class="qty-btn plus-btn">+</button>
-                                        </div>
-                                    </td>
-                                    <td class="cart__total">$ <span class="total-value">${entry.key.price}</span></td>
-                                    <td class="cart__close"><span class="icon_close"></span></td>
-                                </tr>
-                            </c:forEach>
+                            <tbody id="cartItemsTableBody">
 
                             </tbody>
-                            </c:if>
                         </table>
                     </div>
                 </div>
@@ -94,14 +71,60 @@
         </div>
     </section>
     <!-- Shop Cart Section End -->
+<script>
+$(document).ready(function() {
+fetchCartItemsAndDetails();
 
+});
+
+// Function to get cart items by customer ID and then fetch sub-product details
+function fetchCartItemsAndDetails() {
+    const userId = 6;
+     $.ajax({
+        url: 'http://localhost:8083/cartItems/'+userId,
+        type: 'GET',
+        success: function(cartItems) {
+            // Step 2: For each sub-product ID, fetch details
+            cartItems.forEach(function(cartItem) {
+                let subProductId = cartItem.subProductId; // Assuming cartItems contain subProductId
+
+                $.ajax({
+                    url: 'http://localhost:8083/cartItems/subProduct/'+subProductId,
+                    type: 'GET',
+                    success: function(subProductDetails) {
+                        // Process and display sub-product details
+                        $('#cartItemsTableBody').append(`
+                            <tr data-product-id="`+subProductDetails.id+`">
+                                <td>
+                                <img src="`+subProductDetails.imageURL+`" style="width: 90px; height: 90px;" alt="">
+                                <div class="cart__product__item__title">
+                                    <h6> `+subProductDetails.description+`</h6>
+                                </div>
+                                </td>
+                                <td>$ `+subProductDetails.price+`</td>
+                                <td>
+                                    <input type="text" value="`+cartItem.quantity+`" class="quantity-input" >
+                                </td>
+                                <td>$ ${total}</td>
+                                <td><span class="icon_close"></span></td>
+                            </tr>
+                        `);
+                    },
+                    error: function(error) {
+                        console.error(`Error fetching details for subProduct ID ${subProductId}:`, error);
+                    }
+                });
+            });
+        },
+        error: function(error) {
+            console.error(`Error fetching cart items for customer ID ${customerId}:`, error);
+        }
+    });
+}
+</script>
 
 
     <script>
-        /*Function Notification*/
-
-        /*Function Notification*/
-
         // Function to calculate and update the subtotal and total quantity
         function updateSubtotalAndQuantity() {
             let subtotal = 0;
@@ -144,9 +167,7 @@
 
                         // Optionally update cart count in header (if needed)
                         $('.icon_bag_alt').siblings('.tip').text(data.cartItemCount);
-
                             saveCart();
-
                     } else {
                         alert('Failed to remove the product.');
                     }

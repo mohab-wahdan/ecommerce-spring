@@ -24,12 +24,12 @@
             </div>
             <div class="sign-up form-group text-center">
                 <p>Not a member? <a href="registration.jsp">
-                    signup now <i class="fas fa-user-plus"></i></a></p>
+                    register now <i class="fas fa-user-plus"></i></a></p>
             </div>
         </form>
     </div>
 </div>
-<%@ include file="footer.jsp" %>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -42,7 +42,7 @@
 
             // Make AJAX request to login
             $.ajax({
-                url: 'http://localhost:8083/customers/login', // Your API endpoint
+                url: 'http://localhost:8083/auth/login', // Your API endpoint
                 method: 'POST',
                 contentType: 'application/json', // Sending JSON
                 data: JSON.stringify({
@@ -50,14 +50,9 @@
                     password: password
                 }),
                 success: function(response) {
-                    // Handle success response
-                    if (response.success) {
-                        // Redirect or show a success message
-                        window.location.href = '/index.jsp'; // Redirect after successful login
-                    } else {
-                        // Show error message
-                        showMessage(response.message, 'danger');
-                    }
+                    localStorage.setItem("username", "yasmeenaa");
+                    alert("Welcome "+ localStorage.getItem("username")+" !");
+                    window.location.href = 'index.jsp';
                 },
                 error: function(xhr) {
                     // Handle error response
@@ -95,4 +90,4 @@
 	}
 </script>
 
-
+<%@ include file="footer.jsp" %>
