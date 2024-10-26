@@ -1,6 +1,5 @@
 package com.example.ecommerce.repositories;
 
-import com.example.ecommerce.models.Account;
 import com.example.ecommerce.models.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +14,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     Optional<Customer> findByAccount_UserNameAndAccount_Password(String userName, String password);
 
     Optional<Customer> findByAccount_UserName(String  username);
+
+    Optional<Customer> findById(Integer customerId);
+
+    Customer findByAccountUserName(String username);
 }

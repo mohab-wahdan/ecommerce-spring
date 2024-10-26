@@ -6,7 +6,6 @@ import com.example.ecommerce.mappers.ProductMapper;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.models.SubCategory;
 import com.example.ecommerce.repositories.ProductRepository;
-import com.example.ecommerce.services.SubCategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +27,9 @@ public class ProductService {
 
     public void createProduct(ProductJsonAddDTO jsonProduct) {
         Product product=ProductMapper.fromProductJsonAddDTOToProductEntity(jsonProduct);
-       SubCategory subCategory= subCategoryService.findSubCategoryById(jsonProduct.getSubCategoryId());
+        SubCategory subCategory= subCategoryService.findSubCategoryById(jsonProduct.getSubCategoryId());
         product.setSubCategory(subCategory);
+        product.setIsDeleted("No");
         productRepository.save(product);
     }
 //    public void deleteProduct(int id) {

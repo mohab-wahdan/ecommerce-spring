@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
-@Table(name = "subCategory")
+@Table(name = "sub_category")
 @Setter
 @Getter
 @RequiredArgsConstructor
