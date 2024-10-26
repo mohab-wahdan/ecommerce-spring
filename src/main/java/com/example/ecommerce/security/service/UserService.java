@@ -1,10 +1,11 @@
 package com.example.ecommerce.security.service;
 
+import com.example.ecommerce.models.Account;
 import com.example.ecommerce.models.Admin;
 import com.example.ecommerce.models.Customer;
 import com.example.ecommerce.repositories.AdminRepository;
 import com.example.ecommerce.repositories.CustomerRepository;
-import org.springframework.security.core.userdetails.User;
+import com.example.ecommerce.security.UserPrinciple;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,13 +26,15 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Customer> customer =customerRepository.findByAccount_UserName(username);
         if(customer.isPresent()){
-            return customer.map(CustomerPrinciple::new).get();
+            Account account1 = customer.get().getAccount();
+            return new UserPrinciple(account1);
 
         }
 
         Optional<Admin> admin =adminRepository.findByAccount_UserName(username);
         if(admin.isPresent()){
-
+            Account account2 = admin.get().getAccount();
+            return new UserPrinciple(account2);
         }
 
        throw new UsernameNotFoundException("Invalid username or password : " + username);

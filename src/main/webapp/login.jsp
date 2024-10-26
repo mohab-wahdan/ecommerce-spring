@@ -35,14 +35,13 @@
     $(document).ready(function() {
         $('#loginform').on('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
-
             // Get form data
             var username = $('#username').val();
             var password = $('#password').val();
 
             // Make AJAX request to login
             $.ajax({
-                url: 'http://localhost:8083/customers/login', // Your API endpoint
+                url: 'http://localhost:8083/auth/login', // Your API endpoint
                 method: 'POST',
                 contentType: 'application/json', // Sending JSON
                 data: JSON.stringify({
@@ -51,13 +50,15 @@
                 }),
                 success: function(response) {
                     // Handle success response
-                    if (response.success) {
-                        // Redirect or show a success message
-                        window.location.href = '/index.jsp'; // Redirect after successful login
-                    } else {
-                        // Show error message
-                        showMessage(response.message, 'danger');
-                    }
+
+                        // Save the JWT token and user info in sessionStorage or localStorage
+                        sessionStorage.setItem('jwt-token', response.jwt-token);
+                        sessionStorage.setItem('username', response.username);
+                        sessionStorage.setItem('role', response.role);
+
+                        // Redirect to the desired page
+                        // window.location.href = '/index.jsp'; // Redirect after successful login
+
                 },
                 error: function(xhr) {
                     // Handle error response

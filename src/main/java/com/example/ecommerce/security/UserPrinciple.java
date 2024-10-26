@@ -1,6 +1,6 @@
-package com.example.ecommerce.security.service;
+package com.example.ecommerce.security;
 
-import com.example.ecommerce.models.Customer;
+import com.example.ecommerce.models.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,29 +9,29 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class CustomerPrinciple implements UserDetails {
+public class UserPrinciple implements UserDetails {
 
-    private Customer customer;
+    private Account account;
 
-    public CustomerPrinciple(Customer customer) {
-        this.customer = customer;
+    public UserPrinciple(Account account) {
+        this.account = account;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"  +customer.getAccount().getRoles()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"  +account.getRoles()));
     }
 
     @Override
     public String getPassword() {
       //  System.out.println("user password :" +customer.getAccount().getPassword());
-        return customer.getAccount().getPassword();
+        return account.getPassword();
     }
 
     @Override
     public String getUsername() {
      //   System.out.println("user name :" +customer.getAccount().getUserName());
-        return customer.getAccount().getUserName();
+        return account.getUserName();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class CustomerPrinciple implements UserDetails {
         return true;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Account getAccount() {
+        return account;
     }
 }
 

@@ -24,7 +24,7 @@ public class CustomerService {
     public String addCustomer(Customer customer) {
         customer.getAccount().setPassword(passwordEncoder.encode(customer.getAccount().getPassword()));
         customerRepository.save(customer);
-        return "Customer "+ +customer.getId()+" added successfully";
+        return "Customer "+ customer.getId()+" added successfully";
     }
     public Customer getCustomerById(Integer id) {
         customerRepository.findById(id);
