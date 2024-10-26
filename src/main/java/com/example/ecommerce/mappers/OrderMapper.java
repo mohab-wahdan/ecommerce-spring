@@ -13,9 +13,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
-public interface OrderMapper {
+public class OrderMapper {
 
-    public default OrderDTO toDTO(Order order) {
+    public  OrderDTO toDTO(Order order) {
         if (order == null) {
             return null;
         }
@@ -38,7 +38,7 @@ public interface OrderMapper {
         return dto;
     }
 
-    public default Order toEntity(OrderDTO dto) {
+    public  Order toEntity(OrderDTO dto) {
         if (dto == null) {
             return null;
         }
