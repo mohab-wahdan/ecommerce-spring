@@ -34,10 +34,10 @@ public class CustomerService {
         return customerMapper.toDTO(savedCustomer);
     }
 
-    public List<CustomerDTO> getAllCustomers() {
-        return customerRepository.findAll().stream()
-                .map(customerMapper::toDTO)
-                .collect(Collectors.toList());
+
+    public List<CustomerViewDTO> getAllCustomers() {
+        List<Customer> customerList = customerRepository.findAll();
+        return customerMapper.fromEntityToCustomerViewDTO(Optional.of(customerList));
     }
 
     public CustomerDTO getCustomerById(Integer id) {
