@@ -57,6 +57,11 @@ public class SubProductController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/subcategoryId/{id}")
+    public ResponseEntity<List<SubProductDTO>> getSubProductBySubCategoryIdForAdmin(@PathVariable Integer id) {
+        return ResponseEntity.ok(subProductService.findSubProductBySubCategoryIdForAdmin(id));
+
+    }
 
 
     @PostMapping("/filter")

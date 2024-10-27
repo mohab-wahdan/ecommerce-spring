@@ -81,29 +81,29 @@ function deleteProduct(subProductId) {
     });
 }
 
-function searchProducts() {
-    const id = document.getElementById('searchId').value;
-    var searchBtn = document.getElementById("searchBtn");
-    if (id==="") {
-        searchBtn.disabled = true;
-    }else{
-        searchBtn.disabled = false;
-        window.location.href = 'productView?searchId=' + encodeURIComponent(id);
-    }
-
-}
 
 function filterProducts() {
-    const subcategory = document.getElementById('subcategory').value;
-    var searchBtn = document.getElementById("searchBtn");
-    if(subcategory ===""){
-        searchBtn.disabled = true;
-    }else{
-        window.location.href = 'productView?subcategory=' + encodeURIComponent(subcategory);
-        searchBtn.disabled = false;
-    }
+    const subcategoryId = document.getElementById('subcategory').value; // Get the value of the subcategory input
+    const filterBtn = document.getElementById('filterBtn'); // Reference to your filter button
 
+    if (subcategoryId === "") {
+        filterBtn.disabled = true; // Disable the button if the subcategory is empty
+    } else {
+        // Make an AJAX call to fetch products by subcategory ID
+        $.ajax({
+            url: '/subProducts/subcategoryId/' + encodeURIComponent(subcategoryId), // Adjusted endpoint
+            method: 'GET',
+            success: function(products) {
+                renderSubProducts(products); // Call the function to render products
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error fetching products:', textStatus, errorThrown);
+            }
+        });
+    }
 }
+
+
 function addNewProduct() {
     window.location.href = '/admin/addSubProduct.jsp';
 }

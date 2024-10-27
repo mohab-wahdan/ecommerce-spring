@@ -20,8 +20,13 @@ public interface SubProductRepository extends JpaRepository<SubProduct, Integer>
     @Query("select sub from SubProduct sub where sub.product.subCategory.name=?1")
     List<SubProduct> findBySubCategoryName(String subCategoryName) ;
 
+    @Query("select sub from SubProduct sub where sub.product.subCategory.id=?1")
+    List<SubProduct> findBySubCategoryId(Integer subCategoryId) ;
 
     List<SubProduct> findAllByIsDeletedFalse();
+
+
+    List<SubProduct> findAllBy();
 
     @Query("select sub.imageURL from SubProduct sub where sub.id=?1")
     String findByImageURL(Integer id);

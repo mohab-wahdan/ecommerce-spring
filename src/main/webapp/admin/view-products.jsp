@@ -59,6 +59,8 @@
                 </div>
                 <button type="button" id="filterBtn" class="btn btn-black btn-block" onclick="filterProducts()">
                     <i class="fas fa-filter"></i> Apply Filters</button>
+                <button class="btn btn-black btn-block" onclick="resetFilters()">
+                    <i class="fas fa-redo"></i> Reset</button>
                 <button type="button" class="btn btn-teal btn-block mt-2" onclick="addNewProduct()">
                     <i class="fas fa-plus"></i> Add New Product</button>
 
@@ -66,21 +68,6 @@
         </div>
 
         <div class="col-md-9">
-            <div class="row mb-12">
-                <div class="col-md-9">
-                    <input type="text" id="searchId" name="searchId"class="form-control" placeholder="Search by Product ID">
-                </div>
-                <div class="col-md-3">
-                    <button class="btn btn-black btn-block" onclick="resetFilters()">
-                        <i class="fas fa-redo"></i> Reset</button>
-                </div>
-                <div class="col-md-12">
-                    <button id="searchBtn" class="btn btn-teal btn-block mt-2" onclick="searchProducts()">
-                        <i class="fas fa-search"></i> Search</button>
-                </div>
-
-            </div>
-
             <div class="row" id="products">
                 <!-- I will show all customers here -->
             </div>

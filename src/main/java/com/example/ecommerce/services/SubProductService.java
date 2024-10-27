@@ -175,4 +175,8 @@ public class SubProductService {
         return dto;
     }
 
+    public List<SubProductDTO> findSubProductBySubCategoryIdForAdmin(Integer id) {
+        List<SubProduct> subProducts = subProductRepository.findBySubCategoryId(id);
+        return subProducts.stream().map(SubProductMapper::convertEntityToDTO).collect(Collectors.toList());
+    }
 }
