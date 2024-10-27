@@ -43,6 +43,9 @@ public class SubProductService {
     public SubProduct findSubProductById(int id) {
         Optional<SubProduct> subProduct = subProductRepository.findById(id);
         if (subProduct.isPresent()) {
+            System.out.println(subProduct.get().getPrice());
+            System.out.println(subProduct.get().getColor());
+            System.out.println(subProduct.get().getStock());
             if (subProduct.get().getIsDeleted()) {
                 return null;
             } else {
