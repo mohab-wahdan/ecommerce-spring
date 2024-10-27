@@ -1,6 +1,7 @@
 package com.example.ecommerce.controllers;
 
 import com.example.ecommerce.dtos.OrderItemDTO;
+import com.example.ecommerce.dtos.OrderItemViewDTO;
 import com.example.ecommerce.models.OrderItem;
 import com.example.ecommerce.services.OrderItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,9 @@ public class OrderItemsController {
     public OrderItemsController(OrderItemService orderItemService) {
         this.orderItemService = orderItemService;
     }
-    @GetMapping("/order-items/{id}")
-    public ResponseEntity<List<OrderItemDTO>> getAllOrderItemsOfSpecificOrderId(@PathVariable Integer id){
-        List<OrderItemDTO> orderItems = orderItemService.getAllOrderItemsByOrderId(id);
+    @GetMapping("/orderId/{id}")
+    public ResponseEntity<List<OrderItemViewDTO>> getAllOrderItemsOfSpecificOrderId(@PathVariable Integer id){
+        List<OrderItemViewDTO> orderItems = orderItemService.getAllOrderItemsByOrderId(id);
         return ResponseEntity.ok(orderItems);
     }
 

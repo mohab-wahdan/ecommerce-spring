@@ -3,8 +3,11 @@ package com.example.ecommerce.controllers;
 
 
 import com.example.ecommerce.dtos.CartItemsDTO;
+import com.example.ecommerce.dtos.SubProductDTO;
+import com.example.ecommerce.dtos.SubProductForAdminDTO;
 import com.example.ecommerce.models.EntitiesEmbeddedId.CustomerProductId;
 import com.example.ecommerce.services.CartItemsService;
+import com.example.ecommerce.services.SubProductService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cartItems")
@@ -19,10 +23,12 @@ public class CartItemsController {
 
 
     private CartItemsService cartItemsService;
+    private SubProductService subProductService;
 
     @Autowired
-    public CartItemsController (CartItemsService cartItemsService) {
+    public CartItemsController (CartItemsService cartItemsService, SubProductService subProductService) {
         this.cartItemsService = cartItemsService;
+        this.subProductService= subProductService;
     }
 
     @GetMapping
@@ -35,6 +41,36 @@ public class CartItemsController {
     public ResponseEntity<CartItemsDTO> deleteAllCartItems() {
         cartItemsService.deleteAllCartItems();
         return ResponseEntity.status(204).build();
+    }
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<List<CartItemsDTO>> getCartByCustomerId(@PathVariable Integer customerId) {
+        try {
+            List<CartItemsDTO> cartItems = cartItemsService.getCartByCustomerId(customerId);
+            return new ResponseEntity<>(cartItems, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/subProduct/{subProductId}")
+    public ResponseEntity<Optional<SubProductDTO>> getProducts(@PathVariable Integer subProductId) {
+        try {
+            Optional<SubProductDTO> subProduct =  subProductService.findSubProductDTOById(subProductId);
+            return new ResponseEntity<>(subProduct, HttpStatus.OK);
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+    @GetMapping("/subProductDTO/{id}")
+    public ResponseEntity<SubProductDTO> getSubProductDTOById(@PathVariable Integer id) {
+        if (id == null) {
+            return ResponseEntity.badRequest().build(); // Or handle the missing ID case as needed
+        }
+
+        return subProductService.findSubProductDTOById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     // Get a cart item by its composite key

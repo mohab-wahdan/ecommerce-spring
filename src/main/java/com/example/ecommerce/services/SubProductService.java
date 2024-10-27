@@ -149,5 +149,22 @@ public class SubProductService {
         subProduct.setImageURL(imageUrl);
         subProductRepository.save(subProduct);
     }
+    public Optional<SubProductDTO> findSubProductDTOById(int id) {
+        Optional<SubProduct> subProduct = subProductRepository.findById(id);
+        return subProduct.map(this::convertToDTO);
+    }
+
+    private SubProductDTO convertToDTO(SubProduct subProduct) {
+        SubProductDTO dto = new SubProductDTO();
+        dto.setId(subProduct.getId());
+        dto.setPrice(subProduct.getPrice());
+        dto.setImageURL(subProduct.getImageURL());
+        dto.setColor(String.valueOf(subProduct.getColor()));
+        dto.setSize(String.valueOf(subProduct.getSize()));
+        dto.setDescription(subProduct.getProduct().getDescription());
+        dto.setStock(subProduct.getStock());
+        dto.setSubCategoryName(subProduct.getProduct().getSubCategory().getName());
+        return dto;
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.example.ecommerce.controllers;
 
+import com.example.ecommerce.dtos.CustomerViewDTO;
 import com.example.ecommerce.services.CustomerService;
 
 import com.example.ecommerce.dtos.CustomerDTO;
@@ -24,19 +25,24 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
         CustomerDTO createdCustomer = customerService.createCustomer(customerDTO);
+        System.out.println("Received customer data: " + customerDTO);
         return ResponseEntity.ok(createdCustomer);
     }
 
     @GetMapping
-    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
-        List<CustomerDTO> customers = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerViewDTO>> getAllCustomers() {
+        List<CustomerViewDTO> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
     @GetMapping("/{id}")
-
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Integer id) {
         CustomerDTO customer = customerService.getCustomerById(id);
+        return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
+    }
+    @GetMapping("/customerId/{id}")
+    public ResponseEntity<CustomerViewDTO> getCustomerByIdForAdmin(@PathVariable Integer id) {
+        CustomerViewDTO customer = customerService.getCustomerByIdForAdmin(id);
         return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
     }
 

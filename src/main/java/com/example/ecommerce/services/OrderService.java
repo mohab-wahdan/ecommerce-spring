@@ -5,7 +5,6 @@ import com.example.ecommerce.dtos.OrderViewDTO;
 import com.example.ecommerce.dtos.SubProductDTO;
 import com.example.ecommerce.enums.Status;
 import com.example.ecommerce.exceptions.OrderProcessError;
-import com.example.ecommerce.mappers.OrderItemMapper;
 import com.example.ecommerce.mappers.OrderMapperStruct;
 import com.example.ecommerce.models.*;
 import com.example.ecommerce.repositories.CartItemsRepository;
@@ -22,20 +21,18 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
     private final OrderMapperStruct orderMapperStruct;
-    private final OrderItemMapper orderItemMapper;
     private final OrderRepository orderRepository ;
     private final SubProductRepository subProductRepository;
     private final CustomerRepository customerRepository;
     private final CartItemsRepository cartRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository, SubProductRepository subProductRepository, CustomerRepository customerRepository, OrderMapperStruct orderMapperStruct, OrderItemMapper orderItemMapper
-    , CartItemsRepository cartRepository) {
+    public OrderService(OrderRepository orderRepository, SubProductRepository subProductRepository, CustomerRepository customerRepository, OrderMapperStruct orderMapperStruct
+            , CartItemsRepository cartRepository) {
         this.orderRepository = orderRepository;
         this.subProductRepository = subProductRepository;
         this.customerRepository = customerRepository;
         this.orderMapperStruct = orderMapperStruct;
-        this.orderItemMapper = orderItemMapper;
         this.cartRepository = cartRepository;
     }
     private BigDecimal decreaseCustomerCreditLimit(Customer customer, CartItemsService cartService){
