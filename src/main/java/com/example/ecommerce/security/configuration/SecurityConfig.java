@@ -5,6 +5,7 @@ import com.example.ecommerce.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,12 +34,13 @@ public class SecurityConfig {
             http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/subProducts").hasAuthority("ROLE_admin")
+//                                .requestMatchers(HttpMethod.GET,"/admin/**","/customers").hasAuthority("ROLE_admin")
+//                                .requestMatchers(HttpMethod.DELETE,"/admin/**","/subProducts/**","/customers/**").hasAuthority("ROLE_admin")
+//                                .requestMatchers(HttpMethod.POST,"/subProducts/","/subcategory/","/products").hasAuthority("ROLE_admin")
+//                                .requestMatchers(HttpMethod.PUT,"/admin/**","/subProducts/","/subcategory/","/").hasAuthority("ROLE_admin")
+//                                .requestMatchers("/orders/**").authenticated()
                                 .anyRequest().permitAll()
-//                        .requestMatchers("/auth/welcome", "/auth/addNewUser", "/auth/generateToken").permitAll()
-//                        .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
-//                        .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
-//                        .anyRequest().authenticated() // Protect all other endpoints
+
                 )
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No sessions

@@ -1,4 +1,5 @@
 package com.example.ecommerce.controllers;
+import com.example.ecommerce.models.Admin;
 import com.example.ecommerce.services.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,11 @@ public class AdminController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); // Login failed
         }
+    }
+    @PostMapping
+    public ResponseEntity register(@RequestBody Admin admin) {
+        adminService.registerAdmin(admin);
+        return ResponseEntity.status(HttpStatus.CREATED).body(admin);
     }
     @GetMapping("/addCategory")
     public String showAddCategoryPage() {
