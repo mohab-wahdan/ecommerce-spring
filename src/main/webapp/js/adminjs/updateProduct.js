@@ -34,7 +34,6 @@ function updateSubProduct() {
         processData: false,  // Prevent jQuery from processing the data
         cache: false,
         success: function () {
-            alert('Product updated successfully!');
             window.location.href = '/admin/view-products.jsp';
         },
         error: function (xhr, status, error) {

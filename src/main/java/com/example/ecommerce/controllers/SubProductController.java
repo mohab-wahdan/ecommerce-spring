@@ -9,7 +9,10 @@ import com.example.ecommerce.enums.Size;
 import com.example.ecommerce.services.SubProductService;
 
 import com.example.ecommerce.models.SubProduct;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -104,28 +107,38 @@ public class SubProductController {
 
 
     @PostMapping
-    public ResponseEntity<SubProductDTO> createSubProductDTO(
+    public ResponseEntity<String> createSubProductDTO(
             @RequestParam("color") String colorParam,
             @RequestParam("mainProduct") String mainProductId,
             @RequestParam("size") String size,
             @RequestParam("quantity") int stock,
             @RequestParam("price") BigDecimal price,
-            @RequestPart(value = "image", required = false) MultipartFile imagePart) throws IOException {
-        SubProductDTO subProductDTO = subProductService.createSubProductDTO(colorParam, mainProductId, size, stock, price, imagePart);
-        System.out.println(subProductDTO);
-        return ResponseEntity.ok(subProductDTO);
+            @RequestPart(value = "image", required = false) MultipartFile imagePart,
+            HttpSession session) throws IOException {
+        try {
+            SubProductDTO subProductDTO = subProductService.createSubProductDTO(colorParam, mainProductId, size, stock, price, imagePart);
+            session.setAttribute("successMessage", "SubProduct added successfully!");
+            return ResponseEntity.ok("Product added successfully!"); // Send a success message
+        }catch (Exception e){
+            session.setAttribute("errorMessage", "Failed to add subproduct. Please try again.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add product. Please try again."); // Send an error message
+        }
+
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Void> updateSubProductDTO(@PathVariable int id,
                                                     @RequestParam("quantity") int stock,
                                                     @RequestParam("price") BigDecimal price,
-                                                    @RequestPart(value = "newImage", required = false) MultipartFile  imagePart) {
+                                                    @RequestPart(value = "newImage", required = false) MultipartFile  imagePart,
+                                                    HttpSession session,
+                                                    HttpServletResponse response) {
         try {
             subProductService.updateSubProduct(id, stock, price, imagePart); // Make sure this handles the image file
+            session.setAttribute("successMessage", "subproduct updated successfully!");
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            session.setAttribute("errorMessage", "Failed to add subproduct. Please try again.");
             return ResponseEntity.internalServerError().build();
         }
     }

@@ -104,7 +104,7 @@ public class SubProductService {
 
     public SubProductDTO createSubProductDTO(String colorParam, String mainProductId, String size, int stock, BigDecimal price, MultipartFile imagePart) throws IOException {
         SubProductDTO subProduct = new SubProductDTO();
-//        subProduct.setProductName(mainProductId);
+        subProduct.setProductName(mainProductId);
         subProduct.setStock(stock);
         subProduct.setPrice(price);
         subProduct.setColor(colorParam);
@@ -113,16 +113,16 @@ public class SubProductService {
         if (!imagePart.isEmpty()) {
             String fileName = Paths.get(imagePart.getOriginalFilename()).getFileName().toString();
             String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-            String uploadDir = "uploads/"; // Define the directory to store uploaded images
+            String uploadDir = "src/main/webapp/uploads/";
             File uploads = new File(uploadDir);
             if (!uploads.exists()) {
                 uploads.mkdirs(); // Create the directory if it doesn't exist
             }
             File file = new File(uploads, uniqueFileName);
             Files.copy(imagePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            subProduct.setImageURL(uploadDir + uniqueFileName);
+            subProduct.setImageURL("uploads/"+ uniqueFileName);
         }
-//        addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
+        addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
         return subProduct;
     }
 
