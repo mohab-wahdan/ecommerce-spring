@@ -41,8 +41,8 @@ public class CustomerController {
         return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
     }
     @GetMapping("/customerUsername/{username}")
-    public ResponseEntity<CustomerDTO> getCustomerByUsername(@PathVariable String username) {
-        CustomerDTO customer = customerService.getCustomerByUsername(username);
+    public ResponseEntity<CustomerViewDTO> getCustomerByUsername(@PathVariable String username) {
+        CustomerViewDTO customer = customerService.getCustomerByUsername(username);
         return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
     }
     @GetMapping("/customerId/{id}")

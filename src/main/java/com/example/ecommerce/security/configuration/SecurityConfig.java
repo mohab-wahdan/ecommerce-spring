@@ -35,10 +35,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
 //                                .requestMatchers(HttpMethod.GET,"/admin/**","/customers").hasAuthority("ROLE_admin")
-//                                .requestMatchers(HttpMethod.DELETE,"/admin/**","/subProducts/**","/customers/**").hasAuthority("ROLE_admin")
-//                                .requestMatchers(HttpMethod.POST,"/subProducts/","/subcategory/","/products").hasAuthority("ROLE_admin")
-//                                .requestMatchers(HttpMethod.PUT,"/admin/**","/subProducts/","/subcategory/","/").hasAuthority("ROLE_admin")
-//                                .requestMatchers("/orders/**").authenticated()
+                                .requestMatchers(HttpMethod.DELETE,"/admin/**","/subProducts/**","/customers/**").hasAuthority("ROLE_admin")
+                                .requestMatchers(HttpMethod.POST,"/subProducts/","/subcategory/","/products").hasAuthority("ROLE_admin")
+                                .requestMatchers(HttpMethod.PUT,"/admin/**","/subProducts/","/subcategory/").hasAuthority("ROLE_admin")
+                                .requestMatchers("/orders/**").authenticated()
                                 .anyRequest().permitAll()
 
                 )

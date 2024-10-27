@@ -1,5 +1,13 @@
 
 $(document).ready(function() {
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            var token = sessionStorage.getItem('jwt-token');
+            if (token) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            }
+        }
+    });
     const urlParams = new URLSearchParams(window.location.search);
     const data = urlParams.get('data');
     if (data) {

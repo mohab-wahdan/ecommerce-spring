@@ -49,10 +49,20 @@
                     password: password
                 }),
                 success: function(response) {
- 
-                    localStorage.setItem("username", "yasmeenaa");
-                    alert("Welcome "+ localStorage.getItem("username")+" !");
-                    window.location.href = 'index.jsp'; 
+                    const token = response['jwt-token']
+                    const username = response['username']
+                    const role = response['role']
+                    sessionStorage.setItem("jwt-token",token);
+                    sessionStorage.setItem("username",username);
+                    sessionStorage.setItem("role",role);
+                    if(role==="admin"){
+                        window.location.href = '/admin/adminDashboard.jsp';
+                    }
+                    else{
+                        localStorage.setItem("username", "yasmeenaa");
+                        alert("Welcome "+ localStorage.getItem("username")+" !");
+                        window.location.href = 'index.jsp';
+                    }
                 },
                 error: function(xhr) {
                     // Handle error response

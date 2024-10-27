@@ -1,7 +1,14 @@
 $(document).ready(function() {
-    // Fetch customer data when the page loads
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            var token = sessionStorage.getItem('jwt-token');
+            if (token) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            }
+        }
+    });
     $.ajax({
-        url: "http://localhost:8083/customers", // Your API endpoint
+        url: "/customers", // Your API endpoint
         method: "GET",
         success: function(customers) {
             displayCustomers(customers);
@@ -39,7 +46,7 @@ function displayCustomers(customers) {
 }
 function loadAllCustomers() {
     $.ajax({
-        url: "http://localhost:8083/customers", // Your API endpoint
+        url: "customers", // Your API endpoint
         method: "GET",
         success: function(customers) {
             displayCustomers(customers);
@@ -70,7 +77,7 @@ function searchCustomers() {
 
     if (username) { // Ensure username is not empty
         $.ajax({
-            url: `http://localhost:8083/customers/customerUsername/${username}`, // Make sure this matches your API endpoint
+            url: `/customers/customerUsername/${username}`, // Make sure this matches your API endpoint
             method: "GET",
             success: function(customer) {
                 if (customer) {

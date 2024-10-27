@@ -75,9 +75,8 @@ public class CustomerService {
         return CustomerViewDTO.fromCustomer(customer.get());
     }
 
-    public CustomerDTO getCustomerByUsername(String username) {
-        return customerRepository.findByAccount_UserName(username)
-                .map(customerMapper::toDTO)
-                .orElse(null); // Handle not found case as needed
+    public CustomerViewDTO getCustomerByUsername(String username) {
+        Optional<Customer> customer = customerRepository.findByAccount_UserName(username);
+        return CustomerViewDTO.fromCustomer(customer.get());
     }
 }

@@ -1,5 +1,13 @@
 $(document).ready(function() {
-    // Fetch subproducts on page load
+
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            var token = sessionStorage.getItem('jwt-token');
+            if (token) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            }
+        }
+    });
     fetchSubProducts();
     $.ajax({
         url: '/subcategory',

@@ -1,5 +1,12 @@
 $(document).ready(function () {
-    // Fetch subcategories on page load
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            var token = sessionStorage.getItem('jwt-token');
+            if (token) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            }
+        }
+    });
     $.ajax({
         url: '/subcategory',
         method: 'GET',

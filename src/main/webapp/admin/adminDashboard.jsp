@@ -33,7 +33,7 @@
             <a href="/admin/customerProfiles.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-users"></i> Customer Profiles
             </a>
-            <a href="/admin/adminLogin.jsp" class="list-group-item list-group-item-action bg-black text-white">
+            <a href="../index.jsp" class="list-group-item list-group-item-action bg-black text-white" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </div>
@@ -122,7 +122,6 @@
 </div>
 
 <script>
-    // Toggle Menu Script
     document.getElementById("menu-toggle").addEventListener("click", function(e) {
         e.preventDefault();
         document.getElementById("wrapper").classList.toggle("toggled");
@@ -132,6 +131,9 @@
         url.searchParams.delete("successMessage");
         url.searchParams.delete("errorMessage");
         window.history.replaceState(null, "", url);
+    }
+    function logout(){
+        sessionStorage.clear();
     }
 </script>
 
