@@ -24,12 +24,12 @@
             </div>
             <div class="sign-up form-group text-center">
                 <p>Not a member? <a href="registration.jsp">
-                    signup now <i class="fas fa-user-plus"></i></a></p>
+                    register now <i class="fas fa-user-plus"></i></a></p>
             </div>
         </form>
     </div>
 </div>
-<%@ include file="footer.jsp" %>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
@@ -49,16 +49,10 @@
                     password: password
                 }),
                 success: function(response) {
-                    // Handle success response
-
-                        // Save the JWT token and user info in sessionStorage or localStorage
-                        sessionStorage.setItem('jwt-token', response.jwt-token);
-                        sessionStorage.setItem('username', response.username);
-                        sessionStorage.setItem('role', response.role);
-
-                        // Redirect to the desired page
-                        // window.location.href = '/index.jsp'; // Redirect after successful login
-
+ 
+                    localStorage.setItem("username", "yasmeenaa");
+                    alert("Welcome "+ localStorage.getItem("username")+" !");
+                    window.location.href = 'index.jsp'; 
                 },
                 error: function(xhr) {
                     // Handle error response
@@ -96,4 +90,4 @@
 	}
 </script>
 
-
+<%@ include file="footer.jsp" %>

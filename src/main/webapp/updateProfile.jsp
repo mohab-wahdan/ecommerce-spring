@@ -20,54 +20,59 @@
             <div class="card-body">
                 <div class="form-group">
                     <label for="userName">Username:</label>
-                    <input type="text" class="form-control" id="userName" name="userName" onblur="checkUserName();" value="${sessionScope.user.userName}">
+                    <input type="text" class="form-control" id="userName" name="userName" onblur="checkUserName();" value="">
                     <span class="error-message" id="usernameerror"></span>
+                </div>
+               <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" value="">
+                    <span class="error-message"></span>
                 </div>
                 <div class="card-text">
                     <label for="firstName">First Name:</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" value="${sessionScope.user.firstName}">
+                    <input type="text" class="form-control" id="firstName" name="firstName" value="">
                 </div>
                 <div class="card-text">
                     <label for="lastName">Last Name:</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" value="${sessionScope.user.lastName}">
+                    <input type="text" class="form-control" id="lastName" name="lastName" value="">
                 </div>
 
                 <div class="card-text">
                     <label for="creditLimit">Credit Limit:</label>
-                    <input type="number" class="form-control" id="creditLimit" name="creditLimit" step="0.01" value="${sessionScope.user.creditLimit}" onblur="checkCreditLimit();">
+                    <input type="number" class="form-control" id="creditLimit" name="creditLimit" step="0.01" value="" onblur="checkCreditLimit();">
                     <span class="error-message" id="crediterror"></span>
                 </div>
 
                 <div class="card-text">
                     <label for="email">Email:</label>
-                    <input type="text" class="form-control" id="email" name="email"  onblur="checkEmail();" value="${sessionScope.user.email}">
+                    <input type="text" class="form-control" id="email" name="email"  onblur="checkEmail();" value="">
                     <span class="error-message" id="emailerror"></span>
                 </div>
                 <div class="card-text">
                     <label for="phoneNumber">Phone Number:</label>
-                    <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" onblur="checkPhoneNumber();" value="${sessionScope.user.phoneNumber}">
+                    <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" onblur="checkPhoneNumber();" value="">
                     <span class="error-message" id="phoneerror"></span>
                 </div>
                 <div class="card-text">
                     <label for="job">Job:</label>
-                    <input type="text" class="form-control" id="job" name="job" value="${sessionScope.user.job}">
+                    <input type="text" class="form-control" id="job" name="job" value="">
                 </div>
                 <div class="input-field">
                     <label for="city">City:</label>
-                    <select id="city" name="city" class="form-control" value="${sessionScope.user.address.city}">
+                    <select id="city" name="city" class="form-control" value="">
                     </select>
                 </div>
                 <div class="card-text">
                     <label for="street">Street:</label>
-                    <input type="text" class="form-control" id="street" name="street" value="${sessionScope.user.address.street}">
+                    <input type="text" class="form-control" id="street" name="street" value="">
                 </div>
                 <div class="card-text">
                     <label for="zip">Zip:</label>
-                    <input type="text" class="form-control" id="zip" name="zip" value="${sessionScope.user.address.zip}">
+                    <input type="text" class="form-control" id="zip" name="zip" value="">
                 </div>
                 <div class="card-text">
                     <label for="description">Description:</label>
-                    <input type="text" class="form-control" id="description" name="description" value="${sessionScope.user.address.description}">
+                    <input type="text" class="form-control" id="description" name="description" value="">
                 </div>
             </div>
         </div>
@@ -77,41 +82,52 @@
         </button>
     </form>
 
-    <p data-userid="${sessionScope.user.id}" id="userIdSession" hidden="hidden"></p>
+ <!--   <p data-userid="${sessionScope.user.id}" id="userIdSession" hidden="hidden"></p> -->
 </div>
 
 <script>
+    $(document).ready(function () {
+        populateValues();
+
+    });
+
     function submitForm() {
         // Get the user ID from the hidden element
-        const userId = document.getElementById('userIdSession').getAttribute('data-userid');
+        const userId = 4;
 
         // Collect form data
         const formData = {
-            userName: document.getElementById('userName').value,
             firstName: document.getElementById('firstName').value,
             lastName: document.getElementById('lastName').value,
             creditLimit: document.getElementById('creditLimit').value,
+            dateOfBirth: "1990-01-01",
             email: document.getElementById('email').value,
             phoneNumber: document.getElementById('phoneNumber').value,
             job: document.getElementById('job').value,
-            street: document.getElementById('street').value,
-            zip: document.getElementById('zip').value,
-            description: document.getElementById('description').value,
-            city: document.getElementById('city').value
+            address: {
+                street: document.getElementById('street').value,
+                city: document.getElementById('city').value,
+                zip: document.getElementById('zip').value,
+                description: document.getElementById('description').value
+            },
+            account: {
+                userName: document.getElementById('userName').value,
+                password: document.getElementById('password').value
+            }
         };
 
         // AJAX POST request to update customer details by user ID
         $.ajax({
-            url: '${pageContext.request.contextPath}/user/' + userId,
+            url: 'http://localhost:8083/customers/' + userId,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(formData),
             success: function(response) {
                 // Show success message
-                $('#alertPlaceholder').html('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                    '<i class="fas fa-check-circle"></i> Profile updated successfully!' +
-                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                    '<span aria-hidden="true">&times;</span></button></div>');
+                $('#alertPlaceholder').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">` +
+                    `<i class="fas fa-check-circle"></i> Profile updated successfully!` +
+                    `<button type="button" class="close" data-dismiss="alert" aria-label="Close">` +
+                    `<span aria-hidden="true">&times;</span></button></div>`);
             },
             error: function(xhr) {
                 // Show error message
@@ -128,6 +144,36 @@
 
 </div>
 <script>
+    function populateValues(){
+        const userId = 4; // Get userId from localStorage or another source
+        if (userId) {
+            $.ajax({
+                url: 'http://localhost:8083/customers/' + userId,
+                type: 'GET',
+                success: function (data) {
+                    // Populate form fields with response data
+                    $('#userName').val(data.account.userName);
+                    $('#password').val(data.account.password);
+                    $('#firstName').val(data.firstName);
+                    $('#lastName').val(data.lastName);
+                    $('#creditLimit').val(data.creditLimit);
+                    $('#email').val(data.email);
+                    $('#phoneNumber').val(data.phoneNumber);
+                    $('#job').val(data.job);
+
+                    // Address details
+                    $('#street').val(data.address.street);
+                    $('#city').val(data.address.city);
+                    $('#zip').val(data.address.zip);
+                    $('#description').val(data.address.description);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching user data:", error);
+                    // You could also display an error message to the user here
+                }
+            });
+        }
+    }
     function toggleDropdown() {
         document.querySelector('.dropdown-checkbox').classList.toggle('open');
     }

@@ -30,7 +30,7 @@
 
     <!-- Update Button -->
     <div class="mt-4">
-        <a href="updatecustomer" class="site-btn">
+        <a href="updateProfile.jsp" class="site-btn">
             <i class="fas fa-edit"></i> Update Profile</a>
     </div>
 </div>
@@ -38,14 +38,14 @@
 <script>
     $(document).ready(function() {
         // Replace with the actual ID from the session or context
-        var userId = '<%= session.getAttribute("userId") %>'; // Example of getting userId from session
+        var userId = 4; // Example of getting userId from session
 
         $.ajax({
-            url: '${pageContext.request.contextPath}/user/' + userId,
+            url: 'http://localhost:8083/customers/' + userId,
             type: 'GET',
             success: function(data) {
                 // Populate the fields with data from the response
-                $('#username').text(data.userName);
+                $('#username').text(data.account.userName);
                 $('#firstName').text(data.firstName);
                 $('#lastName').text(data.lastName);
                 $('#creditLimit').text(data.creditLimit);

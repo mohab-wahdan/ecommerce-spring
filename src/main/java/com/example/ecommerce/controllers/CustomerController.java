@@ -25,6 +25,7 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
         CustomerDTO createdCustomer = customerService.createCustomer(customerDTO);
+        System.out.println("Received customer data: " + customerDTO);
         return ResponseEntity.ok(createdCustomer);
     }
 
