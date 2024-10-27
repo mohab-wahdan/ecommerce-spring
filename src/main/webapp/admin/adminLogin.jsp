@@ -7,17 +7,18 @@
     <title>Login - Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="admin-dashboard/css/adminLogin.css"> <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/admincss/adminLogin.css"> <!-- Custom CSS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <div class="card p-4 shadow-lg" style="width: 400px;">
         <div class="text-center">
-            <img src="img/logo.png" alt="Chicly Logo" class="mb-4" style="width: 100px;">
+            <img src="../img/logo.png" alt="Chicly Logo" class="mb-4" style="width: 100px;">
         </div>
         <h3 class="text-center mb-4">Admin Login</h3>
-        <form action="adminlogincontroller" method="post">
+        <form id="loginform">
             <c:if test="${error != null}">
                 <div class="alert alert-danger text-center" style="width: fit-content; margin: 0 auto;color: red">
                         ${error}
@@ -39,9 +40,6 @@
         </form>
     </div>
 </div>
-
-<script >
-
-</script>
+<script src="../js/adminjs/adminLogin.js"></script>>
 </body>
 </html>

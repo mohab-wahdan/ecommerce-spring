@@ -7,31 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="admin-dashboard/css/adminDashboard.css">
+    <link rel="stylesheet" href="../css/admincss/adminDashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
 <div class="d-flex" id="wrapper">
     <div class="bg-black border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading text-white"><img src="img/admin-logo.png" width="130" height="130" alt=""></div>
+        <div class="sidebar-heading text-white"><img src="../img/admin-logo.png" width="130" height="130" alt=""></div>
         <div class="list-group list-group-flush">
-            <a href="addCategory" class="list-group-item list-group-item-action bg-black text-white">
+            <a href="/admin/addCategory.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-list"></i> Add Category
             </a>
-            <a href="addSubCategory" class="list-group-item list-group-item-action bg-black text-white">
+            <a href="/admin/addSubCategory.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-tags"></i> Add SubCategory
             </a>
-            <a href="addProduct" class="list-group-item list-group-item-action bg-black text-white">
+            <a href="/admin/addProduct.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-boxes"></i> Manage Products
             </a>
-            <a href="productView" class="list-group-item list-group-item-action bg-black text-white">
+            <a href="/admin/addSubProduct.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-cubes"></i> Manage SubProducts
             </a>
-            <a href="customerView" class="list-group-item list-group-item-action bg-black text-white">
+            <a href="/admin/customerProfiles.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-users"></i> Customer Profiles
             </a>
-            <a href="adminlogout" class="list-group-item list-group-item-action bg-black text-white">
+            <a href="/admin/adminLogin.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
         </div>
@@ -42,7 +44,7 @@
             <div class="container-fluid d-flex justify-content-between align-items-center">
                 <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
                 <div class="ml-auto">
-                    <img src="img/logo.png" width="100" height="50" alt="Project Logo">
+                    <img src="../img/logo.png" width="100" height="50" alt="Project Logo">
                     <p >Admin ${sessionScope.adminName}</p>
                 </div>
 
@@ -52,24 +54,32 @@
         <div class="container-fluid">
             <h1 class="mt-4">Welcome, Admin</h1>
             <p>Use the sidebar to manage the website.</p>
-            <c:choose>
-                <c:when test="${not empty param.successMessage}">
-                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 1.1em; font-weight: bold;">
-                        <i class="fas fa-check-circle"></i> ${param.successMessage}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="removeQueryParam()">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                </c:when>
-                <c:when test="${not empty param.errorMessage}">
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 1.1em; font-weight: bold;">
-                        <i class="fas fa-exclamation-triangle"></i> ${param.errorMessage}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="removeQueryParam()">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                </c:when>
-            </c:choose>
+            <div class="container mt-4">
+                <!-- Success/Error Message -->
+                <c:choose>
+                    <c:when test="${not empty sessionScope.successMessage}">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 1.1em; font-weight: bold;">
+                            <i class="fas fa-check-circle"></i> ${sessionScope.successMessage}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="removeQueryParam()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- Remove message after displaying -->
+                        <c:remove var="successMessage" scope="session"/>
+                    </c:when>
+                    <c:when test="${not empty sessionScope.errorMessage}">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 1.1em; font-weight: bold;">
+                            <i class="fas fa-exclamation-triangle"></i> ${sessionScope.errorMessage}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="removeQueryParam()">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- Remove message after displaying -->
+                        <c:remove var="errorMessage" scope="session"/>
+                    </c:when>
+                </c:choose>
+            </div>
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="card mb-4">
@@ -118,8 +128,10 @@
         document.getElementById("wrapper").classList.toggle("toggled");
     });
     function removeQueryParam() {
-        const url = window.location.protocol + "//" + window.location.host + window.location.pathname;
-        window.history.replaceState({}, document.title, url);
+        const url = new URL(window.location);
+        url.searchParams.delete("successMessage");
+        url.searchParams.delete("errorMessage");
+        window.history.replaceState(null, "", url);
     }
 </script>
 

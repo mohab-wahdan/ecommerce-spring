@@ -23,7 +23,7 @@ public class OrderController {
 
 
     @PatchMapping("/{orderId}/status/{status}")
-    public ResponseEntity<Void> updateOrderStatus(@PathVariable Integer orderId, @PathVariable String status) {
+    public ResponseEntity updateOrderStatus(@PathVariable Integer orderId, @PathVariable String status) {
         try {
             Status orderStatus = Status.valueOf(status.toUpperCase());
             orderService.updateOrderStatus(orderId, orderStatus);
@@ -34,9 +34,9 @@ public class OrderController {
         }
     }
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+    public ResponseEntity createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
         Order createdOrder = orderService.createOrder(orderRequestDTO);
-        return ResponseEntity.ok(createdOrder);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{orderId}")

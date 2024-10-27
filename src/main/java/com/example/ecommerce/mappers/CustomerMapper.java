@@ -1,8 +1,7 @@
 package com.example.ecommerce.mappers;
-
-
 import com.example.ecommerce.dtos.CartItemsDTO;
 import com.example.ecommerce.dtos.CustomerDTO;
+import com.example.ecommerce.dtos.CustomerViewDTO;
 import com.example.ecommerce.dtos.OrderDTO;
 import com.example.ecommerce.models.CartItems;
 import com.example.ecommerce.models.Customer;
@@ -11,7 +10,7 @@ import com.example.ecommerce.models.SubProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,8 +27,9 @@ public class CustomerMapper {
 
     public CustomerDTO toDTO(Customer customer) {
         if (customer == null) {
-            return null;
+            throw new IllegalArgumentException("Customer cannot be null");
         }
+
         CustomerDTO dto = new CustomerDTO();
         dto.setId(customer.getId());
         dto.setFirstName(customer.getFirstName());
@@ -102,5 +102,22 @@ public class CustomerMapper {
         customer.setOrders(orders); // Set orders in Customer
 
         return customer;
+    }
+    public List<CustomerViewDTO> fromEntityToCustomerViewDTO(Optional<List<Customer>> customersOptional) {
+        if (customersOptional.isEmpty()) {
+            return null;
+        }
+        List<CustomerViewDTO> customerViewDTOList = new ArrayList<>();
+
+        if (customersOptional.isPresent()) {
+            List<Customer> customersList = customersOptional.get();
+
+            for (Customer customer : customersList) {
+                CustomerViewDTO dto = CustomerViewDTO.fromCustomer(customer);
+                customerViewDTOList.add(dto);
+            }
+        }
+
+        return customerViewDTOList;
     }
 }

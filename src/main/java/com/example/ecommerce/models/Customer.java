@@ -25,19 +25,23 @@ public class Customer{
 
     @NotEmpty
     @NonNull
+    @Column(name = "first_name")
     private String firstName;
 
     @NotEmpty
     @NonNull
+    @Column(name = "last_name")
     private String lastName;
 
     @NotNull
     @NonNull
+    @Column(name = "credit_limit")
     private BigDecimal creditLimit;
 
     @NotNull
     @NonNull
     @Temporal(TemporalType.DATE)
+    @Column(name="date_of_birth")
     private Date dateOfBirth;
 
     @Email(message = "Invalid email address")
@@ -48,7 +52,7 @@ public class Customer{
 
     @NotEmpty
     @NonNull
-    @Column(unique = true)
+    @Column(name="phone_number",unique = true)
     private String phoneNumber;
 
     @NotEmpty

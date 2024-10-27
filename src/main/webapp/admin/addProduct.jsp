@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <title>Add New Product - Chicly Admin</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="admin-dashboard/css/addSubCategory.css">
+    <link rel="stylesheet" href="../css/admincss/addSubCategory.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
@@ -14,22 +15,18 @@
 <div class="container mt-5">
     <!-- Back Button -->
     <div class="mb-4">
-        <a href="AdminDashBoardController" class="btn btn-black">
+        <a href="/admin/adminDashboard.jsp" class="btn btn-black">
             <i class="fas fa-arrow-left"></i> Back to Dashboard</a>
     </div>
     <div class="header-container">
         <h2 class="header-font">Add New Product</h2>
     </div>
 
-    <form action="addProduct" method="post" enctype="multipart/form-data">
-
+    <form action="/products" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="subCategory">Sub Category</label>
-            <select class="form-control" id="subCategory" name="subCategory" required>
-                <option value="">Select Main Product</option>
-                <c:forEach var="subCategory" items="${subCategories}">
-                    <option value="${subCategory.id}">${subCategory.name}</option>
-                </c:forEach>
+            <label for="subcategory">SubCategory</label>
+            <select class="form-control" id="subcategory" name="subcategory" required>
+                <option value="">Select SubCategory</option>
             </select>
         </div>
 
@@ -59,6 +56,7 @@
         </button>
     </form>
 </div>
+<script src="../js/adminjs/addProduct.js"></script>
 
 </body>
 </html>

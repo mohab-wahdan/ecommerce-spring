@@ -36,11 +36,12 @@ public class Product implements Serializable {
     private Gender gender;
 
     @NonNull
+    @Column(name="is_deleted")
     private String isDeleted;
 
 
     @ManyToOne
-    @JoinColumn(name = "subCategory_id")
+    @JoinColumn(name = "sub_category_id")
     private SubCategory subCategory;
 
 

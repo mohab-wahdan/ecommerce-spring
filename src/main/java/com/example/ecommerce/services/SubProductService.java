@@ -40,16 +40,16 @@ public class SubProductService {
         return subProducts.stream().map(SubProductMapper::convertEntityToDTO).collect(Collectors.toList());
     }
 
-    public Optional<SubProduct> findSubProductById(int id) {
+    public SubProduct findSubProductById(int id) {
         Optional<SubProduct> subProduct = subProductRepository.findById(id);
         if (subProduct.isPresent()) {
             if (subProduct.get().getIsDeleted()) {
-                return Optional.empty();
+                return null;
             } else {
-                return subProduct;
+                return subProduct.get();
             }
         }
-        return Optional.empty();
+        return null;
     }
 
     public void saveSubProduct(SubProduct subProduct) {

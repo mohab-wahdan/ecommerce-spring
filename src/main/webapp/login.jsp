@@ -35,7 +35,6 @@
     $(document).ready(function() {
         $('#loginform').on('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
-
             // Get form data
             var username = $('#username').val();
             var password = $('#password').val();
@@ -50,9 +49,10 @@
                     password: password
                 }),
                 success: function(response) {
+ 
                     localStorage.setItem("username", "yasmeenaa");
                     alert("Welcome "+ localStorage.getItem("username")+" !");
-                    window.location.href = 'index.jsp';
+                    window.location.href = 'index.jsp'; 
                 },
                 error: function(xhr) {
                     // Handle error response

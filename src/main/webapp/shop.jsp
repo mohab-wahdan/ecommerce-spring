@@ -164,8 +164,6 @@
             <div class="col-lg-9 col-md-9">
                 <div class="product-list-wrapper">
                     <div class="row" id="product-list">
-                        <!-- Products will be updated here -->
-                             <div id="product-list" class="row"></div>
                     </div>
                 </div>
             </div>

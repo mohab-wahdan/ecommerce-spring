@@ -1,7 +1,8 @@
 package com.example.ecommerce.services;
 
  import com.example.ecommerce.dtos.OrderItemDTO;
- import com.example.ecommerce.mappers.OrderItemMapper;
+ import com.example.ecommerce.dtos.OrderItemViewDTO;
+ import com.example.ecommerce.mappers.OrderItemCustomedMapper;
  import com.example.ecommerce.repositories.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,17 +14,15 @@ import org.springframework.stereotype.Service;
 public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
-    private final OrderItemMapper orderItemMapper;
 
 
     @Autowired
-    public OrderItemService(OrderItemRepository orderItemRepository,OrderItemMapper orderItemMapper) {
+    public OrderItemService(OrderItemRepository orderItemRepository) {
         this.orderItemRepository = orderItemRepository;
-        this.orderItemMapper = orderItemMapper;
     }
 
-    public List<OrderItemDTO> getAllOrderItemsByOrderId(Integer orderId) {
-        return orderItemRepository.findOrderItemsByOrderId(orderId).stream().map(orderItemMapper::toDTO).collect(Collectors.toList());
+    public List<OrderItemViewDTO> getAllOrderItemsByOrderId(Integer orderId) {
+        return OrderItemCustomedMapper.convertEntityListToDTOList(orderItemRepository.findOrderItemsByOrderId(orderId));
     }
 
 }

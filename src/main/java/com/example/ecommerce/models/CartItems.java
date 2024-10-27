@@ -9,7 +9,7 @@ import lombok.*;
 
 
 @Entity
-@Table(name = "cartItems")
+@Table(name = "cart_items")
 @Setter
 @Getter
 @NoArgsConstructor

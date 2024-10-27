@@ -15,9 +15,11 @@ import lombok.*;
 public class Account {
     @NonNull
     @NotEmpty
-    @Column(unique = true)
+    @Column(name = "user_name",unique = true)
     private String userName;
     @NonNull
     @NotEmpty
     private String password;
+
+    private String roles;
 }
