@@ -70,4 +70,10 @@ public class CustomerService {
 
         return CustomerViewDTO.fromCustomer(customer.get());
     }
+
+    public CustomerDTO getCustomerByUsername(String username) {
+        return customerRepository.findByAccount_UserName(username)
+                .map(customerMapper::toDTO)
+                .orElse(null); // Handle not found case as needed
+    }
 }

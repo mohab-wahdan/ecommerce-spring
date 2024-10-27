@@ -40,6 +40,11 @@ public class CustomerController {
         CustomerDTO customer = customerService.getCustomerById(id);
         return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
     }
+    @GetMapping("/customerUsername/{username}")
+    public ResponseEntity<CustomerDTO> getCustomerByUsername(@PathVariable String username) {
+        CustomerDTO customer = customerService.getCustomerByUsername(username);
+        return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
+    }
     @GetMapping("/customerId/{id}")
     public ResponseEntity<CustomerViewDTO> getCustomerByIdForAdmin(@PathVariable Integer id) {
         CustomerViewDTO customer = customerService.getCustomerByIdForAdmin(id);
