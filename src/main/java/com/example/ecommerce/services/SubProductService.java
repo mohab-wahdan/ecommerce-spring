@@ -126,30 +126,37 @@ public class SubProductService {
         return subProduct;
     }
 
-    public void updateSubProduct(int subProductId,int quantity,BigDecimal price ,MultipartFile imagePart)   {
-        String imageUrl ="";
-        if (!imagePart.isEmpty()) {
-            String fileName = Paths.get(imagePart.getOriginalFilename()).getFileName().toString();
-            String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-            String uploadDir = "uploads/";
-            File uploads = new File(uploadDir);
-            if (!uploads.exists()) {
-                uploads.mkdirs(); // Create the directory if it doesn't exist
-            }
-            File file = new File(uploads, uniqueFileName);
-            try (InputStream input = imagePart.getInputStream()) {
-                Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    public void updateSubProduct(int subProductId, int quantity, BigDecimal price, MultipartFile imagePart) {
+        String imageUrl = "";
+
+        if (imagePart != null && !imagePart.isEmpty()) {
+            try {
+                String fileName = Paths.get(imagePart.getOriginalFilename()).getFileName().toString();
+                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+                String uploadDir = "src/main/webapp/uploads/";
+                File uploads = new File(uploadDir);
+                if (!uploads.exists()) {
+                    uploads.mkdirs();
+                }
+                File file = new File(uploads, uniqueFileName);
+                try (InputStream input = imagePart.getInputStream()) {
+                    Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
+                imageUrl = "uploads/" + uniqueFileName;  // Save as relative path for URL access
             } catch (IOException e) {
-                throw new RuntimeException("error in image input stream");
+                throw new RuntimeException("Error in saving image file", e);
             }
-            imageUrl=uploadDir+uniqueFileName;
+        }else{
+            imageUrl = subProductRepository.findByImageURL(subProductId);
         }
-        SubProduct subProduct=subProductRepository.findById(subProductId).get();
+
+        SubProduct subProduct = subProductRepository.findById(subProductId).orElseThrow(() -> new RuntimeException("SubProduct not found"));
         subProduct.setPrice(price);
         subProduct.setStock(quantity);
-        subProduct.setImageURL(imageUrl);
+        subProduct.setImageURL(imageUrl);  // Ensure URL is set in the entity
         subProductRepository.save(subProduct);
     }
+
     public Optional<SubProductDTO> findSubProductDTOById(int id) {
         Optional<SubProduct> subProduct = subProductRepository.findById(id);
         return subProduct.map(this::convertToDTO);

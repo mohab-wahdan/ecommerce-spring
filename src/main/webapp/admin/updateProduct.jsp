@@ -21,7 +21,7 @@
             <h2 class="header-font">Update Product</h2>
         </div>
 
-        <form action="updateSubProduct" method="post" enctype="multipart/form-data">
+        <form id="updateProductForm" enctype="multipart/form-data">
             <input type="hidden" id="subProductId" name="subProductId">
 
             <div class="d-flex">
@@ -38,7 +38,7 @@
 
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+                        <input type="number" class="form-control" id="price" name="price" step="0.01" onblur="checkPrice();" required>
                         <span class="error-message" id="priceerror"></span>
                     </div>
 
@@ -54,7 +54,7 @@
 
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" required>
+                        <input type="number" class="form-control" id="quantity" name="quantity" onblur="checkQuantity();" required>
                         <span class="error-message" id="quantityerror"></span>
                     </div>
 
@@ -64,7 +64,7 @@
                         <img id="newImagePreview" src="" alt="New Image Preview" style="display:none; margin-top:10px; max-width: 200px;">
                     </div>
 
-                    <button id="updateBtn" type="submit" class="btn btn-teal btn-block mt-2">
+                    <button id="updateBtn" type="button" class="btn btn-teal btn-block mt-2" onmouseover="checkErrors()" onclick="updateSubProduct()">
                         <i class="fas fa-edit"></i> Update
                     </button>
                 </div>

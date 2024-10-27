@@ -9,6 +9,7 @@ import com.example.ecommerce.enums.Size;
 import com.example.ecommerce.services.SubProductService;
 
 import com.example.ecommerce.models.SubProduct;
+import jakarta.servlet.http.Part;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -119,17 +120,16 @@ public class SubProductController {
     public ResponseEntity<Void> updateSubProductDTO(@PathVariable int id,
                                                     @RequestParam("quantity") int stock,
                                                     @RequestParam("price") BigDecimal price,
-                                                    @RequestPart(value = "newImage") MultipartFile imagePart) {
+                                                    @RequestPart(value = "newImage", required = false) MultipartFile  imagePart) {
         try {
-            subProductService.updateSubProduct(id, stock, price, imagePart);
+            subProductService.updateSubProduct(id, stock, price, imagePart); // Make sure this handles the image file
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
-
-
     }
+
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteSubProduct(@PathVariable int id) {

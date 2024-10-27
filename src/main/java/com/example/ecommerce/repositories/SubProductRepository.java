@@ -23,6 +23,9 @@ public interface SubProductRepository extends JpaRepository<SubProduct, Integer>
 
     List<SubProduct> findAllByIsDeletedFalse();
 
+    @Query("select sub.imageURL from SubProduct sub where sub.id=?1")
+    String findByImageURL(Integer id);
+
 
 @Query("select count(c) from SubProduct c")
 Long countSubProducts();

@@ -13,6 +13,36 @@ $(document).ready(function() {
     $('#imagePreview').attr('src', "/"+subProduct.imageURL).show(); // Show current product image
 }
 });
+function updateSubProduct() {
+    const subProductId = document.getElementById('subProductId').value;
+    const price = document.getElementById('price').value;
+    const quantity = document.getElementById('quantity').value;
+    const newImage = document.getElementById('newImage').files[0];
+
+    const formData = new FormData();
+    formData.append('price', price);
+    formData.append('quantity', quantity);
+    if (newImage) {
+        formData.append('newImage', newImage); // Attach the image file itself
+    }
+
+    $.ajax({
+        url: `/subProducts/${subProductId}`,
+        type: 'PUT',
+        data: formData,
+        contentType: false,  // Prevent jQuery from setting the Content-Type header
+        processData: false,  // Prevent jQuery from processing the data
+        cache: false,
+        success: function () {
+            alert('Product updated successfully!');
+            window.location.href = '/admin/view-products.jsp';
+        },
+        error: function (xhr, status, error) {
+            console.error('Update failed:', error);
+            alert('An error occurred while updating the product.');
+        }
+    });
+}
 
 // Preview the new image before submission
 function previewNewImage(event) {
