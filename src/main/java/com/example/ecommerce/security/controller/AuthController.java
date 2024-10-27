@@ -1,5 +1,6 @@
 package com.example.ecommerce.security.controller;
 
+import com.example.ecommerce.dtos.CustomerDTO;
 import com.example.ecommerce.models.Account;
 import com.example.ecommerce.security.UserPrinciple;
 import com.example.ecommerce.security.service.JwtService;
@@ -12,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,6 +44,16 @@ public class AuthController {
            return ResponseEntity.ok(map);
         }else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/customer/{username}")
+    public ResponseEntity<CustomerDTO> getCustomerByUsername(@PathVariable String username) {
+        CustomerDTO customerDTO = userDetailsService.getCustomerByUsername(username);
+        if (customerDTO != null) {
+            return ResponseEntity.ok(customerDTO);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 }

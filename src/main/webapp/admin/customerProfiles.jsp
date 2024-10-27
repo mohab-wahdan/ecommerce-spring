@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/admincss/customerProfiles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 <div class="container mt-5">
@@ -18,6 +19,8 @@
     <div class="header-container">
         <h2 class="header-font">Customer Profiles</h2>
     </div>
+
+    <!-- Search Filters -->
     <div class="row mb-4">
         <div class="col-md-3">
             <input type="text" id="searchUsername" class="form-control mb-2" placeholder="Search by Username">
@@ -42,47 +45,11 @@
         </div>
     </div>
 
-    <div class="row">
-        <c:if test="${empty customers}">
-            <div class="col-md-12">
-                <p class="text-center text-muted">No customer profiles found.</p>
-            </div>
-        </c:if>
-
-        <c:forEach var="customer" items="${customers}">
-            <div class="col-md-4 customer-list">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">${customer.firstName} ${customer.lastName}</h5>
-                        <p class="card-text">Username: ${customer.userName}</p>
-                        <p class="card-text">Email: ${customer.email}</p>
-                        <p class="card-text">Phone: ${customer.phoneNumber}</p>
-                        <a href="customerDetails?userName=${customer.userName}" class="btn btn-black">
-                            <i class="fas fa-eye"></i> View Details</a>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
+    <!-- Customer Profiles -->
+    <div class="row" id="customerList">
+        <!-- I will show all customers here -->
     </div>
 </div>
-
-<script>
-    function searchCustomers() {
-        const username = document.getElementById('searchUsername').value;
-        const email = document.getElementById('searchEmail').value;
-        const id = document.getElementById('searchId').value;
-
-        let queryString = '';
-        if (username) queryString += 'username=' + encodeURIComponent(username) + '&';
-        if (email) queryString += 'email=' + encodeURIComponent(email) + '&';
-        if (id) queryString += 'id=' + encodeURIComponent(id) + '&';
-
-        window.location.href = 'customerView?userName='+username+'&email='+email+'&Id='+id;
-    }
-    function resetFilters() {
-        // Redirect to the servlet to refresh the customer list
-        window.location.href = 'customerView';
-    }
-</script>
+<script src="../js/adminjs/customerProfiles.js"></script>
 </body>
 </html>

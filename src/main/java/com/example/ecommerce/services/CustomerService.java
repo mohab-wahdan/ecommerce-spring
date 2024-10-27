@@ -1,6 +1,7 @@
 package com.example.ecommerce.services;
 
 import com.example.ecommerce.dtos.CustomerDTO;
+import com.example.ecommerce.dtos.CustomerViewDTO;
 import com.example.ecommerce.mappers.CustomerMapper;
 import com.example.ecommerce.models.Customer;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,10 +34,10 @@ public class CustomerService {
         return customerMapper.toDTO(savedCustomer);
     }
 
-    public List<CustomerDTO> getAllCustomers() {
-        return customerRepository.findAll().stream()
-                .map(customerMapper::toDTO)
-                .collect(Collectors.toList());
+
+    public List<CustomerViewDTO> getAllCustomers() {
+        List<Customer> customerList = customerRepository.findAll();
+        return customerMapper.fromEntityToCustomerViewDTO(Optional.of(customerList));
     }
 
     public CustomerDTO getCustomerById(Integer id) {
@@ -60,5 +62,12 @@ public class CustomerService {
 
     public void deleteAllCustomers() {
         customerRepository.deleteAll();
+    }
+
+
+    public CustomerViewDTO getCustomerByIdForAdmin(Integer id) {
+        Optional<Customer> customer = customerRepository.findById(id);
+
+        return CustomerViewDTO.fromCustomer(customer.get());
     }
 }
