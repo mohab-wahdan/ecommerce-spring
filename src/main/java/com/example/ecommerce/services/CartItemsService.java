@@ -29,9 +29,14 @@ public class CartItemsService implements Serializable {
     private final CartItemsMapper cartItemsMapper;
     private final CustomerRepository customerRepository;
     private final SubProductRepository subProductRepository;
+
+
     @JsonIgnore
     private Map<SubProductDTO, Integer> cart = new HashMap<>();
 
+    public void setCartFromDto(Map<SubProductDTO, Integer> cart) {
+        this.cart = cart;
+    }
 
 
     @Autowired
