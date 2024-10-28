@@ -1,29 +1,5 @@
+ <%@ include file="header.jsp" %>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="favicon.ico">
-    <title>CHCILY</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
 
     <style>
         .order-history-title {
@@ -40,15 +16,7 @@
             letter-spacing: 2px; /* Adds spacing between letters */
         }
     </style>
-</head>
 
-<body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
-  <jsp:include page="common/header.jsp"/>
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
         <div class="container">
@@ -68,7 +36,7 @@
     <!-- Checkout Section Begin -->
     <section class="checkout spad">
         <div class="container">
-            <form action="checkout" method="post" class="checkout__form">
+            <form  class="checkout__form">
                 <div class="row">
                     <div class="col-lg-8">
                         <h5>Billing detail</h5>
@@ -132,7 +100,7 @@
                                 </div>
                                 <div class="checkout__order__total">
                                     <ul>
-                                        <li>Subtotal <span>$ ${cart.totalPrice}</span></li>
+                                        <li>Subtotal <span>$  </span></li>
                                     </ul>
                                 </div>
 
@@ -144,7 +112,7 @@
             </div>
         </section>
         <!-- Checkout Section End -->
-<jsp:include page="common/footer.jsp"/>
+
         <!-- Search Begin -->
         <div class="search-model">
             <div class="h-100 d-flex align-items-center justify-content-center">
@@ -155,7 +123,57 @@
             </div>
         </div>
         <!-- Search End -->
+<script>
+$(document).ready(function () {
+     $(document).on("click", ".site-btn",checkout);
+     let totalQuantity = localStorage.getItem('totalQuantity') || 0;
+     let totalPrice = localStorage.getItem('totalPrice') || 0;
+});
 
+function checkout(e){
+    e.preventDefault();  // Prevent the form from submitting normally
+
+    const customerId = 4;  // Set customer ID as needed
+    const cartItemsUrl ='http://localhost:8083/cartItems/'+customerId;
+    const checkoutUrl = 'http://localhost:8083/checkout/'+customerId;
+
+    // Fetch cart items
+    $.ajax({
+        url: cartItemsUrl,
+        method: "GET",
+        success: function (cartItems) {
+            // Prepare request body
+            const requestBody = cartItems.map(item => ({
+                subProductId: item.subProductId,
+                quantity: item.quantity
+            }));
+
+            // Send to checkout endpoint
+            $.ajax({
+                url: checkoutUrl,
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(requestBody),
+                success: function (response) {
+                    console.log("Order placed successfully:", response);
+                    alert("Order placed successfully!");
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error placing order:", error);
+                    alert("Failed to place order.");
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Error fetching cart items:", error);
+            alert("Failed to retrieve cart items.");
+        }
+    });
+    }
+
+
+
+</script>
         <!-- Js Plugins -->
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
@@ -167,6 +185,4 @@
         <script src="js/owl.carousel.min.js"></script>
         <script src="js/jquery.nicescroll.min.js"></script>
         <script src="js/main.js"></script>
-    </body>
-
-    </html>
+    <%@ include file="footer.jsp" %>

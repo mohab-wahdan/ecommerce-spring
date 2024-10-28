@@ -1,24 +1,196 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Order Tracking</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/shop.css" type="text/css">
+ <%@ include file="header.jsp" %>
+
+<div class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__links">
+                    <a href="orderHistory.jsp"><i class="fa icon_profile"></i> Order History</a>
+                    <span class="order-history-title">Order Tracking</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="page-title-inner">
+    <div class="container">
+        <h1>Track Your Order</h1>
+    </div>
+</section>
+
+<section class="pt-100 pb-100">
+    <div class="container">
+        <div class="row track-lines">
+
+        </div>
+
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="order-deliverd-date">
+                    <p>Your Order Will Be Delivered on <span> </span></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="order-details-wrap">
+                    <div class="order-details-heading">
+                        <h5>Order Details</h5>
+                    </div>
+                    <div class="order-address-details">
+                        <div class="order-no">
+                            <p>Order No: <span> </span></p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="shipping-to-area">
+                                    <h5>Shipping To:</h5>
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="order-items-section mt-5">
+                    <h2>Order Items</h2>
+                    <table class="table table-bordered table-striped mt-3">
+                        <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price/Item</th>
+                        </tr>
+                        </thead>
+                        <tbody id="orderItemsTableBody">
+                            <!-- Order items will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+    $(document).ready(function () {
+        const customerId = 4;
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+
+        // Step 1: Retrieve order IDs
+        $.ajax({
+            url: 'http://localhost:8083/orders/customer/'+customerId,
+            method: "GET",
+            success: function (orders) {
+                // You can add logic here to display the orders, if necessary
+                console.log("Retrieved orders:", orders);
+                  if (orders.length > 0) {
+                     const order = orders[0]; // Get the first order (adjust as needed)
+                     const orderId = order.id;
+                     const orderStatus = order.status;
+                     const orderCreatedAt = new Date(order.createdAt); // Convert to Date object
+
+                     // Add 2 days to orderCreatedAt
+                     const deliveryDate = new Date(orderCreatedAt);
+                     deliveryDate.setDate(deliveryDate.getDate() + 2);
+
+                     // Format the delivery date (if needed)
+                     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                     const formattedDeliveryDate = deliveryDate.toLocaleDateString(undefined, options);
+                     const orderCreatedAt2 = orderCreatedAt.toLocaleString();
+
+                     // Populate order status
+                     if (orderStatus === 'CANCELLED') {
+                         $('.track-lines').html('<div class="canceled-status">Your order has been cancelled.</div>');
+                     } else {
+                         $('.track-lines').html(`
+                             <div class="col-md-3 col-sm-3">
+                                 <div class="single-tracking-inner text-center">
+                                     <img src="order/img/icons/torder.png" alt="Order Placed">
+                                     <h5>Order Placed</h5>
+                                     <p>`+orderCreatedAt2+`</p> <!-- Displaying order created date -->
+                                 </div>
+                             </div>
+                             <div class="col-md-3 col-sm-3">
+                                 <div class="single-tracking-inner text-center">
+                                     <img src="order/img/icons/tpacked.png" alt="Packed">
+                                     <h5>Packed</h5>
+                                     <p>`+orderCreatedAt2+`</p>
+                                 </div>
+                             </div>
+                             <div class="col-md-3 col-sm-3">
+                                 <div class="single-tracking-inner text-center">
+                                     <img src="order/img/icons/ttransit.png" alt="In Transit">
+                                     <h5>In Transit</h5>
+                                     <p>`+formattedDeliveryDate+`</p> <!-- Using the calculated delivery date -->
+                                 </div>
+                             </div>
+                             <div class="col-md-3 col-sm-3">
+                                 <div class="single-tracking-inner text-center">
+                                     <img src="order/img/icons/tdeliverd.png" alt="Delivered">
+                                     <h5>Delivered</h5>
+                                     <p>`+formattedDeliveryDate+`</p> <!-- Same date for delivery -->
+                                 </div>
+                             </div>
+                         `);
+                     }
+
+                     // Populate the order delivery date
+                     $('.order-deliverd-date span').text(formattedDeliveryDate);
+
+                     // Populate order details
+                     $('.order-no span').text(orderId);
+                     $('.shipping-to-area p').text(order.destination);
+                     fetchOrderItems(orderId);
+                 }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching orders:", error);
+                alert("Failed to retrieve orders.");
+            }
+        });
+
+        // Step 2: Fetch order items for a specific order ID
+        function fetchOrderItems(orderId) {
+            $.ajax({
+                url: 'http://localhost:8083/order-items/orderId/'+orderId,
+                method: "GET",
+                success: function (orderItems) {
+                    // Clear existing rows
+                    $('#orderItemsTableBody').empty();
+
+                    // Step 3: Populate the table with order items
+                    orderItems.forEach(item => {
+                        const row = `
+                            <tr>
+                                <td>`+item.productName+` </td>  <!-- Assuming item has a productName field -->
+                                <td> `+item.quantity+` </td>
+                                <td>$ `+item.price+` </td> <!-- Assuming item has a price field -->
+                            </tr>
+                        `;
+                        $('#orderItemsTableBody').append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching order items:", error);
+                    alert("Failed to retrieve order items.");
+                }
+            });
+        }
+    });
+
+</script>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
@@ -135,136 +307,5 @@
             letter-spacing: 2px; /* Adds spacing between letters */
         }
     </style>
-</head>
+ <%@ include file="footer.jsp" %>
 
-<body>
-<jsp:include page="common/header.jsp"/>
-
-<div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="/orders"><i class="fa icon_profile"></i> Order History</a>
-                    <span class="order-history-title">Order Tracking</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<section class="page-title-inner">
-    <div class="container">
-        <h1>Track Your Order</h1>
-    </div>
-</section>
-
-<section class="pt-100 pb-100">
-    <div class="container">
-        <div class="row track-lines">
-            <c:choose>
-                <c:when test="${requestScope.order.status eq 'CANCELLED'}">
-                    <div class="canceled-status">
-                        Your order has been cancelled.
-                    </div>
-                </c:when>
-                <c:otherwise>
-                <div class="col-md-3 col-sm-3">
-                    <div class="single-tracking-inner text-center">
-                        <img src="order/img/icons/torder.png" alt="Order Placed">
-                        <h5>Order Placed</h5>
-                        <p>${requestScope.order.createdAt}</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3">
-                    <div class="single-tracking-inner text-center">
-                        <img src="order/img/icons/tpacked.png" alt="Packed">
-                        <h5>Packed</h5>
-                        <p>${requestScope.order.createdAt}</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3">
-                    <div class="single-tracking-inner text-center">
-                        <img src="order/img/icons/ttransit.png" alt="In Transit">
-                        <h5>In Transit</h5>
-                        <p>${requestScope.date}</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-3">
-                    <div class="single-tracking-inner text-center">
-                        <img src="order/img/icons/tdeliverd.png" alt="Delivered">
-                        <h5>Delivered</h5>
-                        <p>${requestScope.date}</p>
-                    </div>
-                </div>
-            </c:otherwise>
-        </c:choose>
-        </div>
-
-        <div class="row">
-            <div class="col-12 text-center">
-                <div class="order-deliverd-date">
-                    <p>Your Order Will Be Delivered on <span>${requestScope.date}</span></p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="order-details-wrap">
-                    <div class="order-details-heading">
-                        <h5>Order Details</h5>
-                    </div>
-                    <div class="order-address-details">
-                        <div class="order-no">
-                            <p>Order No: <span>${requestScope.order.id}</span></p>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="shipping-to-area">
-                                    <h5>Shipping To:</h5>
-                                    <p>${requestScope.order.customer.address.city} , ${requestScope.order.customer.address.street} , ${requestScope.order.customer.address.zip}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="order-items-section mt-5">
-                    <h2>Order Items</h2>
-                    <table class="table table-bordered table-striped mt-3">
-                        <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="item" items="${orderItems}">
-                            <tr>
-                                <td>${item.productName}</td>
-                                <td>${item.quantity}</td>
-                                <td>${item.price}</td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<jsp:include page="common/footer.jsp"/>
-
-<script>
-
-</script>
-<script src="js/jquery-3.3.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/main.js"></script>
-</body>
-</html>

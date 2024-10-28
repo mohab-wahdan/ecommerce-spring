@@ -32,6 +32,12 @@
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
             </div>
+            <a href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:8083/login/oauth2/code/google&response_type=code&client_id=500520249170-r75a36k8tkdqfpm0dka0tci28vq881ke.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline">
+              Sign in with Google
+            </a> <br>
+           <a href="https://www.facebook.com/v15.0/dialog/oauth?client_id=1056032482652267&redirect_uri=http://localhost:8083/login/oauth2/code/facebook&scope=email,public_profile&response_type=code">
+           Sign in with Facebook
+           </a>
             <div class="sign-up form-group text-center">
                 <p>Not a member? <a href="registration.jsp">
                     register now <i class="fas fa-user-plus"></i></a></p>
@@ -45,6 +51,7 @@
     $(document).ready(function() {
         $('#loginform').on('submit', function(event) {
             event.preventDefault(); // Prevent default form submission
+
             // Get form data
             var username = $('#username').val();
             var password = $('#password').val();
