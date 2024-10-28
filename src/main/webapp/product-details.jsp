@@ -147,7 +147,7 @@ $(document).ready(function() {
                                 </a>
                             </div>
                             <div class="product__details__slider__content">
-                                <div class="product__details__pic__slider owl-carousel">
+                                <div class="">
                                     <img data-hash="product-1" class="product__big__img" src="`+ product.imageURL +`" alt="">
                                 </div>
                             </div>
@@ -219,6 +219,27 @@ $(document).ready(function() {
 
             // Append the populated HTML to a container in your webpage
             $('#productDetailsContainer').html(productHtml); // Ensure you have a container with this ID
+            $('.pro-qtyy .inc').click(function () {
+                let quantityInput = $('#quantity');
+                let currentQuantity = parseInt(quantityInput.val());
+                let maxStock = parseInt(quantityInput.attr('max'));
+
+                // Increase the quantity if it's less than max stock
+                if (currentQuantity < maxStock) {
+                    quantityInput.val(currentQuantity + 1);
+                }
+            });
+
+            $('.pro-qtyy .dec').click(function () {
+                let quantityInput = $('#quantity');
+                let currentQuantity = parseInt(quantityInput.val());
+                let minQuantity = parseInt(quantityInput.attr('min'));
+
+                // Decrease the quantity if it's more than min quantity
+                if (currentQuantity > minQuantity) {
+                    quantityInput.val(currentQuantity - 1);
+                }
+            });
         },
         error: function(error) {
             console.error("Error fetching product details:", error);
