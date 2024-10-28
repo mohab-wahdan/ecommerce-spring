@@ -31,5 +31,17 @@
         </button>
     </form>
 </div>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                var token = sessionStorage.getItem('jwt-token');
+                if (token) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

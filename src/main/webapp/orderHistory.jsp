@@ -197,7 +197,7 @@ function populateTable1(){
                            <td>`+order.destination+`</td>
                            <td>`+order.status+`</td>
                            <td>
-                               <a href="order-tracking.jsp?orderId=` + order.id + `" class="btn btn-primary">View Order Details</a>
+                               <a href="order-tracking.jsp?orderId=` + order.id + `" class="btn btn-primary">View Order</a>
                                 ` + (order.status === 'COMPLETED'
                                         ? `<button class="btn btn-cancelled" disabled>Delivered</button>`
                                         : `<button class="btn btn-danger cancel-order" data-order-id="${order.id}">Cancel Order</button>`) + `

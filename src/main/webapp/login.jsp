@@ -36,13 +36,13 @@
                 </button>
             </div>
             <a href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=/grantcode&response_type=code&client_id=500520249170-r75a36k8tkdqfpm0dka0tci28vq881ke.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline">
-                Sign in with Google
+                <i class="fa fa-google"></i>Sign in with Google
             </a> <br>
            <a href="https://www.facebook.com/v15.0/dialog/oauth?client_id=1056032482652267&redirect_uri=/login/oauth2/code/facebook&scope=email,public_profile&response_type=code">
-           Sign in with Facebook
+               <i class="fa fa-facebook"></i>Sign in with Facebook
            </a><br>
            <a href="https://github.com/login/oauth/authorize?client_id=Ov23liFHDlx4fenno3Su&redirect_uri=/login/oauth2/code/github&scope=user:email">
-               Sign in with GitHub
+               <i class="fa fa-github"></i>Sign in with GitHub
            </a>
             <div class="sign-up form-group text-center">
                 <p>Not a member? <a href="registration.jsp">
