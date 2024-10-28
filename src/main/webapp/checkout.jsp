@@ -133,9 +133,9 @@ $(document).ready(function () {
 function checkout(e){
     e.preventDefault();  // Prevent the form from submitting normally
 
-    const customerId = 4;  // Set customer ID as needed
-    const cartItemsUrl ='http://localhost:8083/cartItems/'+customerId;
-    const checkoutUrl = 'http://localhost:8083/checkout/'+customerId;
+    const customerId = sessionStorage.getItem("id");
+    const cartItemsUrl ='/cartItems/'+customerId;
+    const checkoutUrl = '/checkout/'+customerId;
 
     // Fetch cart items
     $.ajax({

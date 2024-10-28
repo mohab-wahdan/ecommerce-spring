@@ -203,6 +203,15 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-12 text-center">
+                <div class="pagination__option">
+                    <a href="#" class="page-link" data-page="1">1</a>
+                    <a href="#" class="page-link" data-page="2">2</a>
+                    <a href="#" class="page-link p3" data-page="3">3</a>
+                    <a href="#" class="page-link p3" data-page="4">4</a>
+                    <a href="#" ><i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -210,21 +219,40 @@
 <script src="/js/main.js"></script>
 <script src="/js/product-display.js"></script>
 <script>
-    function resetFilters() {
-        // Redirect to the servlet to refresh the customer list
-        window.location.href = '/shop.jsp';
-    }
-var customerId=4;
+function resetFilters() {
+    // Redirect to the servlet to refresh the customer list
+    window.location.href = '/shop.jsp';
+}
+var customerId=sessionStorage.getItem("id");
 $(document).ready(function () {
     fetchCategories();
     fetchAllProducts();
     filterSubProducts();
-    $(".buttonAddToCart").click(handleAddToCartClick);
-
+    $(document).on("click", ".buttonAddToCart",handleAddToCartClick);
+    $(document).on("click", ".page-link", function(event) {
+        event.preventDefault();
+        const page = $(this).data("page"); // Get the page number from data-page attribute
+        pagination(page); // Pass the page number to the pagination function
+    });
 });
+
+function pagination(number){
+    $.ajax({
+        url: '/subProducts/filter',
+        type: 'POST',
+        data: { page: number }, // Send the page parameter as query
+        success: function(response) {
+            renderProductsPages(response);
+        },
+        error: function(error) {
+            console.error("Error fetching data:", error);
+        }
+    });
+}
+
 function handleAddToCartClick(){
     // Get data attributes from the clicked button
-    const customerId = 4; // Set your customer ID (e.g., from session or variable)
+    const customerId = sessionStorage.getItem("id");
     const subProductId = $(this).data("id");
     const quantity = 1; // Set the quantity here (or get it from another element)
 
@@ -237,7 +265,7 @@ function handleAddToCartClick(){
 
     // Send the AJAX POST request
     $.ajax({
-        url: "http://localhost:8083/cartItems",
+        url: "/cartItems",
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify(requestData), // Send the request data as JSON
@@ -276,14 +304,14 @@ function filterSubProducts() {
 
     // Send the AJAX POST request
     $.ajax({
-        url: 'http://localhost:8083/subProducts/filter', // Adjust the URL if necessary (e.g., add context path)
+        url: '/subProducts/filter', // Adjust the URL if necessary (e.g., add context path)
         type: 'POST',
         contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // For form-encoded data
         data: data,
         success: function (response) {
             // Handle success - response is a list of SubProductDTOs
             console.log(response);
-            renderProducts(response); // Function to render the products on the page
+            renderProductsPages(response); // Function to render the products on the page
         },
         error: function (xhr, status, error) {
             // Handle error
@@ -295,7 +323,7 @@ function filterSubProducts() {
 
 function fetchAllProducts() {
     $.ajax({
-        url: 'http://localhost:8083/subProducts', // Assuming this endpoint returns all products
+        url: '/subProducts', // Assuming this endpoint returns all products
         type: 'GET',
         success: function (data) {
             // Render all products
@@ -310,7 +338,7 @@ function fetchAllProducts() {
 
 function fetchCategories() {
     $.ajax({
-        url: 'http://localhost:8083/category', // API endpoint for categories
+        url: '/subcategory', // API endpoint for categories
         type: 'GET',
         dataType: 'json',
         success: function (categories) {
@@ -343,6 +371,45 @@ function renderCategories(categories) {
 }
 
 function renderProducts(products) {
+    // Clear existing products and render new ones
+    $('#product-list').empty(); // Clear the product list
+    products.forEach(function (product) {
+        $('#product-list').append(`
+            <div class="col-lg-4 col-md-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg=`+ product.imageURL+`>
+                        <ul class="product__hover">
+                            <li><a href=`+ product.imageURL+` class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li>
+                            <a class="buttonAddToCart"
+                               data-id="`+ product.id +`"
+                               data-name="`+ product.description +`"
+                               data-price="`+ product.price +`"
+                               data-image="`+ product.imageURL +`"
+                               data-stock="`+ product.stock +`">
+                                <span class="icon_bag_alt"></span>
+                            </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.description+`</a></h6>
+                        <div class="product__price">$`+ product.price+`</div>
+                    </div>
+                </div>
+            </div>
+        `);
+    });
+
+    // Set background images for elements with the "set-bg" class
+    $('.set-bg').each(function() {
+        var bg = $(this).data('setbg'); // Get the image URL
+        $(this).css('background-image', 'url(' + bg + ')'); // Set it as a background image
+    });
+    pagination(1);
+}
+
+function renderProductsPages(products) {
     // Clear existing products and render new ones
     $('#product-list').empty(); // Clear the product list
     products.forEach(function (product) {

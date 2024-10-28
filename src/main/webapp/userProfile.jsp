@@ -145,10 +145,10 @@
 <script>
     $(document).ready(function() {
         // Replace with the actual ID from the session or context
-        var userId = 4; // Example of getting userId from session
+        var userId = sessionStorage.getItem("id");
 
         $.ajax({
-            url: 'http://localhost:8083/customers/' + userId,
+            url: '/customers/' + userId,
             type: 'GET',
             success: function(data) {
                 // Populate the fields with data from the response

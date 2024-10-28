@@ -429,7 +429,7 @@
             }else {
                 var updateBtn = document.getElementById("updateBtn");
                 updateBtn.disabled = false;
-                const userId = 4;
+                const userId = sessionStorage.getItem("id"); ;
 
                 // Collect form data
                 const formData = {
@@ -448,13 +448,14 @@
                     },
                     account: {
                         userName: document.getElementById('userName').value,
-                        password: document.getElementById('password').value
+                        password: document.getElementById('password').value,
+                        roles: "user"
                     }
                 };
 
                 // AJAX POST request to update customer details by user ID
                 $.ajax({
-                    url: 'http://localhost:8083/customers/' + userId,
+                    url: '/customers/' + userId,
                     method: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(formData),
@@ -476,10 +477,10 @@
             }
         }
     function populateValues(){
-        const userId = 4; // Get userId from localStorage or another source
+        const userId = sessionStorage.getItem("id");
         if (userId) {
             $.ajax({
-                url: 'http://localhost:8083/customers/' + userId,
+                url: '/customers/' + userId,
                 type: 'GET',
                 success: function (data) {
                     currentPhoneNo = data.phoneNumber;

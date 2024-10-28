@@ -79,14 +79,21 @@
 
 
 <script>
-    $(document).ready(function () {
-        const customerId = 4;
+  $(document).ready(function () {
+         var customerId =sessionStorage.getItem("id");
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('orderId');
-
+         $.ajaxSetup({
+            beforeSend: function(xhr) {
+                var token = sessionStorage.getItem('jwt-token');
+                if (token) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                }
+            }
+        });
         // Step 1: Retrieve order IDs
         $.ajax({
-            url: 'http://localhost:8083/orders/customer/'+customerId,
+            url: '/orders/customer/'+customerId,
             method: "GET",
             success: function (orders) {
                 // You can add logic here to display the orders, if necessary
@@ -160,7 +167,7 @@
         // Step 2: Fetch order items for a specific order ID
         function fetchOrderItems(orderId) {
             $.ajax({
-                url: 'http://localhost:8083/order-items/orderId/'+orderId,
+                url: '/order-items/orderId/'+orderId,
                 method: "GET",
                 success: function (orderItems) {
                     // Clear existing rows

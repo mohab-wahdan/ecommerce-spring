@@ -133,7 +133,7 @@ $(document).ready(function() {
 
     // Fetch product details from the API
     $.ajax({
-        url: 'http://localhost:8083/cartItems/subProduct/'+ subProductId ,
+        url: '/cartItems/subProduct/'+ subProductId ,
         type: 'GET',
         success: function(product) {
             // Populate the HTML with product details
