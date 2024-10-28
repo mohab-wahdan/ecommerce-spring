@@ -1,10 +1,10 @@
 package com.example.ecommerce.thirdParty;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-
 import java.util.Collection;
 import java.util.Map;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class CustomOAuth2User implements OAuth2User {
 
@@ -29,7 +29,4 @@ public class CustomOAuth2User implements OAuth2User {
         return oauth2User.getAttribute("name");
     }
 
-    public String getEmail() {
-        return oauth2User.<String>getAttribute("email");
-    }
 }

@@ -32,28 +32,6 @@ public class OAouthService {
         return userProfile;  // You can return user details or perform further actions
     }
 
-//    private String getOauthAccessTokenGoogle(String code) {
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-//
-//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-//        params.add("code", code);
-//        params.add("redirect_uri", "http://localhost:8083/grantcode");
-//        params.add("client_id", clientId);
-//        params.add("client_secret", clientSecret);
-//        params.add("scope", "https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile");
-//        params.add("scope", "https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email");
-//        params.add("scope", "openid");
-//        params.add("grant_type", "authorization_code");
-//
-//        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, httpHeaders);
-//
-//        String url = "https://oauth2.googleapis.com/token";
-//        String response = restTemplate.postForObject(url, requestEntity, String.class);
-//        return response;
-//    }
-
     private String getOauthAccessTokenGoogle(String code) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
