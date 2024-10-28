@@ -34,10 +34,11 @@ public class SecurityConfig {
             http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
                 .authorizeHttpRequests(auth -> auth
-//                                .requestMatchers(HttpMethod.GET,"/admin/**","/customers").hasAuthority("ROLE_admin")
+                                .requestMatchers(HttpMethod.GET,"/customers","/enums/colors","/enums/genders","/enums/sizes","/subProducts/subcategoryId",
+                                        "/subProducts/subcategoryId/","/customers/customerId/**","/customers/customerUsername/**").hasAuthority("ROLE_admin")
                                 .requestMatchers(HttpMethod.DELETE,"/admin/**","/subProducts/**","/customers/**").hasAuthority("ROLE_admin")
-                                .requestMatchers(HttpMethod.POST,"/subProducts/","/subcategory/","/products").hasAuthority("ROLE_admin")
-                                .requestMatchers(HttpMethod.PUT,"/admin/**","/subProducts/","/subcategory/").hasAuthority("ROLE_admin")
+                                .requestMatchers(HttpMethod.POST,"/subProducts/","/subcategory/","/products","category").hasAuthority("ROLE_admin")
+                                .requestMatchers(HttpMethod.PUT,"/subProducts/**","/subcategory/**","/orders/*/status/*").hasAuthority("ROLE_admin")
                                 .requestMatchers("/orders/**").authenticated()
                                 .anyRequest().permitAll()
 
@@ -69,25 +70,4 @@ public class SecurityConfig {
     }
 
 
-
-//    @Bean
-//    public JwtEncoder jwtEncoder(){
-//        JWK jwk=new RSAKey.Builder(publicKey).privateKey(privateKey).build();
-//        JWKSource<SecurityContext> jwkSet=new ImmutableJWKSet<>(new JWKSet(jwk));
-//        return new NimbusJwtEncoder(jwkSet);
-//    }
-//
-//    @Bean
-//    public JwtDecoder jwtDecoder(){
-//        return NimbusJwtDecoder.withPublicKey(publicKey).build();
-//    }
-//    @Bean
-//    public JwtAuthenticationConverter jwtAuthenticationConverter() {
-//        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-//        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("authorities");
-//        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
-//        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-//        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
-//        return jwtAuthenticationConverter;
-//    }
 }
