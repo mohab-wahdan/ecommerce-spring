@@ -1,10 +1,12 @@
 package com.example.ecommerce.security.service;
 
 import com.example.ecommerce.dtos.CustomerDTO;
+import com.example.ecommerce.enums.Provider;
 import com.example.ecommerce.mappers.CustomerMapper;
 import com.example.ecommerce.models.Account;
 import com.example.ecommerce.models.Admin;
 import com.example.ecommerce.models.Customer;
+import com.example.ecommerce.repositories.AccountRepository;
 import com.example.ecommerce.repositories.AdminRepository;
 import com.example.ecommerce.repositories.CustomerRepository;
 import com.example.ecommerce.security.UserPrinciple;
@@ -20,12 +22,14 @@ public class UserService implements UserDetailsService {
     private final CustomerRepository customerRepository;
     private final AdminRepository adminRepository;
     private final CustomerMapper customerMapper;
+    private final AccountRepository accountRepository;
 
     @Autowired
-    public UserService(CustomerRepository customerRepository, AdminRepository adminRepository, CustomerMapper customerMapper) {
+    public UserService(CustomerRepository customerRepository, AdminRepository adminRepository, CustomerMapper customerMapper, AccountRepository accountRepository) {
         this.customerRepository = customerRepository;
         this.adminRepository = adminRepository;
         this.customerMapper = customerMapper;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -54,4 +58,31 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+
+    public void processOAuthPostLogin(String username) {
+        Account existUser = accountRepository.getByUserName(username);
+
+        if (existUser == null) {
+            Account newUser = new Account();
+            newUser.setUserName(username);
+            newUser.setProvider(Provider.GOOGLE);
+            newUser.setEnabled(true);
+            accountRepository.save(newUser);
+        }
+
+    }
+
+    public void processOAuthPostLoginFacebook(String username) {
+        Account existUser = accountRepository.getByUserName(username);
+
+        if (existUser == null) {
+            Account newUser = new Account();
+            newUser.setUserName(username);
+            newUser.setProvider(Provider.FACEBOOK);
+            newUser.setEnabled(true);
+            accountRepository.save(newUser);
+        }
+
+    }
+
 }

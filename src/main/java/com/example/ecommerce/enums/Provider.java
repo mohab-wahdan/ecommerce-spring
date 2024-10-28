@@ -1,5 +1,5 @@
 package com.example.ecommerce.enums;
 
 public enum Provider {
-    LOCAL, GOOGLE
+    LOCAL, GOOGLE, FACEBOOK, GITHUB
 }
