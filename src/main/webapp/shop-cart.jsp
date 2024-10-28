@@ -172,7 +172,7 @@ function updateCartTotals() {
 function updateQuantity(){
     const $row = $(this).closest("tr");  // Get the row of the changed quantity input
     const subProductId = $row.data("product-id"); // Extract subProductId from data attribute
-    const customerId = 4; // Replace with actual customerId or retrieve it dynamically
+    const customerId = sessionStorage.getItem("id");
     const newQuantity = $(this).val();  // Get the new quantity value
     const price = parseFloat($row.find("td:nth-child(2)").text().replace('$', ''));
     const total = (price * newQuantity).toFixed(2); // Calculate new total price
@@ -181,7 +181,7 @@ function updateQuantity(){
     $row.find(".total-price").text('$' +total);
 
     // Update quantity on the server
-    const updateUrl = 'http://localhost:8083/cartItems/'+ customerId+'/'+subProductId;
+    const updateUrl = '/cartItems/'+ customerId+'/'+subProductId;
     const requestBody = {
         quantity: newQuantity
     };
@@ -207,10 +207,10 @@ function deleteItem() {
     // Prevent default action if necessary
     const $row = $(this).closest('tr');  // Get the row of the clicked delete icon
     const subProductId = $row.data('product-id'); // Extract subProductId from data attribute
-    const customerId = 4; // Replace with the actual customerId or retrieve it dynamically
+    const customerId =sessionStorage.getItem("id");
 
     // DELETE endpoint URL
-    const deleteUrl = 'http://localhost:8083/cartItems/'+ customerId+'/'+subProductId;
+    const deleteUrl = '/cartItems/'+ customerId+'/'+subProductId;
 
     // Confirm delete action with the user (optional)
     if (confirm("Are you sure you want to remove this item from the cart?")) {
@@ -231,9 +231,9 @@ function deleteItem() {
 
 // Function to get cart items by customer ID and then fetch sub-product details
 function fetchCartItemsAndDetails() {
-    const userId = 4;
+    const userId = sessionStorage.getItem("id"); ;
      $.ajax({
-        url: 'http://localhost:8083/cartItems/'+userId,
+        url: '/cartItems/'+userId,
         type: 'GET',
         success: function(cartItems) {
             // Step 2: For each sub-product ID, fetch details
@@ -241,7 +241,7 @@ function fetchCartItemsAndDetails() {
                 let subProductId = cartItem.subProductId; // Assuming cartItems contain subProductId
 
                 $.ajax({
-                    url: 'http://localhost:8083/cartItems/subProduct/'+subProductId,
+                    url: '/cartItems/subProduct/'+subProductId,
                     type: 'GET',
                     success: function(subProductDetails) {
                         // Process and display sub-product details

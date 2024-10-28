@@ -43,7 +43,6 @@
             </c:when>
         </c:choose>
         <div class="row">
-
             <div class="col-lg-6 p-0">
                 <div class="categories__item categories__large__item set-bg"
                      data-setbg="img/categories/female.jpg">
@@ -96,11 +95,9 @@
 <!-- Banner Section Begin -->
 <section class="banner set-bg" data-setbg="img/banner/banner-1.jpg">
     <div class="container">
-
         <div class="row">
             <div class="col-xl-7 col-lg-8 m-auto">
                 <div class="banner__slider owl-carousel">
-                    <!-- Success/Error Message -->
                     <div class="banner__item">
                         <div class="banner__text">
                             <span>The Chloe Collection</span>
@@ -161,7 +158,28 @@
         </div>
     </div>
 </section>
-
+<script>
+// Assume you have the username stored in sessionStorage or retrieved via another session method
+    const username = sessionStorage.getItem("username");
+    console.log("username:", username);
+    if (username) {
+        // Fetch customer ID based on username
+        $.ajax({
+            url: '/auth/customer/'+username ,
+            type: 'GET',
+            success: function(response) {
+                console.log("Customer ID:", response.id);
+                sessionStorage.setItem("id",response.id);
+                // Use the customer ID for further operations, such as adding to cart
+            },
+            error: function(error) {
+                console.error("Error retrieving customer ID:", error);
+            }
+        });
+    } else {
+        console.error("Username not found in session.");
+    }
+</script>
 <%@ include file="footer.jsp" %>
 </body>
 </html>
