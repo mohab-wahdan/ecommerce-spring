@@ -13,7 +13,7 @@ This is a full-featured e-commerce web application built using Spring Framework.
 - [Contributing](#contributing)
 - [License](#license)
 
-## Features
+# Features
 
 - User registration and authentication
 - Product catalog with search and filter capabilities
@@ -23,6 +23,9 @@ This is a full-featured e-commerce web application built using Spring Framework.
 - Payment gateway integration (e.g., PayPal, Stripe)
 - Responsive design with Bootstrap
 - RESTful API endpoints for front-end communication
+- Password encryption for enhanced security
+- Third-party login options using Google, Facebook, and GitHub
+
 
 ## Technologies Used
 
