@@ -1,8 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="favicon.ico">
+    <title>CHCILY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/shop.css" type="text/css">
+
+
+</head>
+
+<body>
 <%@ include file="header.jsp" %>
 <jsp:include page="common/VNotification.jsp"/>
 <jsp:include page="common/WNotification.jsp"/>
-
-<!-- Shop Section Begin -->
 <section class="shop spad">
     <div class="container">
         <div class="row">
@@ -17,14 +45,12 @@
                             <div class="section-title"><h4>Shop by price</h4>
                             </div>
                             <div class="filter-range-wrap">
-                                <div class="range-slider">
                                     <div class="price-input">
-                                        <label for="minamount">Min Price:     </label>
+                                        <label for="minamount">Min Price:</label>
                                         <input type="text" name="minPrice" id="minamount" value="${param.minPrice != null ? param.minPrice : 50}" /><br>
-                                        <label for="maxamount">Max Price: </label>
+                                        <label for="maxamount">Max Price:</label>
                                         <input type="text" name="maxPrice" id="maxamount" value="${param.maxPrice != null ? param.maxPrice : 1500}" />
                                     </div>
-                                </div>
                             </div>
 
                         </div>
@@ -51,6 +77,11 @@
                                 <label for="female">
                                     Female
                                     <input type="radio" name="gender" id="female" value="female" ${param.gender == 'female' ? 'checked' : ''}>
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label for="unisex">
+                                    Unisex
+                                    <input type="radio" name="gender" id="unisex" value="unisex" ${param.gender == 'unisex' ? 'checked' : ''}>
                                     <span class="checkmark"></span>
                                 </label>
 
@@ -154,6 +185,9 @@
                             <button type="submit" class="btn btn-outline-danger w-auto filter-btn">
                                 <i class="fas fa-filter"></i> Apply Filters
                             </button>
+                            <button class="btn btn-outline-danger w-auto filter-btn" onclick="resetFilters()">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
 
                        <!-- Reset button MS7TOOOOOOOOOOOOOO-->
 
@@ -173,7 +207,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-
+    function resetFilters() {
+        // Redirect to the servlet to refresh the customer list
+        window.location.href = '/shop.jsp';
+    }
 $(document).ready(function () {
     fetchCategories();
     fetchAllProducts();
@@ -268,7 +305,7 @@ function fetchAllProducts() {
 
 function fetchCategories() {
     $.ajax({
-        url: 'http://localhost:8083/cat', // API endpoint for categories
+        url: 'http://localhost:8083/subcategory', // API endpoint for categories
         type: 'GET',
         dataType: 'json',
         success: function (categories) {
@@ -331,85 +368,9 @@ function renderProducts(products) {
 
 </script>
 
-<script src="/js/main.js"></script>
-<script src="/js/product-display.js"></script>
-<link rel="stylesheet" href="/css/shop.css" type="text/css">
-
-<script>
-/*
-    var user = '<c:out value="${sessionScope.user}" escapeXml="true" />';
-
-    $(document).ready(function () {
-        // Event listener for all Add to Cart buttons
-        $(".buttonAddToCart").click(function (e) {
-            e.preventDefault(); // Prevent the default action of the anchor tag
-
-            // Get product details from data attributes
-            const productId = $(this).data("id");
-            const productName = $(this).data("name");
-            const productPrice = $(this).data("price");
-            const productImage = $(this).data("image");
-            const productStock = $(this).data("stock");
-
-            // Create an object to send to the server
-            const productData = {
-                id: productId,
-                productName: productName,
-                price: productPrice,
-                imageURL: productImage,
-                stock: productStock,
-                quantity: 1 // Default to 1, or you can let the user input the quantity
-            };
-
-            // Send product details via Ajax to the backend (Servlet)
-            $.ajax({
-                url: '/filterProducts', // URL of the servlet that handles adding to cart
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(productData),
-                success: function (response) {
-                    $('#notification')
-                        .removeClass('alert-danger')
-                        .addClass('alert-success')
-                        .text(response.message)
-                        .fadeIn().delay(3000).fadeOut();
-                    // Optionally, update the cart UI with the updated cart count
-                    $('.icon_bag_alt').siblings('.tip').text(response.cartItemCount);
-
-                        saveCart();
-
-                        VshowNotification("Product Added To Cart");
-
-                    // Optionally, update the cart UI or display cart details
-                    // Example: $('#cart-count').text(response.cartItemCount);
-                },
-                error: function (xhr, status, error) {
-                    $('#notification')
-                        .removeClass('alert-success')
-                        .addClass('alert-danger')
-                        .text('Error adding product to cart. Please try again.')
-                        .fadeIn().delay(3000).fadeOut();
-                    WshowNotification("Error adding product to cart. Please try again.");
-                }
-            });
-        });
-    });
-
-    function saveCart() {
-        // Send an AJAX request to get the CartService from the session
-        $.ajax({
-            url: "/cartlocal",
-            type: "GET",
-            success: function (response) {
-                // Save the entire CartService object to localStorage
-                localStorage.setItem("cartService", JSON.stringify(response.cart));
-                console.log("CartService successfully saved to localStorage.");
-            },
-            error: function (xhr, status, error) {
-                console.error("Error saving CartService:", error);
-            }
-        });
-    }
-*/
-</script>
+<script src="js/main.js"></script>
+<script src="js/product-display.js"></script>
+<link rel="stylesheet" href="css/shop.css" type="text/css">
 <%@ include file="footer.jsp" %>
+</body>
+</html>

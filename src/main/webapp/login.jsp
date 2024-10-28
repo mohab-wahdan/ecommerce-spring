@@ -1,5 +1,15 @@
-<%@ include file="header.jsp" %>
-<link rel="stylesheet" href="/css/login.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicly - Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
 <div class="login-container">
     <div id="message-container"></div> <!-- Message container for alerts -->
 
@@ -99,5 +109,3 @@
 		window.history.replaceState({}, document.title, url);
 	}
 </script>
-
-<%@ include file="footer.jsp" %>
