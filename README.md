@@ -5,13 +5,13 @@ This is a full-featured e-commerce web application built using Spring Framework.
 ## Table of Contents
 
 - [Features](#features)
+- [Entity-Relationship Diagram](#ERD)
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
-- [License](#license)
 
 # Features
 
@@ -27,6 +27,9 @@ This is a full-featured e-commerce web application built using Spring Framework.
 - Third-party login options using Google, Facebook, and GitHub
 
 
+# ERD
+![ERD](chicly-erd.png)
+
 ## Technologies Used
 
 - **Backend**: Spring Framework, Spring Boot, Spring Security
@@ -41,6 +44,7 @@ This is a full-featured e-commerce web application built using Spring Framework.
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/mohab-wahdan/ecommerce-spring.git
+   
    cd ecommerce-spring
 # Database Configuration
 
@@ -55,8 +59,10 @@ Follow these steps to set up the database for this project:
 
 ### Example configuration for `application.properties`:
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/ecommerce
+spring.datasource.url=jdbc:mysql://localhost:3306/chicly
+
 spring.datasource.username=your_username
+
 spring.datasource.password=your_password
 ```
 # Build and Run the Project
@@ -70,10 +76,6 @@ Use the following command to clean and build the project:
 mvn clean install
 ```
 
-Here's the updated README markdown script:
-
-markdown
-Copy code
 # Build and Run the Project
 
 Follow these steps to build and run the application:
@@ -92,7 +94,7 @@ mvn spring-boot:run
 ```
 ## 3. Access the Application
 Once the application is running, navigate to the following URL in your web browser:
-http://localhost:8080
+http://localhost:8083
 
 # Usage
 
@@ -141,9 +143,9 @@ ecommerce-spring/
 
 Contributions are welcome! If you would like to contribute to this project, please follow these steps:
 
-1. **Fork the repository.**
-
-2. **Create a new branch:**
+1.  **Fork the repository.**
+   
+2.  **Create a new branch:**
    ```bash
    git checkout -b feature-branch
    ```
