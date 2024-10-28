@@ -39,7 +39,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.DELETE,"/admin/**","/subProducts/**","/customers/**").hasAuthority("ROLE_admin")
                                 .requestMatchers(HttpMethod.POST,"/subProducts/","/subcategory/","/products","category").hasAuthority("ROLE_admin")
                                 .requestMatchers(HttpMethod.PUT,"/subProducts/**","/subcategory/**","/orders/*/status/*").hasAuthority("ROLE_admin")
-                                .requestMatchers("/orders/**").authenticated()
+//                                .requestMatchers("/orders/**").authenticated()
                                 .anyRequest().permitAll()
 
                 )

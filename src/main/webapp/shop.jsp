@@ -219,8 +219,7 @@ $(document).ready(function () {
     fetchCategories();
     fetchAllProducts();
     filterSubProducts();
-    $(".buttonAddToCart").click(handleAddToCartClick);
-
+    $(document).on("click", ".buttonAddToCart",handleAddToCartClick);
 });
 function handleAddToCartClick(){
     // Get data attributes from the clicked button
@@ -386,3 +385,5 @@ function renderProducts(products) {
 <script src="js/product-display.js"></script>
 <link rel="stylesheet" href="css/shop.css" type="text/css">
 <%@ include file="footer.jsp" %>
+</body>
+</html>
