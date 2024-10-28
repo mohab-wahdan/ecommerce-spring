@@ -22,7 +22,8 @@ public class PredicateBuilder {
             predicates.add(cb.equal(subProductRoot.get("product").get("subCategory").get("category").get("name"), filter.getCategoryName()));
         }
         if (filter.getSubCategoryName()!= null && !filter.getSubCategoryName().isEmpty()) {
-            predicates.add(cb.equal(subProductRoot.get("product").get("subCategory").get("name"), filter.getSubCategoryName()));
+            System.out.println(filter.getSubCategoryName());
+            predicates.add(cb.equal(subProductRoot.get("product").get("subCategory").get("name"), filter.getSubCategoryName().trim()));
         }
 
         if (filter.getSearchKeyword() != null && !filter.getSearchKeyword().isEmpty()) {

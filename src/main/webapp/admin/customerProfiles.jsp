@@ -21,22 +21,17 @@
     </div>
 
     <!-- Search Filters -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <input type="text" id="searchUsername" class="form-control mb-2" placeholder="Search by Username">
+    <div class="row mb-2">
+        <div class="col-md-8"> <!-- Changed to col-md-8 for more space -->
+            <input type="text" id="searchUsername" class="form-control" placeholder="Search by Username">
         </div>
-        <div class="col-md-3">
-            <input type="text" id="searchEmail" class="form-control mb-2" placeholder="Search by Email">
-        </div>
-        <div class="col-md-3">
-            <input type="text" id="searchId" class="form-control mb-2" placeholder="Search by ID">
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-4"> <!-- This will hold the button -->
             <button class="btn btn-black btn-block" onclick="resetFilters()">
                 <i class="fas fa-redo"></i> Reset
             </button>
         </div>
     </div>
+
     <div class="row mb-4">
         <div class="col-md-12">
             <button class="btn btn-teal btn-block" onclick="searchCustomers()">

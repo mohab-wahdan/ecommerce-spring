@@ -28,7 +28,36 @@ public class CustomerController {
         System.out.println("Received customer data: " + customerDTO);
         return ResponseEntity.ok(createdCustomer);
     }
+    @GetMapping("/email/{email}")
+    public ResponseEntity<String> checkEmailExists(@PathVariable String email) {
+        boolean exists = customerService.doesEmailExist(email);
 
+        if (exists) {
+            return ResponseEntity.ok("exists");
+        } else {
+            return ResponseEntity.ok("available");
+        }
+    }
+    @GetMapping("/username/{username}")
+    public ResponseEntity<String> checkUsernameExists(@PathVariable String username) {
+        boolean exists = customerService.doesUsernameExist(username);
+
+        if (exists) {
+            return ResponseEntity.ok("exists");
+        } else {
+            return ResponseEntity.ok("available");
+        }
+    }
+    @GetMapping("/phonenumber/{phonenumber}")
+    public ResponseEntity<String> checkPhoneNumberExists(@PathVariable String phonenumber) {
+        boolean exists = customerService.doesPhoneNumberExist(phonenumber);
+
+        if (exists) {
+            return ResponseEntity.ok("exists");
+        } else {
+            return ResponseEntity.ok("available");
+        }
+    }
     @GetMapping
     public ResponseEntity<List<CustomerViewDTO>> getAllCustomers() {
         List<CustomerViewDTO> customers = customerService.getAllCustomers();
@@ -38,6 +67,11 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Integer id) {
         CustomerDTO customer = customerService.getCustomerById(id);
+        return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
+    }
+    @GetMapping("/customerUsername/{username}")
+    public ResponseEntity<CustomerViewDTO> getCustomerByUsername(@PathVariable String username) {
+        CustomerViewDTO customer = customerService.getCustomerByUsername(username);
         return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
     }
     @GetMapping("/customerId/{id}")

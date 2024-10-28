@@ -1,7 +1,14 @@
 $(document).ready(function() {
-    // Fetch customer data when the page loads
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            var token = sessionStorage.getItem('jwt-token');
+            if (token) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            }
+        }
+    });
     $.ajax({
-        url: "http://localhost:8083/customers", // Your API endpoint
+        url: "/customers", // Your API endpoint
         method: "GET",
         success: function(customers) {
             displayCustomers(customers);
@@ -37,6 +44,19 @@ function displayCustomers(customers) {
     }
     $("#customerList").html(customerHtml);
 }
+function loadAllCustomers() {
+    $.ajax({
+        url: "customers", // Your API endpoint
+        method: "GET",
+        success: function(customers) {
+            displayCustomers(customers);
+        },
+        error: function() {
+            $("#customerList").html("<p class='text-danger'>Failed to load customers.</p>");
+        }
+    });
+}
+
 function viewCustomerDetails(customerId) {
     // Fetch customer details
     $.get(`/customers/customerId/${customerId}`, function(customer) {
@@ -53,18 +73,30 @@ function viewCustomerDetails(customerId) {
     });
 }
 function searchCustomers() {
-    const username = document.getElementById('searchUsername').value;
-    const email = document.getElementById('searchEmail').value;
-    const id = document.getElementById('searchId').value;
+    const username = document.getElementById('searchUsername').value.trim(); // Get the username
 
-    let queryString = '';
-    if (username) queryString += 'username=' + encodeURIComponent(username) + '&';
-    if (email) queryString += 'email=' + encodeURIComponent(email) + '&';
-    if (id) queryString += 'id=' + encodeURIComponent(id) + '&';
-
-    window.location.href = 'customerView?userName='+username+'&email='+email+'&Id='+id;
+    if (username) { // Ensure username is not empty
+        $.ajax({
+            url: `/customers/customerUsername/${username}`, // Make sure this matches your API endpoint
+            method: "GET",
+            success: function(customer) {
+                if (customer) {
+                    displayCustomers([customer]); // Pass the customer as an array to display
+                } else {
+                    $("#customerList").html("<p class='text-danger'>No customer found.</p>");
+                }
+            },
+            error: function() {
+                $("#customerList").html("<p class='text-danger'>Failed to load customer.</p>");
+            }
+        });
+    } else {
+        // Optionally reload all customers if the search field is empty
+        loadAllCustomers();
+    }
 }
+
 function resetFilters() {
     // Redirect to the servlet to refresh the customer list
-    window.location.href = 'customerView';
+    window.location.href = '/admin/customerProfiles.jsp';
 }

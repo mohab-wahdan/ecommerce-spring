@@ -15,21 +15,18 @@
 <div class="container mt-5">
     <!-- Back Button -->
     <div class="mb-4">
-        <a href="productView" class="btn btn-black">
+        <a href="/admin/view-products.jsp" class="btn btn-black">
             <i class="fas fa-arrow-left"></i> Back to Products</a>
     </div>
     <div class="header-container">
         <h2 class="header-font">Add New Product</h2>
     </div>
 
-    <form action="addsubProduct" method="post" enctype="multipart/form-data">
+    <form id="addProductForm" enctype="multipart/form-data">
         <div class="form-group">
             <label for="mainProduct">Main Product</label>
             <select class="form-control" id="mainProduct" name="mainProduct" required>
                 <option value="">Select Main Product</option>
-                <c:forEach var="mainProduct" items="${mainProducts}">
-                    <option value="${mainProduct.id}">${mainProduct.name}</option>
-                </c:forEach>
             </select>
         </div>
 
@@ -37,9 +34,6 @@
             <label for="color">Color</label>
             <select class="form-control" id="color" name="color" required>
                 <option value="">Select Color</option>
-                <c:forEach var="color" items="${colors}">
-                    <option value="${color.name()}">${color.name()}</option>
-                </c:forEach>
             </select>
         </div>
 
@@ -47,9 +41,6 @@
             <label for="size">Size</label>
             <select class="form-control" id="size" name="size" required>
                 <option value="">Select Size</option>
-                <c:forEach var="size" items="${sizes}">
-                    <option value="${size.name()}">${size.name()}</option>
-                </c:forEach>
             </select>
         </div>
 
@@ -78,7 +69,7 @@
         </button>
     </form>
 </div>
-<script src="admin-dashboard/js/addProduct.js"></script>
+<script src="../js/adminjs/addSubProduct.js"></script>>
 
 </body>
 </html>

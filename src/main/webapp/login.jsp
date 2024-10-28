@@ -1,5 +1,15 @@
-<%@ include file="header.jsp" %>
-<link rel="stylesheet" href="/css/login.css">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicly - Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
 <div class="login-container">
     <div id="message-container"></div> <!-- Message container for alerts -->
 
@@ -56,9 +66,20 @@
                     password: password
                 }),
                 success: function(response) {
-                    localStorage.setItem("username", "yasmeenaa");
-                    alert("Welcome "+ localStorage.getItem("username")+" !");
-                    window.location.href = 'index.jsp';
+                    const token = response['jwt-token']
+                    const username = response['username']
+                    const role = response['role']
+                    sessionStorage.setItem("jwt-token",token);
+                    sessionStorage.setItem("username",username);
+                    sessionStorage.setItem("role",role);
+                    if(role==="admin"){
+                        window.location.href = '/admin/adminDashboard.jsp';
+                    }
+                    else{
+                        localStorage.setItem("username", "yasmeenaa");
+                        alert("Welcome "+ localStorage.getItem("username")+" !");
+                        window.location.href = 'index.jsp';
+                    }
                 },
                 error: function(xhr) {
                     // Handle error response
@@ -95,5 +116,3 @@
 		window.history.replaceState({}, document.title, url);
 	}
 </script>
-
-<%@ include file="footer.jsp" %>
