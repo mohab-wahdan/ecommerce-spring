@@ -109,3 +109,5 @@
 		window.history.replaceState({}, document.title, url);
 	}
 </script>
+</body>
+</html>
