@@ -1,32 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="favicon.ico">
-    <title>CHCILY</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
-
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
-    <style>
+<%@ include file="header.jsp" %>
+ <style>
         .notification {
             position: fixed;
             top: 0;
@@ -108,14 +81,7 @@
 
 
     </style>
-</head>
-<body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
 
-   <jsp:include page="common/header.jsp"/>
 
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
@@ -139,119 +105,14 @@
     <!-- Product Details Section Begin -->
     <section class="product-details spad">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="product__details__pic">
-                        <div class="product__details__pic__left product__thumb nice-scroll">
 
-                            <a class="pt" href="#product-2">
-                                <img src="${product.imageURL}" alt="">
-                            </a>
-                        </div>
-                        <div class="product__details__slider__content">
-                            <div class="product__details__pic__slider owl-carousel">
-                                <img data-hash="product-1" class="product__big__img" src="${product.imageURL}" alt="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="product__details__text">
-                        <h3>${product.productName}</h3>
-                        <div class="product__details__price">$ ${product.price} </div>
-                        <p>${product.description}</p>
-                        <div class="product__details__button">
-                            <div class="quantity">
-                                <span>Quantity:</span>
-                                <div class="pro-qtyy">
-                                    <button type="button" class="qtybtn dec">-</button>
-                                    <input type="text" id="quantity" value="1" min="1" max="${product.stock}" readonly>
-                                    <button type="button" class="qtybtn inc">+</button>
-                                </div>
-                            </div>
-                            <a class="cart-btn" onclick="addToCart(${product.id}, '${product.productName}', '${product.imageURL}', ${product.price}, ${product.stock})"><span class="icon_bag_alt"></span> Add to cart</a>
-
-                        </div>
-                        <div class="product__details__widget">
-                            <ul>
-                                <li>
-                                    <span>Availability:</span>
-                                    <div class="stock__checkbox">
-                                             ${product.stock}  In Stock
-                                    </div>
-                                </li>
+            <div id="productDetailsContainer"></div>
 
 
-                                <li>
-                                    <span>Available Color:</span>
-                                    <div class="size__btn">
-                                        <label for="xs-btn" class="active">
-                                            <input type="radio" id="xs-btn">
-                                            ${product.color}
-                                        </label>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span>Available size:</span>
-                                    <div class="size__btn">
-                                        <label for="xs-btn" class="active">
-                                            <input type="radio" id="xs-btn">
-                                            ${product.size}
-                                        </label>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="product__details__tab">
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                <h6>Description</h6>
-                                <p>${product.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="related__title">
-                        <h5>RELATED PRODUCTS</h5>
-                    </div>
-                </div>
-                 <c:forEach var="relatedProduct" items="${relatedProducts}">
-                    <c:if test="${relatedProduct.id != product.id}">
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="${relatedProduct.imageURL}">
-                            <ul class="product__hover">
-                                <li><a href="${relatedProduct.imageURL}" class="image-popup"><span class="arrow_expand"></span></a></li>
-                                 <li><a class="buttonAddToCart" data-id="${relatedProduct.id}" data-name="${relatedProduct.productName}" data-price="${relatedProduct.price}" data-image="${relatedProduct.imageURL}" data-stock="${relatedProduct.stock}"><span class="icon_bag_alt"></span></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6><a href="/product-details?product=${relatedProduct.id}">${relatedProduct.productName}</a></h6>
-                            <div class="product__price">$ ${relatedProduct.price}</div>
-                        </div>
-                    </div>
-                </div>
-                    </c:if>
-                </c:forEach>
-            </div>
         </div>
     </section>
     <!-- Product Details Section End -->
 
-
-    <jsp:include page="common/footer.jsp"/>
 
 
     <!-- Js Plugins -->
@@ -265,150 +126,128 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/jquery.nicescroll.min.js"></script>
     <script src="js/main.js"></script>
-    <script>
-        var user = '<c:out value="${sessionScope.user}" escapeXml="true" />';
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            const notificationMessage = document.getElementById('notification-message');
-            // Set the message and show the notification
-            notificationMessage.textContent = message;
-            notification.classList.remove('hidden');
-            // Automatically hide after 3 seconds
-            setTimeout(() => {
-                notification.classList.add('hidden');
-            }, 5000);
+<script>
+$(document).ready(function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const subProductId = urlParams.get('product.id');
+
+    // Fetch product details from the API
+    $.ajax({
+        url: 'http://localhost:8083/cartItems/subProduct/'+ subProductId ,
+        type: 'GET',
+        success: function(product) {
+            // Populate the HTML with product details
+            const productHtml = `
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="product__details__pic">
+                            <div class="product__details__pic__left product__thumb nice-scroll">
+                                <a class="pt" href="#product-2">
+                                    <img src="`+ product.imageURL +`" alt="">
+                                </a>
+                            </div>
+                            <div class="product__details__slider__content">
+                                <div class="">
+                                    <img data-hash="product-1" class="product__big__img" src="`+ product.imageURL +`" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="product__details__text">
+                            <h3>`+ product.description +`</h3>
+                            <div class="product__details__price">$ `+ product.price+` </div>
+                            <p>`+ product.description +`</p>
+                            <div class="product__details__button">
+                                <div class="quantity">
+                                    <span>Quantity:</span>
+                                    <div class="pro-qtyy">
+                                        <button type="button" class="qtybtn dec">-</button>
+                                        <input type="text" id="quantity" value="1" min="1" max="200" readonly>
+                                        <button type="button" class="qtybtn inc">+</button>
+                                    </div>
+                                </div>
+                                <a class="cart-btn" onclick="addToCart(${product.id}, '${product.description}', '${product.imageURL}', ${product.price}, ${product.stock})"><span class="icon_bag_alt"></span> Add to cart</a>
+                            </div>
+                            <div class="product__details__widget">
+                                <ul>
+                                    <li>
+                                        <span>Availability:</span>
+                                        <div class="stock__checkbox">
+                                            `+ product.stock +` In Stock
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>Available Color:</span>
+                                        <div class="size__btn">
+                                            <label for="color-`+ product.color +`" class="active">
+                                                <input type="radio" id="color-`+ product.color +`">
+                                                `+ product.color +`
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>Available size:</span>
+                                        <div class="size__btn">
+                                            <label for="size-`+ product.size +`" class="active">
+                                                <input type="radio" id="size-`+ product.size +`">
+                                               `+ product.size +`
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="product__details__tab">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                    <h6>Description</h6>
+                                    <p>`+ product.description +`</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Append the populated HTML to a container in your webpage
+            $('#productDetailsContainer').html(productHtml); // Ensure you have a container with this ID
+            $('.pro-qtyy .inc').click(function () {
+                let quantityInput = $('#quantity');
+                let currentQuantity = parseInt(quantityInput.val());
+                let maxStock = parseInt(quantityInput.attr('max'));
+
+                // Increase the quantity if it's less than max stock
+                if (currentQuantity < maxStock) {
+                    quantityInput.val(currentQuantity + 1);
+                }
+            });
+
+            $('.pro-qtyy .dec').click(function () {
+                let quantityInput = $('#quantity');
+                let currentQuantity = parseInt(quantityInput.val());
+                let minQuantity = parseInt(quantityInput.attr('min'));
+
+                // Decrease the quantity if it's more than min quantity
+                if (currentQuantity > minQuantity) {
+                    quantityInput.val(currentQuantity - 1);
+                }
+            });
+        },
+        error: function(error) {
+            console.error("Error fetching product details:", error);
+            // Optionally, show an error message to the user
         }
-        $(document).ready(function () {
-            // Event listener for all Add to Cart buttons
-            $(".buttonAddToCart").click(function (e) {
-                e.preventDefault(); // Prevent the default action of the anchor tag
+    });
+});
 
-                // Get product details from data attributes
-                const productId = $(this).data("id");
-                const productName = $(this).data("name");
-                const productPrice = $(this).data("price");
-                const productImage = $(this).data("image");
-                const productStock = $(this).data("stock");
-
-                // Create an object to send to the server
-                const productData = {
-                    id: productId,
-                    productName: productName,
-                    price: productPrice,
-                    imageURL: productImage,
-                    stock: productStock,
-                    quantity: 1 // Default to 1, or you can let the user input the quantity
-                };
-
-                // Send product details via Ajax to the backend (Servlet)
-                $.ajax({
-                    url: '/filterProducts', // URL of the servlet that handles adding to cart
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(productData),
-                    success: function (response) {
-                        $('#notification')
-                            .removeClass('alert-danger')
-                            .addClass('alert-success')
-                            .text(response.message)
-                            .fadeIn().delay(3000).fadeOut();
-                        // Optionally, update the cart UI with the updated cart count
-                        $('.icon_bag_alt').siblings('.tip').text(response.cartItemCount);
-                        saveCart();
-                        showNotification("Product Added To Cart");
-                        // Optionally, update the cart UI or display cart details
-                        // Example: $('#cart-count').text(response.cartItemCount);
-                    },
-                    error: function (xhr, status, error) {
-                        $('#notification')
-                            .removeClass('alert-success')
-                            .addClass('alert-danger')
-                            .text('Error adding product to cart. Please try again.')
-                            .fadeIn().delay(3000).fadeOut();
-                        showNotification("Error adding product to cart. Please try again.");
-                    }
-                });
-            });
-        });
-
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const stock = ${product.stock};  // Available stock from your product object
-            let quantity = 1;  // Initial quantity
-            // Update quantity when +/- buttons are clicked
-            document.querySelector(".inc").addEventListener("click", function() {
-                if (quantity < stock) {
-                    quantity++;
-                    document.getElementById("quantity").value = quantity;
-                }
-            });
-
-            document.querySelector(".dec").addEventListener("click", function() {
-                if (quantity > 1) {
-                    quantity--;
-                    document.getElementById("quantity").value = quantity;
-                }
-            });
-        });
-
-        function addToCart(productId, productName, productImage, productPrice, maxStock) {
-            const quantity = document.getElementById('quantity').value;
-
-            if (quantity > maxStock) {
-                showNotification('Quantity exceeds available stock.');
-                return;
-            }
-
-            // Create data to send to servlet
-            const data = {
-                id: productId,
-                productName: productName,
-                imageURL: productImage,
-                price: productPrice,
-                stock:maxStock,
-                quantity: quantity
-            };
-
-
-            $.ajax({
-                type: 'POST',
-                url: '/product-details',
-                data: JSON.stringify(data),
-                contentType: 'application/json',
-                success: function(response) {
-                    if (response.status === "success") {
-                        $('.icon_bag_alt').siblings('.tip').text(response.cartItemCount);
-                            console.log(user);
-                            saveCart();
-
-                        showNotification("Product Added To Cart");
-                    } else if (response.status === "fail") {
-                        showNotification(response.message);
-                    }
-
-                },
-                error: function() {
-                    alert('Error adding product to cart.');
-                }
-            });
-        }
-        function saveCart() {
-            // Send an AJAX request to get the CartService from the session
-            $.ajax({
-                url: "/cartlocal",
-                type: "GET",
-                success: function (response) {
-                    // Save the entire CartService object to localStorage
-                    localStorage.setItem("cartService", JSON.stringify(response.cart));
-                    console.log("CartService successfully saved to localStorage.");
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error saving CartService:", error);
-                }
-            });
-        }
     </script>
 
-</body>
-
-</html>
+ <%@ include file="footer.jsp" %>

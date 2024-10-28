@@ -120,13 +120,13 @@ function handleEmailReq() {
 var usernameReq;
 
 function checkUserName() {
-    usernameReq = new XMLHttpRequest();
-    usernameReq.onreadystatechange = handleUserReq;
-    var yourvalue = document.getElementById("userName").value;
-    console.log("value: " + yourvalue);
-    usernameReq.open("POST", "usernameValidator", true);
-    usernameReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    usernameReq.send("uName=" + encodeURIComponent(yourvalue));
+//    usernameReq = new XMLHttpRequest();
+//    usernameReq.onreadystatechange = handleUserReq;
+//    var yourvalue = document.getElementById("userName").value;
+//    console.log("value: " + yourvalue);
+//    usernameReq.open("POST", "usernameValidator", true);
+//    usernameReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+//    usernameReq.send("uName=" + encodeURIComponent(yourvalue));
 }
 function handleUserReq() {
     if (usernameReq.readyState === 4) {

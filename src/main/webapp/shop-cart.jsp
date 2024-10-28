@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="cart__btn">
-                        <a href="filterProducts">Continue Shopping</a>
+                        <a href="shop.jsp">Continue Shopping</a>
                     </div>
                 </div>
             </div>
@@ -61,10 +61,10 @@
                     <div class="cart__total__procced">
                         <h6>Cart total</h6>
                         <ul>
-                            <li>TotalQuantity <span>${cart.totalQuantity}</span></li>
-                            <li>Subtotal <span>$ ${cart.totalPrice}</span></li>
+                            <li>TotalQuantity <span class="totalQuantity"> </span></li>
+                            <li>Subtotal <span class="finalTotalPrice">  </span></li>
                         </ul>
-                        <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+                        <a href="checkout.jsp" class="primary-btn">Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -73,13 +73,95 @@
     <!-- Shop Cart Section End -->
 <script>
 $(document).ready(function() {
-fetchCartItemsAndDetails();
-
+    fetchCartItemsAndDetails();
+    $(document).on('click', '.icon_close',deleteItem);
+    $(document).on('change', '.quantity-input',updateQuantity);
 });
+
+function updateCartTotals() {
+    let totalQuantity = 0;
+    let totalPrice = 0;
+
+    $.each(cartItems, function(index, row) {
+        const quantity = parseInt($(row).find(".quantity-input").val()) || 0;
+        const price = parseFloat($(row).find(".total-price").text().replace("$", "")) || 0;
+
+        totalQuantity += quantity;
+        totalPrice += price;
+    });
+
+    // Update the Cart total section
+    $(".totalQuantity").text(totalQuantity); // Total Quantity
+    $(".finalTotalPrice").text("$"+totalPrice); // Total Price
+    // Store the updated totals in localStorage
+    localStorage.setItem('totalQuantity', totalQuantity);
+    localStorage.setItem('totalPrice', totalPrice);
+}
+
+//Function to update quantity
+function updateQuantity(){
+    const $row = $(this).closest("tr");  // Get the row of the changed quantity input
+    const subProductId = $row.data("product-id"); // Extract subProductId from data attribute
+    const customerId = 4; // Replace with actual customerId or retrieve it dynamically
+    const newQuantity = $(this).val();  // Get the new quantity value
+    const price = parseFloat($row.find("td:nth-child(2)").text().replace('$', ''));
+    const total = (price * newQuantity).toFixed(2); // Calculate new total price
+
+    // Update the displayed total price in the table
+    $row.find(".total-price").text('$' +total);
+
+    // Update quantity on the server
+    const updateUrl = 'http://localhost:8083/cartItems/'+ customerId+'/'+subProductId;
+    const requestBody = {
+        quantity: newQuantity
+    };
+
+    // Send the PUT request to update quantity
+    $.ajax({
+        url: updateUrl,
+        method: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify(requestBody),
+        success: function(response) {
+            //alert("Quantity updated successfully!");
+        },
+        error: function(xhr, status, error) {
+            console.error("Error updating quantity:", error);
+            alert("Failed to update quantity.");
+        }
+    });
+}
+
+// Function to delete cart items
+function deleteItem() {
+    // Prevent default action if necessary
+    const $row = $(this).closest('tr');  // Get the row of the clicked delete icon
+    const subProductId = $row.data('product-id'); // Extract subProductId from data attribute
+    const customerId = 4; // Replace with the actual customerId or retrieve it dynamically
+
+    // DELETE endpoint URL
+    const deleteUrl = 'http://localhost:8083/cartItems/'+ customerId+'/'+subProductId;
+
+    // Confirm delete action with the user (optional)
+    if (confirm("Are you sure you want to remove this item from the cart?")) {
+        $.ajax({
+            url: deleteUrl,
+            method: "DELETE",
+            success: function(response) {
+                // Remove the row from the table
+                $row.remove();
+            },
+            error: function(xhr, status, error) {
+                console.error("Error deleting item:", error);
+                alert("Failed to remove item from the cart.");
+            }
+        });
+    }
+}
 
 // Function to get cart items by customer ID and then fetch sub-product details
 function fetchCartItemsAndDetails() {
-    const userId = 6;
+    const userId = 4;
      $.ajax({
         url: 'http://localhost:8083/cartItems/'+userId,
         type: 'GET',
@@ -94,7 +176,7 @@ function fetchCartItemsAndDetails() {
                     success: function(subProductDetails) {
                         // Process and display sub-product details
                         $('#cartItemsTableBody').append(`
-                            <tr data-product-id="`+subProductDetails.id+`">
+                            <tr data-product-id="`+subProductDetails.id+`" class="cart-item-row">
                                 <td>
                                 <img src="`+subProductDetails.imageURL+`" style="width: 90px; height: 90px;" alt="">
                                 <div class="cart__product__item__title">
@@ -105,10 +187,10 @@ function fetchCartItemsAndDetails() {
                                 <td>
                                     <input type="text" value="`+cartItem.quantity+`" class="quantity-input" >
                                 </td>
-                                <td>$ ${total}</td>
-                                <td><span class="icon_close"></span></td>
+                                <td class="total-price">$ ` + (subProductDetails.price * cartItem.quantity).toFixed(2) + `</td>                                <td><span class="icon_close"></span></td>
                             </tr>
                         `);
+                         updateCartTotals();
                     },
                     error: function(error) {
                         console.error(`Error fetching details for subProduct ID ${subProductId}:`, error);
@@ -122,183 +204,7 @@ function fetchCartItemsAndDetails() {
     });
 }
 </script>
-
-
-    <script>
-        // Function to calculate and update the subtotal and total quantity
-        function updateSubtotalAndQuantity() {
-            let subtotal = 0;
-            let totalQuantity = 0;
-
-            // Loop through each product row and calculate totals
-            document.querySelectorAll('.quantity-input').forEach(input => {
-                const quantity = parseInt(input.value);
-                const pricePerUnit = parseFloat(input.getAttribute('data-price'));
-
-
-                subtotal += quantity * pricePerUnit;
-                totalQuantity += quantity;
-            });
-
-            // Update the subtotal and total quantity in the HTML
-            document.querySelector('.cart__total__procced li:nth-child(1) span').textContent = totalQuantity; // Update total quantity
-            document.querySelector('.cart__total__procced li:nth-child(2) span').textContent = '$ ' + subtotal.toFixed(2); // Update subtotal
-        }
-
-        // Function to handle product removal
-        function removeProduct(productRow, productId) {
-            const requestData = {
-                productId: productId
-            };
-
-            // Send AJAX request to servlet to remove product from the cart
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'cart', true);
-            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    const data = JSON.parse(xhr.responseText);
-                    if (data.success) {
-                        // Remove the product row from the table
-                        productRow.remove();
-
-                        // Recalculate and update the cart count, subtotal, and total quantity
-                        updateSubtotalAndQuantity();
-
-                        // Optionally update cart count in header (if needed)
-                        $('.icon_bag_alt').siblings('.tip').text(data.cartItemCount);
-                            saveCart();
-                    } else {
-                        alert('Failed to remove the product.');
-                    }
-                }
-            };
-            xhr.send(JSON.stringify(requestData));
-        }
-        function saveCart() {
-            // Send an AJAX request to get the CartService from the session
-            $.ajax({
-                url: "/cartlocal",
-                type: "GET",
-                success: function (response) {
-                    // Save the entire CartService object to localStorage
-                    localStorage.setItem("cartService", JSON.stringify(response.cart));
-                    console.log("CartService successfully saved to localStorage.");
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error saving CartService:", error);
-                }
-            });
-        }
-
-        // DOM Content Loaded event
-        document.addEventListener('DOMContentLoaded', function () {
-
-
-            // Function to handle quantity update
-            function updateQuantity(input, isIncrement) {
-                let quantity = parseInt(input.value);
-                const pricePerUnit = parseFloat(input.getAttribute('data-price'));
-                const productRow = input.closest('tr'); // Get the closest 'tr' element
-                const productId = productRow.getAttribute('data-product-id');
-                let maxStock = parseInt(input.getAttribute('data-max'));
-                console.log(maxStock);
-                // Increment or decrement the quantity
-                if (isIncrement) {
-
-                    if (quantity < maxStock) {
-                        quantity += 1;
-                    }
-
-
-                } else {
-                    quantity = quantity > 1 ? quantity - 1 : 1; // Prevent going below 1
-                }
-
-                // Update the input value
-                input.value = quantity;
-                const requestData = {
-                    productId: productId,
-                    quantity: quantity
-                };
-                console.log(requestData);
-                // Update the total price for this product row
-
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', 'cartupdate', true);
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        const data = JSON.parse(xhr.responseText);
-                        if (data.success) {
-                            // Update the total price for this product row
-                            const totalPrice = pricePerUnit * quantity;
-                            const totalPriceElement = input.closest('tr').querySelector('.total-value');
-                            totalPriceElement.textContent = totalPrice.toFixed(2);
-
-                            // Recalculate and update the overall subtotal and total quantity
-                            document.querySelector('.cart__total__procced li:nth-child(1) span').textContent = data.totalQuantity;
-                            document.querySelector('.cart__total__procced li:nth-child(2) span').textContent = '$ ' + data.totalPrice.toFixed(2);
-                        } else {
-                            alert('Failed to update the product quantity.');
-                        }
-                    }
-                };
-                xhr.send(JSON.stringify(requestData));
-                  // Update total for this product
-
-
-                // Recalculate and update the overall subtotal and total quantity
-                updateSubtotalAndQuantity();
-            }
-
-            // Get all quantity input fields and their corresponding buttons
-            document.querySelectorAll('.quantity-input').forEach(input => {
-                // Handle "+" button click
-                const plusBtn = input.nextElementSibling;
-                plusBtn.addEventListener('click', function () {
-                    updateQuantity(input, true); // Increment
-                });
-
-                // Handle "-" button click
-                const minusBtn = input.previousElementSibling;
-                minusBtn.addEventListener('click', function () {
-                    updateQuantity(input, false); // Decrement
-                });
-
-                // Also listen for manual input changes
-                input.addEventListener('input', function () {
-                    let quantity = parseInt(input.value);
-                    let maxStock = parseInt(input.getAttribute('data-max'));
-                    if (isNaN(quantity) || quantity < 1) {
-                        quantity = 1;
-                        input.value = 1;
-                    } else if (quantity > maxStock) {
-                        quantity = maxStock; // Cap it to the stock value
-                    }
-
-                    const pricePerUnit = parseFloat(input.getAttribute('data-price'));
-                    const totalPrice = pricePerUnit * quantity;
-                    const totalPriceElement = input.closest('tr').querySelector('.total-value');
-                    totalPriceElement.textContent = totalPrice.toFixed(2);
-
-                    updateSubtotalAndQuantity();
-                });
-            });
-
-            // Get all "remove" buttons
-            const removeButtons = document.querySelectorAll('.cart__close span');
-            removeButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const productRow = button.closest('tr');
-                    const productId = productRow.getAttribute('data-product-id'); // Get productId
-
-                    removeProduct(productRow, productId);
-                });
-            });
-        });
-
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 
