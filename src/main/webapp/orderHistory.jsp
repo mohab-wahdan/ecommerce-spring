@@ -149,16 +149,25 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
 $(document).ready(function () {
+
+ $.ajaxSetup({
+    beforeSend: function(xhr) {
+        var token = sessionStorage.getItem('jwt-token');
+        if (token) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        }
+    }
+});
 populateTable1();
 });
 
 
 function populateTable1(){
-    var customerId =4;  // Use the customer ID needed
+    var customerId =sessionStorage.getItem("id");  // Use the customer ID needed
 
     // Fetch orders for the specified customer
     $.ajax({
-        url: 'http://localhost:8083/orders/customer/' + customerId,
+        url: '/orders/customer/' + customerId,
         type: 'GET',
         dataType: 'json',
         success: function (orders) {

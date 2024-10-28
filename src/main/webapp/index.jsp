@@ -117,5 +117,26 @@
         </div>
     </div>
 </section>
-
+<script>
+// Assume you have the username stored in sessionStorage or retrieved via another session method
+    const username = sessionStorage.getItem("username");
+    console.log("username:", username);
+    if (username) {
+        // Fetch customer ID based on username
+        $.ajax({
+            url: '/auth/customer/'+username ,
+            type: 'GET',
+            success: function(response) {
+                console.log("Customer ID:", response.id);
+                sessionStorage.setItem("id",response.id);
+                // Use the customer ID for further operations, such as adding to cart
+            },
+            error: function(error) {
+                console.error("Error retrieving customer ID:", error);
+            }
+        });
+    } else {
+        console.error("Username not found in session.");
+    }
+</script>
 <%@ include file="footer.jsp" %>
