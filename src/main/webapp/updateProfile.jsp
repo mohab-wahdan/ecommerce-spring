@@ -448,7 +448,8 @@
                     },
                     account: {
                         userName: document.getElementById('userName').value,
-                        password: document.getElementById('password').value
+                        password: document.getElementById('password').value,
+                        roles: "user"
                     }
                 };
 
