@@ -17,6 +17,7 @@ public interface SubProductRepository extends JpaRepository<SubProduct, Integer>
     @Query("select sub from SubProduct sub where sub.product.subCategory.category.id=?1")
     List<SubProduct> findSubProductsByCategory(int categoryId) ;
 
+
     @Query("select sub from SubProduct sub where sub.product.subCategory.name=?1")
     List<SubProduct> findBySubCategoryName(String subCategoryName) ;
 

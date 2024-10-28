@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .success-message {
+            background-color: #e6ffe6;
+            padding: 20px;
+            border: 2px solid #00cc00;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #008000;
+        }
+
+        p {
+            color: #333;
+        }
+
+        .amount {
+            font-size: 1.5em;
+            color: #007700;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="success-message">
+    <h1>Payment Successful!</h1>
+    <p>Thank you for your purchase of:</p>
+    <p class="amount">$<span th:text="*{amount}"></span></p>
+    <p>You will be redirected to the main page shortly.</p>
+</div>
+
+<script>
+    // Extract the amount from the URL query parameters
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const amount = urlParams.get('amount');
+    //
+    // // Display the amount to the user
+    // if (amount) {
+    //     document.getElementById('payment-amount').textContent = amount;
+    // } else {
+    //     document.getElementById('payment-amount').textContent = "N/A";
+    // }
+
+    // Redirect to the main page after 5 seconds
+    setTimeout(function() {
+        window.location.href = '/';
+    }, 5000);
+</script>
+</body>
+</html>

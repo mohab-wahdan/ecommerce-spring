@@ -79,4 +79,18 @@ public class CustomerService {
         Optional<Customer> customer = customerRepository.findByAccount_UserName(username);
         return CustomerViewDTO.fromCustomer(customer.get());
     }
+
+    public boolean doesEmailExist(String email) {
+        return customerRepository.existsByEmail(email);
+    }
+
+    public boolean doesUsernameExist(String username) {
+        return customerRepository.existsByAccount_UserName(username);
+
+    }
+
+    public boolean doesPhoneNumberExist(String phonenumber) {
+        return customerRepository.existsByPhoneNumber(phonenumber);
+
+    }
 }

@@ -37,12 +37,12 @@
             // Show dropdown menu with username and additional links
             userLoginContainer.innerHTML = `
             <div class="flex-container">
-            <p style="font-weight: bold; color: black;">`+username+` </p>
+            <p class="user-title" >`+username+` </p>
                <div class="user-dropdown">
                    <a href="#" class="user-menu">
-                       <i class="fa fa-user fa-2x"></i>
-                       <span class="arrow-down"></span>
-                   </a>
+                        <i class="fa fa-user fa-2x"></i> <!-- User Icon -->
+                        <span class="arrow-down"></span>
+                    </a>
                    <ul class="user-submenu">
                        <li><a href="userProfile.jsp">Profile</a></li>
                        <li><a href="orderHistory.jsp">My Orders</a></li>
@@ -51,7 +51,6 @@
                </div>
             </div>`;
 
-            // Add event listener for logout button
             document.getElementById("logout").addEventListener("click", function() {
                 localStorage.removeItem("username");
                 userLoginContainer.innerHTML = `
@@ -98,6 +97,19 @@
         font-size: 18px; /* Adjust icon size */
         margin-right: 5px;
         color: #333;
+    }
+    .user-title{
+        font-size: 16px;
+        margin-right: 10px; /* Space between title and value */
+        background-color: #f8f9fa;
+        padding: 5px 10px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        display: inline-block;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 150px; /* Set fixed width to align all labels */
     }
 
     .user-menu .arrow-down {
@@ -164,7 +176,7 @@
         </ul>
         <div class="offcanvas__logo">
  
-            <a href="index.jsp"><img src="img/logo.png" alt=""></a>
+            <a href="index.jsp"><img src="img/logo.png" width="98" height="31" alt=""></a>
  
         </div>
         <div id="mobile-menu-wrap"></div>
@@ -182,7 +194,7 @@
                 <div class="col-xl-3 col-lg-2">
                     <div class="header__logo">
  
-                        <a href="index.jsp"><img src="img/logo.png" alt=""></a>
+                        <a href="index.jsp"><img src="img/logo.png" width="98" height="31" alt=""></a>
  
                     </div>
                 </div>
