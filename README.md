@@ -172,5 +172,3 @@ This project was developed with the help of the following contributors:
 | Nourhan ELsherbiny     | nouraelsherbiny98@gmail.com  |
 
 Feel free to reach out to any of the contributors for more information about the project.
-
-Feel free to open an issue if you have any questions or suggestions for improvement.
