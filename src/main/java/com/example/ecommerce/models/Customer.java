@@ -78,8 +78,4 @@ public class Customer{
         order.setCustomer(this);
         orders.add(order);
     }
-    @Enumerated(EnumType.STRING)
-    private Provider provider;
-
-    private boolean enabled;
 }

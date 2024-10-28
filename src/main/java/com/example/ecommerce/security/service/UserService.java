@@ -6,7 +6,6 @@ import com.example.ecommerce.mappers.CustomerMapper;
 import com.example.ecommerce.models.Account;
 import com.example.ecommerce.models.Admin;
 import com.example.ecommerce.models.Customer;
-import com.example.ecommerce.repositories.AccountRepository;
 import com.example.ecommerce.repositories.AdminRepository;
 import com.example.ecommerce.repositories.CustomerRepository;
 import com.example.ecommerce.security.UserPrinciple;
@@ -22,14 +21,14 @@ public class UserService implements UserDetailsService {
     private final CustomerRepository customerRepository;
     private final AdminRepository adminRepository;
     private final CustomerMapper customerMapper;
-    private final AccountRepository accountRepository;
+
 
     @Autowired
-    public UserService(CustomerRepository customerRepository, AdminRepository adminRepository, CustomerMapper customerMapper, AccountRepository accountRepository) {
+    public UserService(CustomerRepository customerRepository, AdminRepository adminRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
         this.adminRepository = adminRepository;
         this.customerMapper = customerMapper;
-        this.accountRepository = accountRepository;
+
     }
 
     @Override
@@ -60,27 +59,31 @@ public class UserService implements UserDetailsService {
     }
 
     public void processOAuthPostLogin(String username) {
-        Account existUser = accountRepository.getByUserName(username);
+        Customer existUser = customerRepository.findByAccountUserName(username);
 
         if (existUser == null) {
             Account newUser = new Account();
+            Customer c = new Customer();
             newUser.setUserName(username);
             newUser.setProvider(Provider.GOOGLE);
             newUser.setEnabled(true);
-            accountRepository.save(newUser);
+            c.setAccount(newUser);
+            customerRepository.save(c);
         }
 
     }
 
     public void processOAuthPostLoginFacebook(String username) {
-        Account existUser = accountRepository.getByUserName(username);
+        Customer existUser = customerRepository.findByAccountUserName(username);
 
         if (existUser == null) {
             Account newUser = new Account();
+            Customer c = new Customer();
             newUser.setUserName(username);
-            newUser.setProvider(Provider.FACEBOOK);
+            newUser.setProvider(Provider.GOOGLE);
             newUser.setEnabled(true);
-            accountRepository.save(newUser);
+            c.setAccount(newUser);
+            customerRepository.save(c);
         }
 
     }
