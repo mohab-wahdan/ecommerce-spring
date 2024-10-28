@@ -28,10 +28,10 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
         const userLoginContainer = document.getElementById("user-login");
-        const username = localStorage.getItem("username");
+        const username = sessionStorage.getItem("username");
 
         if (username) {
             // Show dropdown menu with username and additional links
@@ -52,11 +52,12 @@
             </div>`;
 
             document.getElementById("logout").addEventListener("click", function() {
-                localStorage.removeItem("username");
+                sessionStorage.clear();
                 userLoginContainer.innerHTML = `
                     <a href="login.jsp">Login</a>
                     <a href="registration.jsp">Register</a>`;
-              });
+                });
+              //window.location.href = 'index.jsp';
         } else {
             // Show Login and Register links if user is not logged in
             userLoginContainer.innerHTML = `

@@ -142,7 +142,7 @@
 
             // Make AJAX request to register the user
             $.ajax({
-                url: 'http://localhost:8083/customers', // Your API endpoint
+                url: '/customers', // Your API endpoint
                 method: 'POST',
                 contentType: 'application/json', // Specify JSON format
                 data: JSON.stringify(formData), // Convert formData to JSON string
