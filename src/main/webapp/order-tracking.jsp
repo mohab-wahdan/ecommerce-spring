@@ -1,12 +1,147 @@
- <%@ include file="header.jsp" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f9f9;
+        }
 
-<div class="breadcrumb-option">
+        .breadcrumb__links {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .breadcrumb__links a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        .breadcrumb__links span {
+            font-weight: bold;
+            color: #000;
+        }
+
+        .page-title-inner {
+            background: url('order/img/page-titlebg.png') no-repeat center center/cover;
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .page-title-inner h1 {
+            font-size: 36px;
+            text-transform: uppercase;
+        }
+
+        .track-lines .single-tracking-inner {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .track-lines .single-tracking-inner:hover {
+            transform: translateY(-10px);
+        }
+
+        .single-tracking-inner h5 {
+            font-size: 18px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .single-tracking-inner img {
+            max-width: 50px;
+        }
+
+        .order-details-wrap {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .order-details-heading h5 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .order-items-section table {
+            width: 100%;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .order-items-section table thead th {
+            background-color: #ca1515;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .order-items-section table tbody tr td {
+            padding: 10px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .order-deliverd-date {
+            margin-top: 40px;
+            font-size: 20px;
+        }
+
+        .order-deliverd-date span {
+            font-weight: bold;
+            color: #ca1515;
+        }
+
+        .order-details-wrap .shipping-to-area h5, .billing-to-area h5 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .order-history-title {
+            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            font-weight: 700; /* Make the text bold */
+            font-size: 32px; /* Larger font size */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
+            padding: 10px 20px; /* Add padding for spacing */
+            border-radius: 50px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            display: inline-block; /* Keeps it inline but with block properties */
+            text-transform: uppercase; /* Makes the text uppercase */
+            letter-spacing: 2px; /* Adds spacing between letters */
+        }
+    </style>
+</head>
+<%@ include file="header.jsp" %>
+<body>
+    <div class="breadcrumb-option">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="orderHistory.jsp"><i class="fa icon_profile"></i> Order History</a>
-                    <span class="order-history-title">Order Tracking</span>
+                    <a href="index.jsp"><i class="fa icon_profile"></i>Home</a>
+                    <a href="orderHistory.jsp"><i class="fas fa-clipboard-list"></i> Order History</a>
+                    <span class="order-history-title"><i class="fas fa-truck"></i> Order Tracking</span>
                 </div>
             </div>
         </div>
@@ -197,122 +332,6 @@
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
-
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f9f9f9;
-        }
-
-        .breadcrumb__links {
-            margin-top: 20px;
-            font-size: 16px;
-        }
-
-        .breadcrumb__links a {
-            color: #333;
-            text-decoration: none;
-        }
-
-        .breadcrumb__links span {
-            font-weight: bold;
-            color: #000;
-        }
-
-        .page-title-inner {
-            background: url('order/img/page-titlebg.png') no-repeat center center/cover;
-            color: white;
-            padding: 50px 0;
-            text-align: center;
-        }
-
-        .page-title-inner h1 {
-            font-size: 36px;
-            text-transform: uppercase;
-        }
-
-        .track-lines .single-tracking-inner {
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            transition: transform 0.3s ease;
-        }
-
-        .track-lines .single-tracking-inner:hover {
-            transform: translateY(-10px);
-        }
-
-        .single-tracking-inner h5 {
-            font-size: 18px;
-            margin-top: 15px;
-            font-weight: 600;
-        }
-
-        .single-tracking-inner img {
-            max-width: 50px;
-        }
-
-        .order-details-wrap {
-            background: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            margin-top: 40px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .order-details-heading h5 {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .order-items-section table {
-            width: 100%;
-            background: #fff;
-            margin-top: 20px;
-        }
-
-        .order-items-section table thead th {
-            background-color: #ca1515;
-            color: #fff;
-            padding: 10px;
-        }
-
-        .order-items-section table tbody tr td {
-            padding: 10px;
-            font-size: 16px;
-            text-align: center;
-        }
-
-        .order-deliverd-date {
-            margin-top: 40px;
-            font-size: 20px;
-        }
-
-        .order-deliverd-date span {
-            font-weight: bold;
-            color: #ca1515;
-        }
-
-        .order-details-wrap .shipping-to-area h5, .billing-to-area h5 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        .order-history-title {
-            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
-            font-weight: 700; /* Make the text bold */
-            font-size: 32px; /* Larger font size */
-            color: #ca1515; /* A bold red color matching the theme */
-            background-color: #f8f9fa; /* Light background for contrast */
-            padding: 10px 20px; /* Add padding for spacing */
-            border-radius: 50px; /* Rounded corners */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-            display: inline-block; /* Keeps it inline but with block properties */
-            text-transform: uppercase; /* Makes the text uppercase */
-            letter-spacing: 2px; /* Adds spacing between letters */
-        }
-    </style>
- <%@ include file="footer.jsp" %>
-
+</body>
+<%@ include file="footer.jsp" %>
+</html>

@@ -37,9 +37,9 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/customers","/enums/colors","/enums/genders","/enums/sizes","/subProducts/subcategoryId",
                                         "/subProducts/subcategoryId/","/customers/customerId/**","/customers/customerUsername/**").hasAuthority("ROLE_admin")
                                 .requestMatchers(HttpMethod.DELETE,"/admin/**","/subProducts/**","/customers/**").hasAuthority("ROLE_admin")
-                                .requestMatchers(HttpMethod.POST,"/subProducts/","/subcategory/","/products","category").hasAuthority("ROLE_admin")
+                                .requestMatchers(HttpMethod.POST,"/subProducts/","/subcategory/","/products").hasAuthority("ROLE_admin")
                                 .requestMatchers(HttpMethod.PUT,"/subProducts/**","/subcategory/**","/orders/*/status/*").hasAuthority("ROLE_admin")
-                                .requestMatchers("/orders/**").authenticated()
+//                                .requestMatchers("/orders/**").authenticated()
                                 .anyRequest().permitAll()
 
                 )

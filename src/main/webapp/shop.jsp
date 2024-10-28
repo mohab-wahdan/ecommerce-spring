@@ -453,3 +453,5 @@ function renderProductsPages(products) {
 <script src="js/product-display.js"></script>
 <link rel="stylesheet" href="css/shop.css" type="text/css">
 <%@ include file="footer.jsp" %>
+</body>
+</html>

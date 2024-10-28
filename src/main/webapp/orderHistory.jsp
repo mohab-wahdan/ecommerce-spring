@@ -1,4 +1,20 @@
-<%@ include file="header.jsp" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
 
     <style>
         .btn-black {
@@ -17,17 +33,17 @@
         }
 
         .order-history-title {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 32px;
-            color: #ca1515;
-            background-color: #f8f9fa;
-            padding: 10px 20px;
-            border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            font-weight: 700; /* Make the text bold */
+            font-size: 32px; /* Larger font size */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
+            padding: 10px 20px; /* Add padding for spacing */
+            border-radius: 50px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            display: inline-block; /* Keeps it inline but with block properties */
+            text-transform: uppercase; /* Makes the text uppercase */
+            letter-spacing: 2px; /* Adds spacing between letters */
         }
 
         /* Modal Styles */
@@ -45,15 +61,16 @@
             background-color: #6c757d;
         }
     </style>
-
+</head>
+<%@ include file="header.jsp" %>
 <body>
 <div class="breadcrumb-option">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="/"><i class="fa fa-home"></i> Home</a>
-                    <span class="order-history-title">Order history</span>
+                    <a href="index.jsp"><i class="fa fa-home"></i> Home</a>
+                    <span class="order-history-title"><i class="fas fa-clipboard-list"></i> Order History</span>
                 </div>
             </div>
         </div>
@@ -180,7 +197,7 @@ function populateTable1(){
                            <td>`+order.destination+`</td>
                            <td>`+order.status+`</td>
                            <td>
-                               <a href="order-tracking.jsp?orderId=` + order.id + `" class="btn btn-primary">View Order Details</a>
+                               <a href="order-tracking.jsp?orderId=` + order.id + `" class="btn btn-primary">View Order</a>
                                 ` + (order.status === 'COMPLETED'
                                         ? `<button class="btn btn-cancelled" disabled>Delivered</button>`
                                         : `<button class="btn btn-danger cancel-order" data-order-id="${order.id}">Cancel Order</button>`) + `
@@ -206,4 +223,6 @@ function populateTable1(){
     });
 }
 </script>
+</body>
 <%@ include file="footer.jsp" %>
+</html>

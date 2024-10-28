@@ -1,5 +1,79 @@
-<%@ include file="header.jsp" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <style>
 
+        /*end of Notification Style*/
+        .pro-qtyy {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: fit-content;
+        }
+
+        .qty-btn {
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 50%; /* Makes the buttons circular */
+            width: 40px; /* Equal width and height for a perfect circle */
+            height: 40px;
+            font-size: 18px; /* Adjust font size to fit inside the circle */
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            line-height: 40px; /* Centers the text vertically */
+            cursor: pointer;
+            margin: 0 5px;
+            transition: background-color 0.3s ease; /* Smooth hover effect */
+        }
+
+        .qty-btn:focus {
+            outline: none;
+        }
+
+        .qty-btn:hover {
+            background-color: #e0e0e0; /* Change background on hover */
+        }
+
+        .quantity-input {
+            width: 50px;
+            height: 40px; /* Match the button height for symmetry */
+            text-align: center;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .shopping-cart-title {
+            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            font-weight: 700; /* Make the text bold */
+            font-size: 32px; /* Larger font size */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
+            padding: 10px 20px; /* Add padding for spacing */
+            border-radius: 50px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            display: inline-block; /* Keeps it inline but with block properties */
+            text-transform: uppercase; /* Makes the text uppercase */
+            letter-spacing: 2px; /* Adds spacing between letters */
+        }
+    </style>
+</head>
+<%@ include file="header.jsp" %>
+<body>
 <!--Notification Section -->
     <jsp:include page="common/WarningNotification.jsp"/>
     <!-- Breadcrumb Begin -->
@@ -8,8 +82,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="/"><i class="fa fa-home"></i> Home</a>
-                        <span class="order-history-title">Shopping Cart</span>
+                        <a href="index.jsp"><i class="fa fa-home"></i> Home</a>
+                        <span class="shopping-cart-title"><i class="fas fa-shopping-cart"></i> Shopping Cart</span>
                     </div>
                 </div>
             </div>
@@ -41,11 +115,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn">
-                        <a href="shop.jsp">Continue Shopping</a>
-                    </div>
-                </div>
+                        <a href="shop.jsp" class="primary-btn">Continue Shopping</a>
             </div>
             <div class="row">
                 <div class="col-lg-6">
@@ -64,7 +134,7 @@
                             <li>TotalQuantity <span class="totalQuantity"> </span></li>
                             <li>Subtotal <span class="finalTotalPrice">  </span></li>
                         </ul>
-                        <a href="checkout.jsp" class="primary-btn">Proceed to checkout</a>
+                        <a href="checkout.jsp" class="primary-btn"><i class="fa fa-dollar-sign"></i> Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -205,64 +275,6 @@ function fetchCartItemsAndDetails() {
 }
 </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-
-<style>
-
-        /*end of Notification Style*/
-        .pro-qtyy {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: fit-content;
-        }
-
-        .qty-btn {
-            background-color: #f1f1f1;
-            border: none;
-            border-radius: 50%; /* Makes the buttons circular */
-            width: 40px; /* Equal width and height for a perfect circle */
-            height: 40px;
-            font-size: 18px; /* Adjust font size to fit inside the circle */
-            font-weight: bold;
-            color: black;
-            text-align: center;
-            line-height: 40px; /* Centers the text vertically */
-            cursor: pointer;
-            margin: 0 5px;
-            transition: background-color 0.3s ease; /* Smooth hover effect */
-        }
-
-        .qty-btn:focus {
-            outline: none;
-        }
-
-        .qty-btn:hover {
-            background-color: #e0e0e0; /* Change background on hover */
-        }
-
-        .quantity-input {
-            width: 50px;
-            height: 40px; /* Match the button height for symmetry */
-            text-align: center;
-            font-size: 16px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .order-history-title {
-            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
-            font-weight: 700; /* Make the text bold */
-            font-size: 32px; /* Larger font size */
-            color: #ca1515; /* A bold red color matching the theme */
-            background-color: #f8f9fa; /* Light background for contrast */
-            padding: 10px 20px; /* Add padding for spacing */
-            border-radius: 50px; /* Rounded corners */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-            display: inline-block; /* Keeps it inline but with block properties */
-            text-transform: uppercase; /* Makes the text uppercase */
-            letter-spacing: 2px; /* Adds spacing between letters */
-        }
-    </style>
-
-    <%@ include file="footer.jsp" %>
+</body>
+<%@ include file="footer.jsp" %>
+</html>

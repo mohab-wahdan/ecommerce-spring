@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 ///////////////////////////////Handling Credit Limit Validation//////////////////////////////////////////////////////////
-function checkCreditLimit() {
+function CheckCreditLimit() {
     var creditValue = document.getElementById("creditLimit").value;
     if (creditValue < 0) {
         document.getElementById("crediterror").innerText = "Credit limit must be more than 0";
@@ -53,103 +53,113 @@ function checkCreditLimit() {
 }
 
 // ////////////////////////////Handling Phone Number Validation//////////////////////////////////////////////////////////
-var phoneNumReq;
-
-function checkPhoneNumber() {
+function CheckPhoneNumber() {
     var phoneNumber = document.getElementById("phoneNumber").value;
     const phoneRegex = /^01[0125][0-9]{8}$/;
     if (!phoneRegex.test(phoneNumber)) {
         document.getElementById("phoneerror").innerText = "Phone number is not valid";
         return;
-    } else {
-        document.getElementById("phoneerror").innerText = "";
+    }else {
+        // Create XMLHttpRequest for phone number validation
+        var phoneNumReq = new XMLHttpRequest();
+        phoneNumReq.onreadystatechange = function () {
+            if (phoneNumReq.readyState === 4 && phoneNumReq.status === 200) {
+                var response = phoneNumReq.responseText;
+
+                // Check response to determine if phone number exists
+                if (response === "exists") {
+                    document.getElementById("phoneerror").innerText = "Phone number already exists";
+                } else {
+                    document.getElementById("phoneerror").innerText = "";
+                }
+            }
+        };
+        phoneNumReq.open("GET", "/customers/phonenumber/" + encodeURIComponent(phoneNumber), true);
+        phoneNumReq.send();
     }
 
-    // Create and send AJAX request
-    phoneNumReq = new XMLHttpRequest();
-    phoneNumReq.onreadystatechange = handlePhoneNumReq;
-    phoneNumReq.open("POST", "phoneValidator", true);
-    phoneNumReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    phoneNumReq.send("phoneNo=" + encodeURIComponent(phoneNumber));
-}
-function handlePhoneNumReq() {
-    if (phoneNumReq.readyState === 4) {
-        if (phoneNumReq.status === 200) {
-            document.getElementById("phoneerror").innerText = phoneNumReq.responseText;
-        } else {
-            document.getElementById("phoneerror").innerText = "Error code: " + phoneNumReq.status;
-        }
-    }
+
 }
 
 // ////////////////////////////Handling Email Validation//////////////////////////////////////////////////////////
-var emailReq;
-
-function checkEmail() {
+function CheckEmail() {
     var email = document.getElementById("email").value;
 
-    // Regular expression for validating an Email
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    // Test the email against the regex
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         document.getElementById("emailerror").innerText = "Email is not valid";
         return;
-    } else {
-        document.getElementById("emailerror").innerText = "";
+    }else{
+        // Create XMLHttpRequest for email validation
+        var emailReq = new XMLHttpRequest();
+        emailReq.onreadystatechange = function () {
+            if (emailReq.readyState === 4 && emailReq.status === 200) {
+                var response = emailReq.responseText;
+
+                // Check response to determine if email exists
+                if (response === "exists") {
+                    document.getElementById("emailerror").innerText = "Email already exists";
+                } else {
+                    document.getElementById("emailerror").innerText = "";
+                }
+            }
+        };
+        // Send GET request to check email in the database
+        emailReq.open("GET", "/customers/email/" + encodeURIComponent(email), true);
+        emailReq.send();
     }
 
-    // Create and send AJAX request
-    emailReq = new XMLHttpRequest();
-    emailReq.onreadystatechange = handleEmailReq;
-    emailReq.open("POST", "emailValidator", true);
-    emailReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    emailReq.send("email=" + encodeURIComponent(email));
+
 }
-function handleEmailReq() {
-    if (emailReq.readyState === 4) {
-        if (emailReq.status === 200) {
-            document.getElementById("emailerror").innerText = emailReq.responseText;
-        } else {
-            document.getElementById("emailerror").innerText = "Error code: " + emailReq.status;
-        }
-    }
-}
+
 
 // ////////////////////////////Handling Username Validation//////////////////////////////////////////////////////////
-var usernameReq;
+function CheckUserName() {
+    var userName = document.getElementById("userName").value;
+    var usernameReq = new XMLHttpRequest();
+    usernameReq.onreadystatechange = function() {
+        if (usernameReq.readyState === 4 && usernameReq.status === 200) {
+            var response = usernameReq.responseText;
 
-function checkUserName() {
-//    usernameReq = new XMLHttpRequest();
-//    usernameReq.onreadystatechange = handleUserReq;
-//    var yourvalue = document.getElementById("userName").value;
-//    console.log("value: " + yourvalue);
-//    usernameReq.open("POST", "usernameValidator", true);
-//    usernameReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-//    usernameReq.send("uName=" + encodeURIComponent(yourvalue));
-}
-function handleUserReq() {
-    if (usernameReq.readyState === 4) {
-        if (usernameReq.status === 200) {
-            document.getElementById("usernameerror").innerHTML = usernameReq.responseText;
-        } else {
-            document.getElementById("usernameerror").innerHTML = "Error code: " + usernameReq.status;
+            // Check response to determine if username exists
+            if (response === "exists") {
+                document.getElementById("usernameerror").innerText = "Username already exists";
+            } else {
+                document.getElementById("usernameerror").innerText = "";
+            }
         }
-    }
+    };
+    usernameReq.open("GET", "/customers/username/" + encodeURIComponent(userName), true);
+    usernameReq.send();
+
+
+
 }
+
 
 
 // ////////////////////////////Check Form Validation//////////////////////////////////////////////////////////
 function checkCondition() {
     var registerBtn = document.getElementById("registerBtn");
 
-    if (document.getElementById('usernameerror').textContent !== "" ||
-        document.getElementById('crediterror').textContent !== "" ||
-        document.getElementById('emailerror').textContent !== "" ||
-        document.getElementById('phoneerror').textContent !== "") {
-        registerBtn.disabled = true; // Disable if any error messages exist
-    } else {
-        registerBtn.disabled = false; // Enable if no errors
+    if (document.getElementById('usernameerror').textContent !=="") {
+        registerBtn.disabled = true; // Enable the button if the condition is met
+        return false;
+    } else if(document.getElementById('crediterror').textContent !==""){
+        registerBtn.disabled = true; // Disable the button if the condition is not met
+        return false;
+    }
+    else if(document.getElementById('emailerror').textContent !==""){
+        registerBtn.disabled = true; // Disable the button if the condition is not met
+        return false;
+    }
+    else if(document.getElementById('phoneerror').textContent !==""){
+        registerBtn.disabled = true; // Disable the button if the condition is not met
+        return false;
+    }else{
+        registerBtn.disabled = false;
+        return true;
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -210,4 +220,3 @@ function validateCurrentStep() {
 
 // Initialize
 showStep(currentStep);
-
