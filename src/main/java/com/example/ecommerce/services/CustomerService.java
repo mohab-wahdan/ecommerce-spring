@@ -54,8 +54,17 @@ public class CustomerService {
         if (!customerRepository.existsById(id)) {
             return null; // Handle not found case as needed
         }
+        Customer originalCustomer=customerRepository.findById(id).orElse(null);
         Customer customer = customerMapper.toEntity(customerDTO);
         customer.setId(id);
+
+        if (!customerDTO.getAccount().getPassword().equals( originalCustomer.getAccount().getPassword())) {
+            customer.getAccount().setPassword(passwordEncoder.encode( customerDTO.getAccount().getPassword() ));
+            System.out.println("password are not equal");
+        }
+//        else{
+//            System.out.println("password are equal");
+//        }
         Customer updatedCustomer = customerRepository.save(customer);
         return customerMapper.toDTO(updatedCustomer);
     }
