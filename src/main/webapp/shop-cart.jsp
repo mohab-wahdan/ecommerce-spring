@@ -115,11 +115,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn">
-                        <a href="shop.jsp">Continue Shopping</a>
-                    </div>
-                </div>
+                        <a href="shop.jsp" class="primary-btn">Continue Shopping</a>
             </div>
             <div class="row">
                 <div class="col-lg-6">
@@ -138,7 +134,7 @@
                             <li>TotalQuantity <span class="totalQuantity"> </span></li>
                             <li>Subtotal <span class="finalTotalPrice">  </span></li>
                         </ul>
-                        <a href="checkout.jsp" class="primary-btn">Proceed to checkout</a>
+                        <a href="checkout.jsp" class="primary-btn"><i class="fa fa-dollar-sign"></i> Proceed to checkout</a>
                     </div>
                 </div>
             </div>

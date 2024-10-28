@@ -1,5 +1,23 @@
-<link rel="stylesheet" href="css/registration.css">
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/registration.css">
+</head>
+<body>
 <div class="container">
     <header>
         <img src="img/logo.png" width="98" height="31" alt="">
@@ -21,7 +39,7 @@
                     </div>
                     <div class="input-field">
                         <label>Username</label>
-                        <input type="text" id="userName" name="userName" onblur="" required>
+                        <input type="text" id="userName" name="userName" onblur="CheckUserName()" required>
                         <span class="error-message" id="usernameerror"></span>
                     </div>
                     <div class="input-field">
@@ -46,17 +64,17 @@
                     </div>
                     <div class="input-field">
                         <label>Email</label>
-                        <input type="text" id="email" name="email" onblur="" required>
+                        <input type="text" id="email" name="email" onblur="CheckEmail()" required>
                         <span class="error-message" id="emailerror"></span>
                     </div>
                     <div class="input-field">
                         <label>Phone Number</label>
-                        <input type="number" id="phoneNumber" name="phoneNumber" onblur="" required>
+                        <input type="number" id="phoneNumber" name="phoneNumber" onblur="CheckPhoneNumber()" required>
                         <span class="error-message" id="phoneerror"></span>
                     </div>
                     <div class="input-field">
                         <label>Credit Limit</label>
-                        <input type="number" id="creditLimit" name="creditLimit" onblur="" required>
+                        <input type="number" id="creditLimit" name="creditLimit" onblur="CheckCreditLimit()" required>
                         <span class="error-message" id="crediterror"></span>
                     </div>
                     <div class="input-field">
@@ -142,7 +160,7 @@
 
             // Make AJAX request to register the user
             $.ajax({
-                url: 'http://localhost:8083/customers', // Your API endpoint
+                url: '/customers', // Your API endpoint
                 method: 'POST',
                 contentType: 'application/json', // Specify JSON format
                 data: JSON.stringify(formData), // Convert formData to JSON string
@@ -171,4 +189,8 @@
             `);
         }
     });
-</script>
+
+
+ </script>
+</body>
+</html>

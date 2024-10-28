@@ -39,6 +39,6 @@ $(document).ready(function() {
             $('.alert').fadeOut('slow', function() {
                 $(this).remove();
             });
-        }, 3000);  // Automatically remove alert after 3 seconds
+        }, 3000);
     }
 });

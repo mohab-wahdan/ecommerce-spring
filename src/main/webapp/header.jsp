@@ -170,19 +170,21 @@
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
-        <ul class="offcanvas__widget">
-            <li><a href="shop-cart.jsp"><span class="icon_bag_alt"></span>
-            </a></li>
-        </ul>
+<%--        <ul class="offcanvas__widget">--%>
+<%--            <li><a href="shop-cart.jsp"><span class="icon_bag_alt"></span>--%>
+<%--            </a></li>--%>
+<%--        </ul>--%>
         <div class="offcanvas__logo">
 
             <a href="index.jsp"><img src="img/logo.png" width="98" height="31" alt=""></a>
 
         </div>
+        <a href="shop-cart.jsp"></a><span class="icon_bag_alt"></span>
+
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__auth">
-            <a href="#">Login  /</a>
-            <a href="#">   Register</a>
+            <a href="login.jsp">Login  /</a>
+            <a href="registration.jsp">   Register</a>
         </div>
     </div>
     <!-- Offcanvas Menu End -->
