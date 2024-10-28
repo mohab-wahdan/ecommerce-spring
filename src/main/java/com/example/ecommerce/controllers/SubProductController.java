@@ -104,7 +104,7 @@ public class SubProductController {
         }
 
         filterDTO.setPageNumber(Integer.valueOf(page));
-        filterDTO.setCategoryName(category);
+        filterDTO.setSubCategoryName(category);
         System.out.println(filterDTO);
         return ResponseEntity.ok(subProductService.filterSubProducts(filterDTO));
 

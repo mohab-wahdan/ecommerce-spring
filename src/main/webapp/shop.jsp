@@ -328,7 +328,7 @@ function renderCategories(categories) {
         const categoryHtml = `
                     <label for="`+category.name+`">
                         `+category.name+`
-                        <input type="radio" name="category" id="`+category.name+`" value="`+category.name+` " />
+                        <input type="radio" name="category" id="`+category.name+`" value="`+category.name+`" />
                         <span class="checkmark"></span>
                     </label>
 
