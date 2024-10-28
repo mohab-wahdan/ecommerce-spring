@@ -120,7 +120,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="userName" class="user-update-field">Username:</label>
-                            <input type="text" class="form-control" id="userName" name="userName" onblur="checkUserName();" value="">
+                            <input type="text" class="form-control" id="userName" name="userName" onblur="checkUserNameForUpdate();" value="">
                             <span class="error-message" id="usernameerror"></span>
                         </div>
                         <div class="form-group">
@@ -129,8 +129,8 @@
                         </div>
                         <div class="form-group">
                             <label for="email" class="user-update-field">Email:</label>
-                            <input type="text" class="form-control" id="email" name="email" onblur="checkEmail();" value="">
-                            <span class="error-message" id="emailerror"></span>
+                            <input type="text" class="form-control" id="email" name="email" onblur="checkEmailForUpdate();" value="">
+                            <span class="error-message" id="emailerror" ></span>
                         </div>
                         <div class="form-group">
                             <label for="firstName" class="user-update-field">First Name:</label>
@@ -142,7 +142,7 @@
                         </div>
                         <div class="form-group">
                             <label for="creditLimit" class="user-update-field">Credit Limit:</label>
-                            <input type="number" class="form-control" id="creditLimit" name="creditLimit" step="0.01" value="" onblur="checkCreditLimit();">
+                            <input type="number" class="form-control" id="creditLimit" name="creditLimit" step="0.01" value="" onblur="checkCreditLimitForUpdate();">
                             <span class="error-message" id="crediterror"></span>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phoneNumber" class="user-update-field">Phone Number:</label>
-                            <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" onblur="checkPhoneNumber();" value="">
+                            <input type="number" class="form-control" id="phoneNumber" name="phoneNumber" onblur="checkPhoneNumberForUpdate();" value="">
                             <span class="error-message" id="phoneerror"></span>
                         </div>
                         <div class="form-group">
@@ -186,57 +186,294 @@
 </div>
 
     <script>
+        let currentPhoneNo;
+        let currentUsername;
+        let currentEmail;
         $(document).ready(function () {
             populateValues();
 
         });
 
-        function submitForm() {
-            // Get the user ID from the hidden element
-            const userId = 4;
+        document.addEventListener("DOMContentLoaded", function() {
+            // List of governorates (cities)
+            const governorates = [
+                "Cairo",
+                "Alexandria",
+                "Giza",
+                "Port Said",
+                "Suez",
+                "Mansoura",
+                "Tanta",
+                "Aswan",
+                "Asyut",
+                "Ismailia",
+                "Fayoum",
+                "Minya",
+                "Daqahliya",
+                "Kafr El Sheikh",
+                "Beni Suef",
+                "Zagazig",
+                "Qena",
+                "Luxor",
+                "Matruh",
+                "New Valley (Wadi El Nile)",
+                "Red Sea",
+                "North Sinai",
+                "South Sinai",
+                "Sohag",
+                "Qalyubia",
+                "Sharqia"
+            ];
 
-            // Collect form data
-            const formData = {
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                creditLimit: document.getElementById('creditLimit').value,
-                dateOfBirth: "1990-01-01",
-                email: document.getElementById('email').value,
-                phoneNumber: document.getElementById('phoneNumber').value,
-                job: document.getElementById('job').value,
-                address: {
-                    street: document.getElementById('street').value,
-                    city: document.getElementById('city').value,
-                    zip: document.getElementById('zip').value,
-                    description: document.getElementById('description').value
-                },
-                account: {
-                    userName: document.getElementById('userName').value,
-                    password: document.getElementById('password').value
-                }
-            };
+            // Get the select element
+            const citySelect = document.getElementById("city");
 
-            // AJAX POST request to update customer details by user ID
-            $.ajax({
-                url: 'http://localhost:8083/customers/' + userId,
-                method: 'PUT',
-                contentType: 'application/json',
-                data: JSON.stringify(formData),
-                success: function(response) {
-                    // Show success message
-                    $('#alertPlaceholder').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">` +
-                        `<i class="fas fa-check-circle"></i> Profile updated successfully!` +
-                        `<button type="button" class="close" data-dismiss="alert" aria-label="Close">` +
-                        `<span aria-hidden="true">&times;</span></button></div>`);
-                },
-                error: function(xhr) {
-                    // Show error message
-                    $('#alertPlaceholder').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                        '<i class="fas fa-exclamation-triangle"></i> Failed to update profile!' +
-                        '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true">&times;</span></button></div>');
+            // Populate the city dropdown
+            governorates.forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.text = city;
+                citySelect.add(option);
+            });
+            const selectedCity = document.getElementById("citySession").getAttribute('data-city');
+
+            if (selectedCity) {
+                citySelect.value = selectedCity;
+            }
+        });
+        ///////////////////////////////Handling Credit Limit Validation//////////////////////////////////////////////////////////
+        function checkCreditLimitForUpdate() {
+            var creditValue = document.getElementById("creditLimit").value;
+            if (creditValue < 0) {
+                document.getElementById("crediterror").innerText = "Credit limit must be more than 0";
+            } else if (creditValue > 1000000) {
+                document.getElementById("crediterror").innerText = "Credit limit must not exceed 1,000,000";
+            }else if (creditValue[0] === '0') {
+                document.getElementById("crediterror").innerText = "Credit limit must not start with 0";
+            } else {
+                document.getElementById("crediterror").innerText = "";
+            }
+        }
+        // ////////////////////////////Handling Phone Number Validation//////////////////////////////////////////////////////////
+        var phoneNumReq;
+
+        function checkPhoneNumberForUpdate() {
+            var phoneNumber = document.getElementById("phoneNumber").value;
+
+            // Validate phone number format
+            const phoneRegex = /^01[0125][0-9]{8}$/;
+            if (!phoneRegex.test(phoneNumber)) {
+                document.getElementById("phoneerror").innerText = "Phone number is not valid";
+                return;
+            }else if(currentPhoneNo===phoneNumber){
+                document.getElementById("phoneerror").innerText = "";
+            }else {
+                // Create XMLHttpRequest for phone number validation
+                phoneNumReq = new XMLHttpRequest();
+                phoneNumReq.onreadystatechange = function () {
+                    if (phoneNumReq.readyState === 4 && phoneNumReq.status === 200) {
+                        var response = phoneNumReq.responseText;
+
+                        // Check response to determine if phone number exists
+                        if (response === "exists") {
+                            document.getElementById("phoneerror").innerText = "Phone number already exists";
+                        } else {
+                            document.getElementById("phoneerror").innerText = "";
+                        }
+                    }
+                };
+                // Send GET request to check phone number in the database
+                phoneNumReq.open("GET", "/customers/phonenumber/" + encodeURIComponent(phoneNumber), true);
+                phoneNumReq.send();
+            }
+
+
+        }
+
+
+        // ////////////////////////////Handling Email Validation//////////////////////////////////////////////////////////
+        var emailReq;
+
+        function checkEmailForUpdate() {
+            var email = document.getElementById("email").value;
+
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById("emailerror").innerText = "Email is not valid";
+                return;
+            }
+            else if(currentEmail===email){
+                document.getElementById("emailerror").innerText = "";
+            }else {
+                // Create XMLHttpRequest for email validation
+                var emailReq = new XMLHttpRequest();
+                emailReq.onreadystatechange = function () {
+                    if (emailReq.readyState === 4 && emailReq.status === 200) {
+                        var response = emailReq.responseText;
+
+                        // Check response to determine if email exists
+                        if (response === "exists") {
+                            document.getElementById("emailerror").innerText = "Email already exists";
+                        } else {
+                            document.getElementById("emailerror").innerText = "";
+                        }
+                    }
+                };
+                // Send GET request to check email in the database
+                emailReq.open("GET", "/customers/email/" + encodeURIComponent(email), true);
+                emailReq.send();
+            }
+
+
+        }
+
+        // ////////////////////////////Handling Username Validation//////////////////////////////////////////////////////////
+        var usernameReq;
+
+        function checkUserNameForUpdate() {
+            var userName = document.getElementById("userName").value;
+            if(currentUsername===userName){
+                document.getElementById("usernameerror").innerText = "";
+            }else {
+                usernameReq = new XMLHttpRequest();
+                usernameReq.onreadystatechange = function() {
+                    if (usernameReq.readyState === 4 && usernameReq.status === 200) {
+                        var response = usernameReq.responseText;
+
+                        // Check response to determine if username exists
+                        if (response === "exists") {
+                            document.getElementById("usernameerror").innerText = "Username already exists";
+                        } else {
+                            document.getElementById("usernameerror").innerText = "";
+                        }
+                    }
+                };
+                // Send GET request to check username in the database
+                usernameReq.open("GET", "/customers/username/" + encodeURIComponent(userName), true);
+                usernameReq.send();
+            }
+
+
+        }
+
+
+        // ////////////////////////////Check Form Validation//////////////////////////////////////////////////////////
+        function checkCondition() {
+            var updateBtn = document.getElementById("updateBtn");
+
+            if (document.getElementById('usernameerror').textContent !=="") {
+                updateBtn.disabled = true; // Enable the button if the condition is met
+                return false;
+            } else if(document.getElementById('crediterror').textContent !==""){
+                updateBtn.disabled = true; // Disable the button if the condition is not met
+                return false;
+            }
+            else if(document.getElementById('emailerror').textContent !==""){
+                updateBtn.disabled = true; // Disable the button if the condition is not met
+                return false;
+            }
+            else if(document.getElementById('phoneerror').textContent !==""){
+                updateBtn.disabled = true; // Disable the button if the condition is not met
+                return false;
+            }else{
+                updateBtn.disabled = false;
+                return true;
+            }
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////
+        let currentStep = 1;
+
+        function showStep(step) {
+            document.querySelectorAll('.form-step').forEach((element) => {
+                element.style.display = 'none';
+            });
+            document.getElementById('step-' + step).style.display = 'block';
+        }
+
+        function nextStep() {
+            if (validateCurrentStep()) {
+                currentStep++;
+                if (currentStep > 4) currentStep = 4;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            currentStep--;
+            if (currentStep < 1) currentStep = 1;
+            showStep(currentStep);
+        }
+
+        function validateCurrentStep() {
+            let valid = true;
+            const stepElement = document.getElementById('step-' + currentStep);
+            stepElement.querySelectorAll('input[required]').forEach((input) => {
+                if (!input.checkValidity()) {
+                    valid = false;
+                    input.reportValidity();
                 }
             });
+            return valid;
+        }
+
+        // Initialize
+        showStep(currentStep);
+
+
+
+        function submitForm() {
+            if(!checkCondition()){
+                alert("Please validate your data! ");
+                return;
+            }else {
+                var updateBtn = document.getElementById("updateBtn");
+                updateBtn.disabled = false;
+                const userId = 4;
+
+                // Collect form data
+                const formData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    creditLimit: document.getElementById('creditLimit').value,
+                    dateOfBirth: "1990-01-01",
+                    email: document.getElementById('email').value,
+                    phoneNumber: document.getElementById('phoneNumber').value,
+                    job: document.getElementById('job').value,
+                    address: {
+                        street: document.getElementById('street').value,
+                        city: document.getElementById('city').value,
+                        zip: document.getElementById('zip').value,
+                        description: document.getElementById('description').value
+                    },
+                    account: {
+                        userName: document.getElementById('userName').value,
+                        password: document.getElementById('password').value
+                    }
+                };
+
+                // AJAX POST request to update customer details by user ID
+                $.ajax({
+                    url: 'http://localhost:8083/customers/' + userId,
+                    method: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function (response) {
+                        // Show success message
+                        $('#alertPlaceholder').html(`<div class="alert alert-success alert-dismissible fade show" role="alert">` +
+                            `<i class="fas fa-check-circle"></i> Profile updated successfully!` +
+                            `<button type="button" class="close" data-dismiss="alert" aria-label="Close">` +
+                            `<span aria-hidden="true">&times;</span></button></div>`);
+                    },
+                    error: function (xhr) {
+                        // Show error message
+                        $('#alertPlaceholder').html('<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
+                            '<i class="fas fa-exclamation-triangle"></i> Failed to update profile!' +
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                            '<span aria-hidden="true">&times;</span></button></div>');
+                    }
+                });
+            }
         }
     function populateValues(){
         const userId = 4; // Get userId from localStorage or another source
@@ -245,6 +482,9 @@
                 url: 'http://localhost:8083/customers/' + userId,
                 type: 'GET',
                 success: function (data) {
+                    currentPhoneNo = data.phoneNumber;
+                    currentEmail = data.email;
+                    currentUsername = data.account.userName;
                     // Populate form fields with response data
                     $('#userName').val(data.account.userName);
                     $('#password').val(data.account.password);

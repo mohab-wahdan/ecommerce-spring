@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 ///////////////////////////////Handling Credit Limit Validation//////////////////////////////////////////////////////////
-function checkCreditLimit() {
+function checkCreditLimitForUpdate() {
     var creditValue = document.getElementById("creditLimit").value;
     if (creditValue < 0) {
         document.getElementById("crediterror").innerText = "Credit limit must be more than 0";
@@ -61,7 +61,7 @@ function checkCreditLimit() {
 // ////////////////////////////Handling Phone Number Validation//////////////////////////////////////////////////////////
 var phoneNumReq;
 
-function checkPhoneNumber() {
+function checkPhoneNumberForUpdate() {
     var phoneNumber = document.getElementById("phoneNumber").value;
     var phoneNumberSession = document.getElementById("phoneNumberSession").getAttribute('data-phone');
     const phoneRegex = /^01[0125][0-9]{8}$/;
@@ -91,28 +91,39 @@ function handlePhoneNumReq() {
 // ////////////////////////////Handling Email Validation//////////////////////////////////////////////////////////
 var emailReq;
 
-function checkEmail() {
+function checkEmailForUpdate() {
+    alert("Inside checking email");
     var email = document.getElementById("email").value;
-    var emailSession = document.getElementById("emailSession").getAttribute('data-email');
-    console.log(emailSession);
-    // Regular expression for validating an Email
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    // Test the email against the regex
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        document.getElementById("emailerror").innerText = "Email is not valid";
+        document.getElementById("emailError").innerText = "Email is not valid";
         return;
-    }else if(email !== emailSession.trim()){
-        // Create and send AJAX request
-        emailReq = new XMLHttpRequest();
-        emailReq.onreadystatechange = handleEmailReq;
-        emailReq.open("POST", "emailValidator", true);
-        emailReq.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        emailReq.send("email=" + encodeURIComponent(email));
-    } else {
-        document.getElementById("emailerror").innerText = "";
     }
+
+    // Create XMLHttpRequest for email validation
+    var emailReq = new XMLHttpRequest();
+    emailReq.onreadystatechange = function() {
+        if (emailReq.readyState === 4 && emailReq.status === 200) {
+            var response = emailReq.responseText;
+
+            // Check response to determine if email exists
+            if (response === "exists") {
+                alert("Email exists already");
+                document.getElementById("emailError").innerText = "Email already exists";
+            } else {
+                alert("Email doesn't exists already");
+                document.getElementById("emailError").innerText = "";
+            }
+        }
+    };
+
+    // Send GET request to check email in the database
+    emailReq.open("GET", "/customers/email/" + encodeURIComponent(email), true);
+    emailReq.send();
 }
+
 function handleEmailReq() {
     if (emailReq.readyState === 4) {
         if (emailReq.status === 200) {
