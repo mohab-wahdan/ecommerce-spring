@@ -171,39 +171,43 @@
     </div>
 </section>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script src="/js/main.js"></script>
+<script src="/js/product-display.js"></script>
 <script>
-
+var customerId=4;
 $(document).ready(function () {
     fetchCategories();
     fetchAllProducts();
     filterSubProducts();
-    $(".buttonAddToCart").click(handleAddToCartClick);
+    //$(".buttonAddToCart").click(handleAddToCartClick);
+    $(document).on("click", ".buttonAddToCart",handleAddToCartClick);
+
 
 });
 function handleAddToCartClick(){
-    // Get product details from data attributes
-    const productData = {
-        id: $(this).data("id")
+    // Get data attributes from the clicked button
+    const customerId = 4; // Set your customer ID (e.g., from session or variable)
+    const subProductId = $(this).data("id");
+    const quantity = 1; // Set the quantity here (or get it from another element)
+
+    // Define the data object for the request
+    const requestData = {
+        customerId: customerId,
+        subProductId: subProductId,
+        quantity: quantity
     };
 
-    // AJAX request to add the product to the cart
+    // Send the AJAX POST request
     $.ajax({
-        url: 'http://localhost:8083/cartItems', // API endpoint URL
-        type: 'POST', // Use POST method
-        contentType: 'application/json', // Set content type to JSON
-        data: JSON.stringify(cartItemsData), // Convert data to JSON string
-        success: function(response) {
-            alert("Your cart item has been added successfully!");
-            localStorage.setItem("productId",id);
+        url: "http://localhost:8083/cartItems",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(requestData), // Send the request data as JSON
+        success: function (response) {
+            VshowNotification("Product Added To Cart");
         },
-        error: function(xhr) {
-            if (xhr.status === 404) {
-                console.error('Customer or SubProduct not found.');
-            } else {
-                console.error('An error occurred:', xhr.status, xhr.responseText);
-            }
-            // Handle error, e.g., show error message
+        error: function (xhr, status, error) {
+           WshowNotification("Error adding product to cart. Please try again.");
         }
     });
 }
@@ -268,7 +272,7 @@ function fetchAllProducts() {
 
 function fetchCategories() {
     $.ajax({
-        url: 'http://localhost:8083/cat', // API endpoint for categories
+        url: 'http://localhost:8083/category', // API endpoint for categories
         type: 'GET',
         dataType: 'json',
         success: function (categories) {
@@ -310,11 +314,20 @@ function renderProducts(products) {
                     <div class="product__item__pic set-bg" data-setbg=`+ product.imageURL+`>
                         <ul class="product__hover">
                             <li><a href=`+ product.imageURL+` class="image-popup"><span class="arrow_expand"></span></a></li>
-                            <li><a class="buttonAddToCart" data-id=`+ product.id+` data-name=`+product.description+` data-price=`+ product.price+` data-image=`+ product.imageURL+` data-stock=`+ product.stock+`><span class="icon_bag_alt"></span></a></li>
+                            <li>
+                            <a class="buttonAddToCart"
+                               data-id="`+ product.id +`"
+                               data-name="`+ product.description +`"
+                               data-price="`+ product.price +`"
+                               data-image="`+ product.imageURL +`"
+                               data-stock="`+ product.stock +`">
+                                <span class="icon_bag_alt"></span>
+                            </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="/product-details?product=${product.id}" class="product-detail-button">`+product.description+`</a></h6>
+                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.description+`</a></h6>
                         <div class="product__price">$`+ product.price+`</div>
                     </div>
                 </div>
@@ -331,9 +344,23 @@ function renderProducts(products) {
 
 </script>
 
-<script src="/js/main.js"></script>
-<script src="/js/product-display.js"></script>
 <link rel="stylesheet" href="/css/shop.css" type="text/css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
 /*

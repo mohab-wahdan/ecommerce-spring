@@ -45,6 +45,10 @@ public class CustomerService {
                 .map(customerMapper::toDTO)
                 .orElse(null); // Handle not found case as needed
     }
+    public Customer getCustomerOriginalById(Integer id) {
+        return customerRepository.findById(id)
+                .orElse(null); // Handle not found case as needed
+    }
 
     public CustomerDTO updateCustomer(Integer id, CustomerDTO customerDTO) {
         if (!customerRepository.existsById(id)) {

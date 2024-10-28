@@ -29,9 +29,14 @@ public class CartItemsService implements Serializable {
     private final CartItemsMapper cartItemsMapper;
     private final CustomerRepository customerRepository;
     private final SubProductRepository subProductRepository;
+
+
     @JsonIgnore
     private Map<SubProductDTO, Integer> cart = new HashMap<>();
 
+    public void setCartFromDto(Map<SubProductDTO, Integer> cart) {
+        this.cart = cart;
+    }
 
 
     @Autowired
@@ -79,7 +84,8 @@ public class CartItemsService implements Serializable {
                 .stream()
                 .map(entry -> entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }@JsonIgnore
+    }
+    @JsonIgnore
     public Map<SubProductDTO, Integer> getItems(){
         return this.cart;
     }
