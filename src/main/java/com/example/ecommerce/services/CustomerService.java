@@ -45,13 +45,26 @@ public class CustomerService {
                 .map(customerMapper::toDTO)
                 .orElse(null); // Handle not found case as needed
     }
+    public Customer getCustomerOriginalById(Integer id) {
+        return customerRepository.findById(id)
+                .orElse(null); // Handle not found case as needed
+    }
 
     public CustomerDTO updateCustomer(Integer id, CustomerDTO customerDTO) {
         if (!customerRepository.existsById(id)) {
             return null; // Handle not found case as needed
         }
+        Customer originalCustomer=customerRepository.findById(id).orElse(null);
         Customer customer = customerMapper.toEntity(customerDTO);
         customer.setId(id);
+
+        if (!customerDTO.getAccount().getPassword().equals( originalCustomer.getAccount().getPassword())) {
+            customer.getAccount().setPassword(passwordEncoder.encode( customerDTO.getAccount().getPassword() ));
+            System.out.println("password are not equal");
+        }
+//        else{
+//            System.out.println("password are equal");
+//        }
         Customer updatedCustomer = customerRepository.save(customer);
         return customerMapper.toDTO(updatedCustomer);
     }
@@ -69,5 +82,24 @@ public class CustomerService {
         Optional<Customer> customer = customerRepository.findById(id);
 
         return CustomerViewDTO.fromCustomer(customer.get());
+    }
+
+    public CustomerViewDTO getCustomerByUsername(String username) {
+        Optional<Customer> customer = customerRepository.findByAccount_UserName(username);
+        return CustomerViewDTO.fromCustomer(customer.get());
+    }
+
+    public boolean doesEmailExist(String email) {
+        return customerRepository.existsByEmail(email);
+    }
+
+    public boolean doesUsernameExist(String username) {
+        return customerRepository.existsByAccount_UserName(username);
+
+    }
+
+    public boolean doesPhoneNumberExist(String phonenumber) {
+        return customerRepository.existsByPhoneNumber(phonenumber);
+
     }
 }

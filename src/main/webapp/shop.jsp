@@ -1,3 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="favicon.ico">
+    <title>CHCILY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/shop.css" type="text/css">
+
+
+</head>
+
+<body>
 <%@ include file="header.jsp" %>
 <jsp:include page="common/VNotification.jsp"/>
 <jsp:include page="common/WNotification.jsp"/>
@@ -11,26 +41,18 @@
                     <!-- Filter Form -->
                     <form id="filter-form">
                         <!-- Displaying Searched Product Name -->
-                        <c:if test="${not empty param.searchkeyword}">
-                            <div class="section-title">
-                                <h5>You searched for: ${param.searchkeyword} <span class="icon_search search-switch"></span></h5>
-                            </div>
-                        <!-- Hidden input field for searchkeyword if it exists -->
-                            <input type="hidden" name="searchkeyword" value="${fn:escapeXml(param.searchkeyword)}" />
-                        </c:if>
+
                         <!-- Price Filter -->
                         <div class="sidebar__filter">
                             <div class="section-title"><h4>Shop by price</h4>
                             </div>
                             <div class="filter-range-wrap">
-                                <div class="range-slider">
                                     <div class="price-input">
-                                        <label for="minamount">Min Price: </label>
+                                        <label for="minamount">Min Price:</label>
                                         <input type="text" name="minPrice" id="minamount" value="${param.minPrice != null ? param.minPrice : 50}" /><br>
-                                        <label for="maxamount">Max Price: </label>
+                                        <label for="maxamount">Max Price:</label>
                                         <input type="text" name="maxPrice" id="maxamount" value="${param.maxPrice != null ? param.maxPrice : 1500}" />
                                     </div>
-                                </div>
                             </div>
 
                         </div>
@@ -57,6 +79,11 @@
                                 <label for="female">
                                     Female
                                     <input type="radio" name="gender" id="female" value="female" ${param.gender == 'female' ? 'checked' : ''}>
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label for="unisex">
+                                    Unisex
+                                    <input type="radio" name="gender" id="unisex" value="unisex" ${param.gender == 'unisex' ? 'checked' : ''}>
                                     <span class="checkmark"></span>
                                 </label>
 
@@ -160,6 +187,9 @@
                             <button type="submit" class="btn btn-outline-danger w-auto filter-btn">
                                 <i class="fas fa-filter"></i> Apply Filters
                             </button>
+                            <button class="btn btn-outline-danger w-auto filter-btn" onclick="resetFilters()">
+                                <i class="fas fa-redo"></i> Reset
+                            </button>
 
                        <!-- Reset button MS7TOOOOOOOOOOOOOO-->
 
@@ -167,62 +197,133 @@
                     </form>
                 </div>
             </div>
-
-
-
-
-
             <div class="col-lg-9 col-md-9">
                 <div class="product-list-wrapper">
                     <div class="row" id="product-list">
                     </div>
                 </div>
             </div>
+            <div class="col-lg-12 text-center">
+                <div class="pagination__option">
+                    <a href="#" class="page-link" data-page="1">1</a>
+                    <a href="#" class="page-link" data-page="2">2</a>
+                    <a href="#" class="page-link p3" data-page="3">3</a>
+                    <a href="#" class="page-link p3" data-page="4">4</a>
+                    <a href="#" ><i class="fa fa-angle-right"></i></a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/product-display.js"></script>
 <script>
+function resetFilters() {
+    // Redirect to the servlet to refresh the customer list
+    window.location.href = '/shop.jsp';
+}
+var customerId=sessionStorage.getItem("id");
 $(document).ready(function () {
     fetchCategories();
     fetchAllProducts();
-    $('#filter-form').on('submit', function (event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        // Manually gather form data
-        var filterData = {
-           "color": "BLACK",
-             "size": "MEDIUM",
-             "maxPrice": 200,
-             "minPrice": 50,
-             "searchkeyword": "shirt",
-             "gender": "MALE",
-             "category": "shirts",
-             "page": 1
-        };
-
-        // Make the AJAX request
-        $.ajax({
-            url: 'http://localhost:8083/subProducts/filter',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(filterData),
-            success: function (data) {
-                // Handle success: render products
-                console.log(data);
-                renderProducts(data); // Define this function to display products
-            },
-            error: function (xhr, status, error) {
-                // Handle error
-                console.error(error);
-            }
-        });
+    filterSubProducts();
+    $(document).on("click", ".buttonAddToCart",handleAddToCartClick);
+    $(document).on("click", ".page-link", function(event) {
+        event.preventDefault();
+        const page = $(this).data("page"); // Get the page number from data-page attribute
+        pagination(page); // Pass the page number to the pagination function
     });
 });
 
+function pagination(number){
+    $.ajax({
+        url: '/subProducts/filter',
+        type: 'POST',
+        data: { page: number }, // Send the page parameter as query
+        success: function(response) {
+            renderProductsPages(response);
+        },
+        error: function(error) {
+            console.error("Error fetching data:", error);
+        }
+    });
+}
+
+function handleAddToCartClick(){
+    // Get data attributes from the clicked button
+    const customerId = sessionStorage.getItem("id");
+    const subProductId = $(this).data("id");
+    const quantity = 1; // Set the quantity here (or get it from another element)
+
+    // Define the data object for the request
+    const requestData = {
+        customerId: customerId,
+        subProductId: subProductId,
+        quantity: quantity
+    };
+
+    // Send the AJAX POST request
+    $.ajax({
+        url: "/cartItems",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(requestData), // Send the request data as JSON
+        success: function (response) {
+            VshowNotification("Product Added To Cart");
+        },
+        error: function (xhr, status, error) {
+           WshowNotification("Error adding product to cart. Please try again.");
+        }
+    });
+}
+
+
+function filterSubProducts() {
+    $('#filter-form').on('submit', function (event) {
+        event.preventDefault();
+    // Get the values from input fields (adjust selectors to match your HTML structure)
+    const color = $('input[name="color"]:checked').val(); // Assuming radio buttons for color
+    const size = $('input[name="size"]:checked').val();   // Assuming radio buttons for size
+    const minPrice = $('#minamount').val();              // Assuming input field for minPrice
+    const maxPrice = $('#maxamount').val();              // Assuming input field for maxPrice
+    const gender = $('input[name="gender"]:checked').val(); // Assuming radio buttons for gender
+    const category = $('input[name="category"]:checked').val(); // Assuming radio buttons for category
+    const page = $('#page').val() || 1;                  // Assuming input field or default value for page
+
+    // Build the data object
+    const data = {
+        color: color,
+        size: size,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        gender: gender,
+        category: category,
+        page: page
+    };
+
+    // Send the AJAX POST request
+    $.ajax({
+        url: '/subProducts/filter', // Adjust the URL if necessary (e.g., add context path)
+        type: 'POST',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // For form-encoded data
+        data: data,
+        success: function (response) {
+            // Handle success - response is a list of SubProductDTOs
+            console.log(response);
+            renderProductsPages(response); // Function to render the products on the page
+        },
+        error: function (xhr, status, error) {
+            // Handle error
+            console.error('Error occurred while filtering products:', error);
+        }
+    });
+    });
+}
+
 function fetchAllProducts() {
     $.ajax({
-        url: 'http://localhost:8083/subProducts', // Assuming this endpoint returns all products
+        url: '/subProducts', // Assuming this endpoint returns all products
         type: 'GET',
         success: function (data) {
             // Render all products
@@ -235,36 +336,39 @@ function fetchAllProducts() {
     });
 }
 
- function fetchCategories() {
-        $.ajax({
-            url: 'http://localhost:8083/cat', // API endpoint for categories
-            type: 'GET',
-            success: function (categories) {
-                // Render the categories in the HTML
-                renderCategories(categories);
-            },
-            error: function (xhr, status, error) {
-                console.error('Error fetching categories:', error);
-            }
-        });
-    }
+function fetchCategories() {
+    $.ajax({
+        url: '/subcategory', // API endpoint for categories
+        type: 'GET',
+        dataType: 'json',
+        success: function (categories) {
+            // Render the categories in the HTML
+            renderCategories(categories);
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching categories:', error);
+        }
+    });
+}
 
-    // Function to render categories into the HTML
-    function renderCategories(categories) {
-        const categoriesContainer = $('#categories'); // Get the container
-        categoriesContainer.empty(); // Clear existing content if any
+// Function to render categories into the HTML
+function renderCategories(categories) {
+    const categoriesContainer = $('#categories'); // Get the container
+    categoriesContainer.empty(); // Clear existing content if any
 
-        categories.forEach(function (category) {
-            const categoryHtml = `
-                <label for=`+category.name+`>
-                    `+category.name+`
-                    <input type="radio" name="category" id=`+category.id+` value=`+category.name+`  >
-                    <span class="checkmark"></span>
-                </label>
-            `;
-            categoriesContainer.append(categoryHtml); // Append the category HTML
-        });
-    }
+    categories.forEach(function (category) {
+    const size = category.name;
+        const categoryHtml = `
+                    <label for="`+category.name+`">
+                        `+category.name+`
+                        <input type="radio" name="category" id="`+category.name+`" value="`+category.name+`" />
+                        <span class="checkmark"></span>
+                    </label>
+
+                `;
+                categoriesContainer.append(categoryHtml);// Append the category HTML
+    });
+}
 
 function renderProducts(products) {
     // Clear existing products and render new ones
@@ -276,11 +380,59 @@ function renderProducts(products) {
                     <div class="product__item__pic set-bg" data-setbg=`+ product.imageURL+`>
                         <ul class="product__hover">
                             <li><a href=`+ product.imageURL+` class="image-popup"><span class="arrow_expand"></span></a></li>
-                            <li><a class="buttonAddToCart" data-id=`+ product.id+` data-name=`+product.description+` data-price=`+ product.price+` data-image=`+ product.imageURL+` data-stock=`+ product.stock+`><span class="icon_bag_alt"></span></a></li>
+                            <li>
+                            <a class="buttonAddToCart"
+                               data-id="`+ product.id +`"
+                               data-name="`+ product.description +`"
+                               data-price="`+ product.price +`"
+                               data-image="`+ product.imageURL +`"
+                               data-stock="`+ product.stock +`">
+                                <span class="icon_bag_alt"></span>
+                            </a>
+                            </li>
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="/product-details?product=${product.id}" class="product-detail-button">`+product.description+`</a></h6>
+                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.description+`</a></h6>
+                        <div class="product__price">$`+ product.price+`</div>
+                    </div>
+                </div>
+            </div>
+        `);
+    });
+
+    // Set background images for elements with the "set-bg" class
+    $('.set-bg').each(function() {
+        var bg = $(this).data('setbg'); // Get the image URL
+        $(this).css('background-image', 'url(' + bg + ')'); // Set it as a background image
+    });
+    pagination(1);
+}
+
+function renderProductsPages(products) {
+    // Clear existing products and render new ones
+    $('#product-list').empty(); // Clear the product list
+    products.forEach(function (product) {
+        $('#product-list').append(`
+            <div class="col-lg-4 col-md-6">
+                <div class="product__item">
+                    <div class="product__item__pic set-bg" data-setbg=`+ product.imageURL+`>
+                        <ul class="product__hover">
+                            <li><a href=`+ product.imageURL+` class="image-popup"><span class="arrow_expand"></span></a></li>
+                            <li>
+                            <a class="buttonAddToCart"
+                               data-id="`+ product.id +`"
+                               data-name="`+ product.description +`"
+                               data-price="`+ product.price +`"
+                               data-image="`+ product.imageURL +`"
+                               data-stock="`+ product.stock +`">
+                                <span class="icon_bag_alt"></span>
+                            </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="product__item__text">
+                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.description+`</a></h6>
                         <div class="product__price">$`+ product.price+`</div>
                     </div>
                 </div>
@@ -297,90 +449,9 @@ function renderProducts(products) {
 
 </script>
 
-<script src="/js/main.js"></script>
-<script src="/js/product-display.js"></script>
-<link rel="stylesheet" href="/css/shop.css" type="text/css">
-
-
-
-
-
-
-<script>
-/*
-    var user = '<c:out value="${sessionScope.user}" escapeXml="true" />';
-
-    $(document).ready(function () {
-        // Event listener for all Add to Cart buttons
-        $(".buttonAddToCart").click(function (e) {
-            e.preventDefault(); // Prevent the default action of the anchor tag
-
-            // Get product details from data attributes
-            const productId = $(this).data("id");
-            const productName = $(this).data("name");
-            const productPrice = $(this).data("price");
-            const productImage = $(this).data("image");
-            const productStock = $(this).data("stock");
-
-            // Create an object to send to the server
-            const productData = {
-                id: productId,
-                productName: productName,
-                price: productPrice,
-                imageURL: productImage,
-                stock: productStock,
-                quantity: 1 // Default to 1, or you can let the user input the quantity
-            };
-
-            // Send product details via Ajax to the backend (Servlet)
-            $.ajax({
-                url: '/filterProducts', // URL of the servlet that handles adding to cart
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(productData),
-                success: function (response) {
-                    $('#notification')
-                        .removeClass('alert-danger')
-                        .addClass('alert-success')
-                        .text(response.message)
-                        .fadeIn().delay(3000).fadeOut();
-                    // Optionally, update the cart UI with the updated cart count
-                    $('.icon_bag_alt').siblings('.tip').text(response.cartItemCount);
-
-                        saveCart();
-
-                        VshowNotification("Product Added To Cart");
-
-                    // Optionally, update the cart UI or display cart details
-                    // Example: $('#cart-count').text(response.cartItemCount);
-                },
-                error: function (xhr, status, error) {
-                    $('#notification')
-                        .removeClass('alert-success')
-                        .addClass('alert-danger')
-                        .text('Error adding product to cart. Please try again.')
-                        .fadeIn().delay(3000).fadeOut();
-                    WshowNotification("Error adding product to cart. Please try again.");
-                }
-            });
-        });
-    });
-
-    function saveCart() {
-        // Send an AJAX request to get the CartService from the session
-        $.ajax({
-            url: "/cartlocal",
-            type: "GET",
-            success: function (response) {
-                // Save the entire CartService object to localStorage
-                localStorage.setItem("cartService", JSON.stringify(response.cart));
-                console.log("CartService successfully saved to localStorage.");
-            },
-            error: function (xhr, status, error) {
-                console.error("Error saving CartService:", error);
-            }
-        });
-    }
-*/
-</script>
+<script src="js/main.js"></script>
+<script src="js/product-display.js"></script>
+<link rel="stylesheet" href="css/shop.css" type="text/css">
 <%@ include file="footer.jsp" %>
+</body>
+</html>

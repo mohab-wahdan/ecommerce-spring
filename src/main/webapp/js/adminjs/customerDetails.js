@@ -1,4 +1,12 @@
 $(document).ready(function() {
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            var token = sessionStorage.getItem('jwt-token');
+            if (token) {
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            }
+        }
+    });
     const customerId = new URLSearchParams(window.location.search).get('id');
     const customer = JSON.parse(sessionStorage.getItem('customerDetails'));
     const orders = JSON.parse(sessionStorage.getItem('customerOrders'));

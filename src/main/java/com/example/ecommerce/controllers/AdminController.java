@@ -1,4 +1,5 @@
 package com.example.ecommerce.controllers;
+import com.example.ecommerce.models.Admin;
 import com.example.ecommerce.services.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,19 @@ public class AdminController {
     public ResponseEntity<Map<String, Boolean>> login(@RequestBody Map<String, String> request) {
         String username = request.get("username");
         String password = request.get("password");
-        boolean success = adminService.login(username, password);
-        Map<String, Boolean> response = Collections.singletonMap("success", success);
-        if (success) {
+        boolean result = adminService.login(username, password);
+        if (result) {
+            Map<String, Boolean> response = Collections.singletonMap("success", result);
             return ResponseEntity.ok(response); // Login successful
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response); // Login failed
+            Map<String, Boolean> response = Collections.singletonMap("failed", result);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
+    }
+    @PostMapping
+    public ResponseEntity register(@RequestBody Admin admin) {
+        adminService.registerAdmin(admin);
+        return ResponseEntity.status(HttpStatus.CREATED).body(admin);
     }
     @GetMapping("/addCategory")
     public String showAddCategoryPage() {

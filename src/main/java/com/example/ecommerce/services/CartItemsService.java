@@ -29,9 +29,14 @@ public class CartItemsService implements Serializable {
     private final CartItemsMapper cartItemsMapper;
     private final CustomerRepository customerRepository;
     private final SubProductRepository subProductRepository;
+
+
     @JsonIgnore
     private Map<SubProductDTO, Integer> cart = new HashMap<>();
 
+    public void setCartFromDto(Map<SubProductDTO, Integer> cart) {
+        this.cart = cart;
+    }
 
 
     @Autowired
@@ -41,8 +46,16 @@ public class CartItemsService implements Serializable {
         this.customerRepository = customerRepository;
         this.subProductRepository = subProductRepository;
 
-    }
-    ///////////////////////////////////////////////////////////////
+    } 
+    public List<CartItemsDTO> getCartByCustomerId(Integer customerId) {
+        // Fetch cart items from the repository
+        List<CartItems> cartItems = cartItemsRepository.findByCustomerId(customerId);
+
+        // Map the entities to DTOs
+        return cartItems.stream()
+                .map(cartItemsMapper::toDto)
+                .collect(Collectors.toList());
+    } 
     @JsonCreator
     public void setCart(@JsonProperty("cartItems") List<ItemsForCartDTO> cartItems) {
         this.cart = cartItems.stream()
@@ -71,7 +84,8 @@ public class CartItemsService implements Serializable {
                 .stream()
                 .map(entry -> entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-    }@JsonIgnore
+    }
+    @JsonIgnore
     public Map<SubProductDTO, Integer> getItems(){
         return this.cart;
     }
@@ -208,7 +222,7 @@ public class CartItemsService implements Serializable {
         newCartItem.setQuantity(cartService.getQuantityOfSubProduct(subProductDTO));
         currentCartItem.add(newCartItem);
     }
-    ///////////////////////////////////////////////////////////////
+  
 
     public List<CartItemsDTO> getAllCartItems() {
         return cartItemsRepository.findAll()

@@ -43,6 +43,9 @@ public class SubProductService {
     public SubProduct findSubProductById(int id) {
         Optional<SubProduct> subProduct = subProductRepository.findById(id);
         if (subProduct.isPresent()) {
+            System.out.println(subProduct.get().getPrice());
+            System.out.println(subProduct.get().getColor());
+            System.out.println(subProduct.get().getStock());
             if (subProduct.get().getIsDeleted()) {
                 return null;
             } else {
@@ -50,6 +53,10 @@ public class SubProductService {
             }
         }
         return null;
+    }
+    public SubProductForAdminDTO findSubProductForAdminById(Integer id) {
+        SubProduct subProduct = subProductRepository.findById(id).get();
+        return SubProductMapper.convertEntityToSubProdcutAdminDTO(subProduct);
     }
 
     public void saveSubProduct(SubProduct subProduct) {
@@ -100,7 +107,7 @@ public class SubProductService {
 
     public SubProductDTO createSubProductDTO(String colorParam, String mainProductId, String size, int stock, BigDecimal price, MultipartFile imagePart) throws IOException {
         SubProductDTO subProduct = new SubProductDTO();
-//        subProduct.setProductName(mainProductId);
+        subProduct.setProductName(mainProductId);
         subProduct.setStock(stock);
         subProduct.setPrice(price);
         subProduct.setColor(colorParam);
@@ -109,42 +116,70 @@ public class SubProductService {
         if (!imagePart.isEmpty()) {
             String fileName = Paths.get(imagePart.getOriginalFilename()).getFileName().toString();
             String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-            String uploadDir = "uploads/"; // Define the directory to store uploaded images
+            String uploadDir = "src/main/webapp/uploads/";
             File uploads = new File(uploadDir);
             if (!uploads.exists()) {
                 uploads.mkdirs(); // Create the directory if it doesn't exist
             }
             File file = new File(uploads, uniqueFileName);
             Files.copy(imagePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            subProduct.setImageURL(uploadDir + uniqueFileName);
+            subProduct.setImageURL("uploads/"+ uniqueFileName);
         }
-//        addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
+        addSubProduct(subProduct, Integer.parseInt(subProduct.getProductName()));
         return subProduct;
     }
 
-    public void updateSubProduct(int subProductId,int quantity,BigDecimal price ,MultipartFile imagePart)   {
-        String imageUrl ="";
-        if (!imagePart.isEmpty()) {
-            String fileName = Paths.get(imagePart.getOriginalFilename()).getFileName().toString();
-            String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
-            String uploadDir = "uploads/";
-            File uploads = new File(uploadDir);
-            if (!uploads.exists()) {
-                uploads.mkdirs(); // Create the directory if it doesn't exist
-            }
-            File file = new File(uploads, uniqueFileName);
-            try (InputStream input = imagePart.getInputStream()) {
-                Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    public void updateSubProduct(int subProductId, int quantity, BigDecimal price, MultipartFile imagePart) {
+        String imageUrl = "";
+
+        if (imagePart != null && !imagePart.isEmpty()) {
+            try {
+                String fileName = Paths.get(imagePart.getOriginalFilename()).getFileName().toString();
+                String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+                String uploadDir = "src/main/webapp/uploads/";
+                File uploads = new File(uploadDir);
+                if (!uploads.exists()) {
+                    uploads.mkdirs();
+                }
+                File file = new File(uploads, uniqueFileName);
+                try (InputStream input = imagePart.getInputStream()) {
+                    Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
+                imageUrl = "uploads/" + uniqueFileName;  // Save as relative path for URL access
             } catch (IOException e) {
-                throw new RuntimeException("error in image input stream");
+                throw new RuntimeException("Error in saving image file", e);
             }
-            imageUrl=uploadDir+uniqueFileName;
+        }else{
+            imageUrl = subProductRepository.findByImageURL(subProductId);
         }
-        SubProduct subProduct=subProductRepository.findById(subProductId).get();
+
+        SubProduct subProduct = subProductRepository.findById(subProductId).orElseThrow(() -> new RuntimeException("SubProduct not found"));
         subProduct.setPrice(price);
         subProduct.setStock(quantity);
-        subProduct.setImageURL(imageUrl);
+        subProduct.setImageURL(imageUrl);  // Ensure URL is set in the entity
         subProductRepository.save(subProduct);
     }
 
+    public Optional<SubProductDTO> findSubProductDTOById(int id) {
+        Optional<SubProduct> subProduct = subProductRepository.findById(id);
+        return subProduct.map(this::convertToDTO);
+    }
+
+    private SubProductDTO convertToDTO(SubProduct subProduct) {
+        SubProductDTO dto = new SubProductDTO();
+        dto.setId(subProduct.getId());
+        dto.setPrice(subProduct.getPrice());
+        dto.setImageURL(subProduct.getImageURL());
+        dto.setColor(String.valueOf(subProduct.getColor()));
+        dto.setSize(String.valueOf(subProduct.getSize()));
+        dto.setDescription(subProduct.getProduct().getDescription());
+        dto.setStock(subProduct.getStock());
+        dto.setSubCategoryName(subProduct.getProduct().getSubCategory().getName());
+        return dto;
+    }
+
+    public List<SubProductDTO> findSubProductBySubCategoryIdForAdmin(Integer id) {
+        List<SubProduct> subProducts = subProductRepository.findBySubCategoryId(id);
+        return subProducts.stream().map(SubProductMapper::convertEntityToDTO).collect(Collectors.toList());
+    }
 }

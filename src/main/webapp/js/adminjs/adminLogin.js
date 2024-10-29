@@ -8,7 +8,7 @@ $(document).ready(function() {
 
         // Make AJAX request to login
         $.ajax({
-            url: 'http://localhost:8083/admin/login', // Correct your API endpoint
+            url: '/admin/login', // Correct your API endpoint
             method: 'POST',
             contentType: 'application/json', // Sending JSON
             data: JSON.stringify({
@@ -39,6 +39,6 @@ $(document).ready(function() {
             $('.alert').fadeOut('slow', function() {
                 $(this).remove();
             });
-        }, 3000);  // Automatically remove alert after 3 seconds
+        }, 3000);
     }
 });
