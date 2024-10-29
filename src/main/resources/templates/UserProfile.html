@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+
+<h1>User Profile Information</h1>
+<div id="profile-info">
+    <!-- Profile info will be displayed here -->
+</div>
+
+<script>
+    async function fetchUserProfile() {
+        try {
+            const response = await fetch('/grantcode?code=sampleCode&scope=email&authuser=1&prompt=consent');
+
+            if (response.ok) {
+                const profileData = await response.json();
+
+                // Store data in local storage or session storage if needed
+                sessionStorage.setItem("userProfile", JSON.stringify(profileData));
+
+                // Redirect to the profile page
+                window.location.href = "/user/profile";  // Update with the actual profile page URL
+            } else {
+                console.error('Failed to fetch profile info:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching profile info:', error);
+        }
+    }
+
+    fetchUserProfile();
+</script>
+
+
+</body>
+</html>
