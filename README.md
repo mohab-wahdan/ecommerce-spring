@@ -65,16 +65,6 @@ spring.datasource.username=your_username
 
 spring.datasource.password=your_password
 ```
-# Build and Run the Project
-
-Follow these steps to build and run the application:
-
-## 1. Build the Project
-Use the following command to clean and build the project:
-
-```bash
-mvn clean install
-```
 
 # Build and Run the Project
 
