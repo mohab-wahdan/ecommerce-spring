@@ -18,16 +18,29 @@ public class LoginController {
     }
 
 
+//    @GetMapping("/grantcode")
+//    public ResponseEntity<Map<String, Object>> grantCode(@RequestParam("code") String code,
+//                                                         @RequestParam("scope") String scope,
+//                                                         @RequestParam("authuser") String authUser,
+//                                                         @RequestParam("prompt") String prompt) {
+//        String userProfileJson = loginService.processGrantCode(code);
+//        Map<String, Object> userProfileMap = new Gson().fromJson(userProfileJson, Map.class);
+//        return ResponseEntity.ok(userProfileMap);
+//    }
+//
+
+
     @GetMapping("/grantcode")
     public ResponseEntity<Map<String, Object>> grantCode(@RequestParam("code") String code,
                                                          @RequestParam("scope") String scope,
                                                          @RequestParam("authuser") String authUser,
                                                          @RequestParam("prompt") String prompt) {
         String userProfileJson = loginService.processGrantCode(code);
-        Map<String, Object> userProfileMap = new Gson().fromJson(userProfileJson, Map.class);
-        return ResponseEntity.ok(userProfileMap);
+        Map<String, Object> responseMap = new Gson().fromJson(userProfileJson, Map.class);
+
+        // Add the profile page URL to the response
+        responseMap.put("redirectUrl", "/UserProfile");  // Update with actual profile page path
+
+        return ResponseEntity.ok(responseMap);
     }
-
-
-
 }
