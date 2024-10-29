@@ -198,9 +198,9 @@ function populateTable1(){
                            <td>`+order.status+`</td>
                            <td>
                                <a href="order-tracking.jsp?orderId=` + order.id + `" class="btn btn-primary">View Order</a>
-                                ` + (order.status === 'COMPLETED'
-                                        ? `<button class="btn btn-cancelled" disabled>Delivered</button>`
-                                        : `<button class="btn btn-danger cancel-order" data-order-id="${order.id}">Cancel Order</button>`) + `
+                                ` + (order.status != 'PENDING'
+                                        ? `<button class="btn btn-cancelled" disabled>"` + order.status + `"</button>`
+                                        : `<button class="btn btn-danger cancel-order" data-order-id= "` + order.id + `">Cancel Order</button>`) + `
                            </td>
                        </tr>`);
                });
@@ -219,7 +219,21 @@ function populateTable1(){
     $(document).on('click', '.cancel-order', function () {
         const orderId = $(this).data('order-id');
         // Handle order cancellation here
-        alert(`Cancel order functionality for order ID ${orderId} not yet implemented.`);
+        $.ajax({
+            url: '/orders/'+orderId+'/status/Cancelled',
+            type: 'PATCH',
+            contentType:'application/json',
+            success: function () {
+                alert("order canceled successfully")
+                }
+            ,
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                alert("Failed to cancel order: " + xhr.responseText);
+
+            }
+        });
+
     });
 }
 </script>
