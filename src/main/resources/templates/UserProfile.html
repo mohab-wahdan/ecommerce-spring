@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+</head>
+<body>
+
+<h1>User Profile Information</h1>
+<div id="profile-info">
+    <p><strong>Name:</strong> <span id="user-name"></span></p>
+    <p><strong>Email:</strong> <span id="user-email"></span></p>
+    <p><strong>Profile Picture:</strong> <img id="user-picture" alt="Profile Picture"></p>
+</div>
+
+<script>
+
+
+    async function fetchUserProfile() {
+        try {
+            const response = await fetch('/grantcode?code=sampleCode&scope=email&authuser=1&prompt=consent');
+
+            if (response.ok) {
+                const responseData = await response.json();
+
+                // Store profile data in session storage before redirection
+                sessionStorage.setItem("userProfile", JSON.stringify(responseData));
+
+                // Redirect to the profile page
+                window.location.href = responseData.redirectUrl;
+            } else {
+                console.error('Failed to fetch profile info:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error fetching profile info:', error);
+        }
+    }
+
+    fetchUserProfile();
+
+    // Retrieve the user profile from session storage
+    const profileData = JSON.parse(sessionStorage.getItem("userProfile"));
+
+    if (profileData) {
+        // Display user data
+        document.getElementById("user-name").innerText = profileData.name;
+        document.getElementById("user-email").innerText = profileData.email;
+        document.getElementById("user-picture").src = profileData.picture;
+    } else {
+        console.error('No user profile data found.');
+    }
+</script>
+
+</body>
+</html>
