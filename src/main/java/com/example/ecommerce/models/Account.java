@@ -26,8 +26,8 @@ public class Account {
 
     private String roles;
 
-    @Enumerated(EnumType.STRING)
-    private Provider provider;
-
-    private boolean enabled;
+//    @Enumerated(EnumType.STRING)
+//    private Provider provider;
+//
+//    private boolean enabled;
 }

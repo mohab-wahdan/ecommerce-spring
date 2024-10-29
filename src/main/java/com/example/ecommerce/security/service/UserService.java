@@ -65,8 +65,8 @@ public class UserService implements UserDetailsService {
             Account newUser = new Account();
             Customer c = new Customer();
             newUser.setUserName(username);
-            newUser.setProvider(Provider.GOOGLE);
-            newUser.setEnabled(true);
+//            newUser.setProvider(Provider.GOOGLE);
+//            newUser.setEnabled(true);
             c.setAccount(newUser);
             customerRepository.save(c);
         }
@@ -80,8 +80,8 @@ public class UserService implements UserDetailsService {
             Account newUser = new Account();
             Customer c = new Customer();
             newUser.setUserName(username);
-            newUser.setProvider(Provider.GOOGLE);
-            newUser.setEnabled(true);
+//            newUser.setProvider(Provider.GOOGLE);
+//            newUser.setEnabled(true);
             c.setAccount(newUser);
             customerRepository.save(c);
         }
