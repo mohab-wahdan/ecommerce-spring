@@ -13,7 +13,7 @@ This is a full-featured e-commerce web application built using Spring Framework.
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Project Structure](#project-structure)
-- [Presentation] (#presentation) 
+- [Presentation](#Presentation) 
 - [Contributing](#contributing)
 
 # Features
