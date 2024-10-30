@@ -1,8 +1,23 @@
  <%@ include file="header.jsp" %>
 
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
+        .action-btn {
+            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            font-weight: 80; /* Make the text bold */
+            font-size: 15px; /* Larger font size */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
+            padding: 10px 20px; /* Add padding for spacing */
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            display: inline-block; /* Keeps it inline but with block properties */
+            text-transform: uppercase; /* Makes the text uppercase */
+            letter-spacing: 2px; /* Adds spacing between letters */
+            width: 300px; /* Set fixed width to align all labels */
+            margin-bottom: 15px; /* Add margin for space between buttons */
+
+        }
         .checkout-title {
             font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
             font-weight: 700; /* Make the text bold */
@@ -59,7 +74,7 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div id="loadingOverlay" style="display: none;">
-                            <div class="spinner">Placing order ...</div>
+                            <div class="spinner">Please wait while placing order ...</div>
                         </div>
                         <h5>Billing detail</h5>
                         <div class="row">
@@ -123,8 +138,8 @@
                                         <li>Subtotal <span id="subtotalValue">$  </span></li>
                                     </ul>
                                 </div>
-                                <button type="button" class="site-btn" id="payOnline">Pay online</button> <br>
-                                <button type="button" class="site-btn" id="payCash">Pay Cash On Delivery</button>
+                                <button type="button" class="action-btn" id="payOnline">Pay online</button> <br>
+                                <button type="button" class="action-btn" id="payCash">Pay Cash On Delivery</button>
                             </div>
                         </div>
                     </div>
@@ -156,7 +171,6 @@ function onlinePayment(e){
 }
 function checkout2(){
     const customerId = sessionStorage.getItem("id");
-    alert(customerId);
     const cartItemsUrl ='/cartItems/'+customerId;
     const checkoutUrl = '/checkout/'+customerId;
 
@@ -177,6 +191,10 @@ function checkout2(){
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(requestBody),
+                beforeSend: function () {
+                    // Show loading overlay
+                    $("#loadingOverlay").show();
+                },
                 success: function (response) {
                     console.log("Order placed successfully:", response);
                     alert("Order placed successfully!");
@@ -191,6 +209,10 @@ function checkout2(){
                 error: function (xhr, status, error) {
                     console.error("Error placing order:", error);
                     alert("Failed to place order.");
+                },
+                complete: function () {
+                    // Hide loading overlay
+                    $("#loadingOverlay").hide();
                 }
             });
         },
@@ -217,7 +239,7 @@ function populateCart(){
                     success: function(item) {
                         // Process and display sub-product details
                        $('#listOfProd').append(`
-                           <li>`+cartItem.quantity+` x `+item.description+` <span>$ `+cartItem.quantity*item.price+`</span></li>
+                           <li>`+cartItem.quantity+` x `+item.productName+` <span>$ `+cartItem.quantity*item.price+`</span></li>
                        `);
                        subtotal+=(cartItem.quantity*item.price);
                        $('#subtotalValue').text(subtotal.toFixed(2));

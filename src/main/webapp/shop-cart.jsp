@@ -60,7 +60,7 @@
                             <li>TotalQuantity <span class="totalQuantity"> </span></li>
                             <li>Subtotal <span class="finalTotalPrice">  </span></li>
                         </ul>
-                        <a href="checkout.jsp" class="primary-btn"><i class="fa fa-dollar-sign" id="checkoutBtn"></i> Proceed to checkout</a>
+                        <a href="checkout.jsp" class="proceed-btn"><i class="fa fa-dollar-sign" id="checkoutBtn"></i> Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,6 @@ function updateCartTotals() {
 
         subtotal += quantity * pricePerUnit;
         totalQuantity += quantity;
-        totalPrice += price;
     });
 
     // Update the subtotal and total quantity in the HTML
@@ -182,7 +181,7 @@ function fetchCartItemsAndDetails() {
                                <td>
                                <img src="`+subProductDetails.imageURL+`" style="width: 90px; height: 90px;" alt="">
                                <div class="cart__product__item__title">
-                                   <h6> `+subProductDetails.description+`</h6>
+                                   <h6> `+subProductDetails.productName+`</h6>
                                </div>
                                </td>
                                <td>$ `+subProductDetails.price+`</td>
@@ -236,9 +235,11 @@ function cartFromLocal(){
                 alert("Customer ID is not available. Please log in.");
             }
         });
-    } else {
-        alert("Your cart is empty.");
     }
+    // else {
+    //     const cartItemsTableBody = document.getElementById('cartItemsTableBody');
+    //     cartItemsTableBody.innerText="Your cart is empty!";
+    // }
 
 }
 
@@ -249,7 +250,10 @@ function loggedIn(){
         url: '/cartItems/'+userId,
         type: 'GET',
         success: function(cartItems) {
-            // Step 2: For each sub-product ID, fetch details
+            if (cartItems.length === 0) {
+                $('#cartItemsTableBody').html('<tr><td colspan="5">Your cart is empty.</td></tr>');
+                return; // Exit the function if there are no items
+            }
             cartItems.forEach(function(cartItem) {
                 let subProductId = cartItem.subProductId; // Assuming cartItems contain subProductId
 
@@ -353,11 +357,27 @@ function loggedIn(){
             background-color: #bb1818 !important; /* A bold red color matching the theme */
             color: #f8f9fa !important; /* Light background for contrast */
             padding: 10px 20px; /* Add padding for spacing */
-            border-radius: 50px; /* Rounded corners */
+            border-radius: 20px; /* Rounded corners */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
             display: inline-block; /* Keeps it inline but with block properties */
             text-transform: uppercase; /* Makes the text uppercase */
             letter-spacing: 2px; /* Adds spacing between letters */
+
+        }
+        .proceed-btn {
+            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            font-weight: 80; /* Make the text bold */
+            font-size: 15px; /* Larger font size */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
+            padding: 10px 20px; /* Add padding for spacing */
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            display: inline-block; /* Keeps it inline but with block properties */
+            text-transform: uppercase; /* Makes the text uppercase */
+            letter-spacing: 2px; /* Adds spacing between letters */
+            width: 300px; /* Set fixed width to align all labels */
+
         }
     </style>
 
