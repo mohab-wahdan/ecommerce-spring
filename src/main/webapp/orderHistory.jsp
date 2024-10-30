@@ -225,7 +225,8 @@ function populateTable1(){
             contentType:'application/json',
             success: function () {
                 alert("order canceled successfully")
-                }
+                window.location.href = 'orderHistory.jsp';
+            }
             ,
             error: function (xhr, status, error) {
                 console.error("Error:", error);

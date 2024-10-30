@@ -250,7 +250,6 @@
 
                      // Populate order status
                      if (orderStatus === 'CANCELLED') {
-                         alert("waleed");
                          $('.track-lines').html('<div class="canceled-status">Your order has been cancelled.</div>');
                      } else {
                          $('.track-lines').html(`
