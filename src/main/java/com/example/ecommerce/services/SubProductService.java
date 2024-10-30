@@ -167,6 +167,7 @@ public class SubProductService {
 
     private SubProductDTO convertToDTO(SubProduct subProduct) {
         SubProductDTO dto = new SubProductDTO();
+        dto.setProductName(subProduct.getProduct().getName());
         dto.setId(subProduct.getId());
         dto.setPrice(subProduct.getPrice());
         dto.setImageURL(subProduct.getImageURL());

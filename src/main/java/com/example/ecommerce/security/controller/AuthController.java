@@ -6,14 +6,15 @@ import com.example.ecommerce.security.UserPrinciple;
 import com.example.ecommerce.security.service.JwtService;
 import com.example.ecommerce.security.dto.LoginRequest;
 import com.example.ecommerce.security.service.UserService;
+import com.nimbusds.jose.shaded.gson.Gson;
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,5 +56,26 @@ public class AuthController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/profile/google")
+    public JsonObject getProfileDetailsGoogle(@RequestHeader("Authorization") String accessToken) {
+        // Remove "Bearer " prefix if it's included in the Authorization header
+        if (accessToken.startsWith("Bearer ")) {
+            accessToken = accessToken.substring(7);
+        }
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(accessToken);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(httpHeaders);
+
+        String url = "https://www.googleapis.com/oauth2/v2/userinfo";
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
+
+        // Parse the response body into a JsonObject
+        JsonObject jsonObject = new Gson().fromJson(response.getBody(), JsonObject.class);
+
+        return jsonObject;
     }
 }

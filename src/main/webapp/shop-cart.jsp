@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Shop Cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
@@ -70,6 +70,19 @@
             text-transform: uppercase; /* Makes the text uppercase */
             letter-spacing: 2px; /* Adds spacing between letters */
         }
+        .continue-btn {
+            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            font-weight: 80; /* Make the text bold */
+            font-size: 15px; /* Larger font size */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
+            padding: 10px 20px; /* Add padding for spacing */
+            border-radius: 50px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            display: inline-block; /* Keeps it inline but with block properties */
+            text-transform: uppercase; /* Makes the text uppercase */
+            letter-spacing: 2px; /* Adds spacing between letters */
+        }
     </style>
 </head>
 <%@ include file="header.jsp" %>
@@ -115,7 +128,7 @@
                 </div>
             </div>
             <div class="row">
-                        <a href="shop.jsp" class="primary-btn">Continue Shopping</a>
+                        <a href="shop.jsp" class="continue-btn">Continue Shopping</a>
             </div>
             <div class="row">
                 <div class="col-lg-6">
@@ -250,7 +263,7 @@ function fetchCartItemsAndDetails() {
                                 <td>
                                 <img src="`+subProductDetails.imageURL+`" style="width: 90px; height: 90px;" alt="">
                                 <div class="cart__product__item__title">
-                                    <h6> `+subProductDetails.description+`</h6>
+                                    <h6> `+subProductDetails.productName+`</h6>
                                 </div>
                                 </td>
                                 <td>$ `+subProductDetails.price+`</td>

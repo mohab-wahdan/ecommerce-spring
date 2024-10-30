@@ -11,6 +11,24 @@
     <link rel="stylesheet" href="css/login.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .icon {
+            color: #4285F4; /* Google Blue */
+            margin-right: 5px; /* Space between icon and text */
+        }
+        .facebook-icon {
+            color: #3b5998; /* Facebook Blue */
+            margin-right: 5px;
+        }
+        .github-icon {
+            color: #333; /* GitHub Black */
+            margin-right: 5px;
+        }
+        .signin-icons {
+            display: block; /* Stack the links vertically */
+            margin-bottom: 10px; /* Space between links */
+        }
+    </style>
 </head>
 <body>
 <div class="card login-container">
@@ -35,15 +53,19 @@
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
             </div>
-            <a href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=/grantcode&response_type=code&client_id=500520249170-r75a36k8tkdqfpm0dka0tci28vq881ke.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline">
-                <i class="fa fa-google"></i>Sign in with Google
-            </a> <br>
-           <a href="https://www.facebook.com/v15.0/dialog/oauth?client_id=1056032482652267&redirect_uri=/login/oauth2/code/facebook&scope=email,public_profile&response_type=code">
-               <i class="fa fa-facebook"></i>Sign in with Facebook
-           </a><br>
-           <a href="https://github.com/login/oauth/authorize?client_id=Ov23liFHDlx4fenno3Su&redirect_uri=/login/oauth2/code/github&scope=user:email">
-               <i class="fa fa-github"></i>Sign in with GitHub
-           </a>
+            <div class="signin-icons">
+
+                <a href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=/grantcode&response_type=code&client_id=500520249170-r75a36k8tkdqfpm0dka0tci28vq881ke.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline">
+                    <i class="fab fa-google icon"></i> Sign in with Google
+                </a> <br>
+                <a href="https://www.facebook.com/v15.0/dialog/oauth?client_id=1056032482652267&redirect_uri=/login/oauth2/code/facebook&scope=email,public_profile&response_type=code">
+                    <i class="fab fa-facebook facebook-icon"></i> Sign in with Facebook
+                </a><br>
+                <a href="https://github.com/login/oauth/authorize?client_id=Ov23liFHDlx4fenno3Su&redirect_uri=/login/oauth2/code/github&scope=user:email">
+                    <i class="fab fa-github github-icon"></i> Sign in with GitHub
+                </a>
+
+            </div>
             <div class="sign-up form-group text-center">
                 <p>Not a member? <a href="registration.jsp">
                     signup now <i class="fas fa-user-plus"></i></a></p>

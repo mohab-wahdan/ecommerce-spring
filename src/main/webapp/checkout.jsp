@@ -1,13 +1,14 @@
  <%@ include file="header.jsp" %>
 
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
-        .order-history-title {
+        .checkout-title {
             font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
             font-weight: 700; /* Make the text bold */
             font-size: 32px; /* Larger font size */
-            color: #ca1515; /* A bold red color matching the theme */
-            background-color: #f8f9fa; /* Light background for contrast */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
             padding: 10px 20px; /* Add padding for spacing */
             border-radius: 50px; /* Rounded corners */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
@@ -15,6 +16,24 @@
             text-transform: uppercase; /* Makes the text uppercase */
             letter-spacing: 2px; /* Adds spacing between letters */
         }
+        #loadingOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999; /* Ensure it’s above other elements */
+        }
+
+        .spinner {
+            color: #fff;
+            font-size: 1.5em;
+        }
+
     </style>
 
     <!-- Breadcrumb Begin -->
@@ -23,8 +42,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="/"><i class="fa fa-home"></i> Home</a>
-                        <span class="order-history-title">Shopping Cart</span>
+                        <a href="index.jsp"><i class="fa fa-home"></i> Home</a>
+                        <span class="checkout-title"><i class="fas fa-money"></i> Checkout</span>
                     </div>
                 </div>
             </div>
@@ -39,6 +58,9 @@
             <form  class="checkout__form">
                 <div class="row">
                     <div class="col-lg-8">
+                        <div id="loadingOverlay" style="display: none;">
+                            <div class="spinner">Placing order ...</div>
+                        </div>
                         <h5>Billing detail</h5>
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -154,15 +176,26 @@ function checkout(e){
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(requestBody),
+                beforeSend: function () {
+                    // Show loading overlay
+                    $("#loadingOverlay").show();
+                },
                 success: function (response) {
                     console.log("Order placed successfully:", response);
                     alert("Order placed successfully!");
+                    window.location.href = '/shop.jsp';
                 },
                 error: function (xhr, status, error) {
                     console.error("Error placing order:", error);
                     alert("Failed to place order.");
+                },
+                complete: function () {
+                    // Hide loading overlay
+                    $("#loadingOverlay").hide();
                 }
             });
+
+
         },
         error: function (xhr, status, error) {
             console.error("Error fetching cart items:", error);

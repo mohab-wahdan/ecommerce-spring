@@ -86,8 +86,8 @@
                         <div class="card-body">
                             <h5 class="card-title">Product Statistics</h5>
                             <p>Total Categories: 4</p>
-                            <p>Total Products: 45</p>
-                            <p>Low Stock Alerts: 7</p>
+                            <p>Total Products: 33</p>
+                            <p>Low Stock Alerts: 1</p>
                         </div>
                     </div>
                 </div>
@@ -96,8 +96,8 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Customer Statistics</h5>
-                            <p>Total Customers: 62</p>
-                            <p>New Customers (Last 7 Days): 15</p>
+                            <p>Total Customers: 43</p>
+                            <p>New Customers (Last 7 Days): 42</p>
                         </div>
                     </div>
                 </div>
@@ -106,8 +106,8 @@
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Orders</h5>
-                            <p>Orders in Progress: 44</p>
-                            <p>Completed Orders: 23</p>
+                            <p>Orders in Progress: 34</p>
+                            <p>Completed Orders: 56</p>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
 
             <h4>Notifications</h4>
             <div class="alert alert-warning" role="alert">
-                Low Stock Alert: Red Looney Tunes x Olympic Collection T-shirt (5 units remaining).
+                Low Stock Alert: Blue Jacket with pouch pocket and logo (20 units remaining).
             </div>
         </div>
     </div>

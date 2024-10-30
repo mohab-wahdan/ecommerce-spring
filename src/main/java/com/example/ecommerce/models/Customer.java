@@ -1,5 +1,6 @@
 package com.example.ecommerce.models;
 
+import com.example.ecommerce.enums.Provider;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -77,5 +78,4 @@ public class Customer{
         order.setCustomer(this);
         orders.add(order);
     }
-
 }

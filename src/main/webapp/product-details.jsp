@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Product Details</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
@@ -44,6 +44,19 @@
         color: white;
         font-size: 18px;
         cursor: pointer;
+    }
+    .product-details-title {
+        font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+        font-weight: 700; /* Make the text bold */
+        font-size: 32px; /* Larger font size */
+        background-color: #bb1818 !important; /* A bold red color matching the theme */
+        color: #f8f9fa !important; /* Light background for contrast */
+        padding: 10px 20px; /* Add padding for spacing */
+        border-radius: 50px; /* Rounded corners */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        display: inline-block; /* Keeps it inline but with block properties */
+        text-transform: uppercase; /* Makes the text uppercase */
+        letter-spacing: 2px; /* Adds spacing between letters */
     }
     .pro-qtyy {
         display: flex;
@@ -105,7 +118,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="/"><i class="fa fa-home"></i> Home</a>
+                        <a href="shop.jsp"><i class="fa fa-home"></i> Home</a>
+                        <span class="product-details-title"><i class="fas fa-search-plus"></i> Product Details</span>
                     </div>
                 </div>
             </div>
@@ -171,7 +185,7 @@ $(document).ready(function() {
                     </div>
                     <div class="col-lg-6">
                         <div class="product__details__text">
-                            <h3>`+ product.description +`</h3>
+                            <h3>`+ product.productName +`</h3>
                             <div class="product__details__price">$ `+ product.price+` </div>
                             <p>`+ product.description +`</p>
                             <div class="product__details__button">
@@ -183,7 +197,7 @@ $(document).ready(function() {
                                         <button type="button" class="qtybtn inc">+</button>
                                     </div>
                                 </div>
-                                <a class="cart-btn" onclick="addToCart(${product.id}, '${product.description}', '${product.imageURL}', ${product.price}, ${product.stock})"><span class="icon_bag_alt"></span> Add to cart</a>
+                                <a class="cart-btn" onclick="addToCart(${product.id}, '${product.productName}', '${product.imageURL}', ${product.price}, ${product.stock})"><span class="icon_bag_alt"></span> Add to cart</a>
                             </div>
                             <div class="product__details__widget">
                                 <ul>
@@ -212,21 +226,6 @@ $(document).ready(function() {
                                         </div>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="product__details__tab">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">Description</a>
-                                </li>
-                            </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
-                                    <h6>Description</h6>
-                                    <p>`+ product.description +`</p>
-                                </div>
                             </div>
                         </div>
                     </div>

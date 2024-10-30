@@ -10,8 +10,8 @@
     <meta name="keywords" content="Ashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ashion | Template</title>
-
+    <title>Chicly</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
@@ -28,45 +28,6 @@
     <link rel="stylesheet" href="/css/style.css" type="text/css">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function() {
-        const userLoginContainer = document.getElementById("user-login");
-        const username = sessionStorage.getItem("username");
-
-        if (username) {
-            // Show dropdown menu with username and additional links
-            userLoginContainer.innerHTML = `
-            <div class="flex-container">
-            <p class="user-title" >`+username+` </p>
-               <div class="user-dropdown">
-                   <a href="#" class="user-menu">
-                        <i class="fa fa-user fa-2x"></i> <!-- User Icon -->
-                        <span class="arrow-down"></span>
-                    </a>
-                   <ul class="user-submenu">
-                       <li><a href="userProfile.jsp">Profile</a></li>
-                       <li><a href="orderHistory.jsp">My Orders</a></li>
-                       <li><a href="#" id="logout">Logout</a></li>
-                   </ul>
-               </div>
-            </div>`;
-
-            document.getElementById("logout").addEventListener("click", function() {
-                sessionStorage.clear();
-                userLoginContainer.innerHTML = `
-                    <a href="login.jsp">Login</a>
-                    <a href="registration.jsp">Register</a>`;
-                window.location.href = 'index.jsp';
-            });
-        } else {
-            // Show Login and Register links if user is not logged in
-            userLoginContainer.innerHTML = `
-                <a href="login.jsp">Login</a>
-                <a href="registration.jsp">Register</a>
-            `;
-        }
-    });
-</script>
 
 <style>
         .flex-container {
@@ -110,7 +71,6 @@
         letter-spacing: 1px;
         display: inline-block;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        width: 150px; /* Set fixed width to align all labels */
     }
 
     .user-menu .arrow-down {
@@ -182,11 +142,13 @@
         </div>
         <a href="shop-cart.jsp"></a><span class="icon_bag_alt"></span>
 
-        <div id="mobile-menu-wrap"></div>
-        <div class="offcanvas__auth">
-            <a href="login.jsp">Login  /</a>
-            <a href="registration.jsp">   Register</a>
+        <div id="mobile-menu-wrap">
+            <div class="offcanvas__auth">
+                <a href="login.jsp">Login  /</a>
+                <a href="registration.jsp">   Register</a>
+            </div>
         </div>
+
     </div>
     <!-- Offcanvas Menu End -->
 
@@ -226,4 +188,44 @@
             </div>
         </div>
     </header>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const userLoginContainer = document.getElementById("user-login");
+            const username = sessionStorage.getItem("username");
+
+            if (username) {
+                // Show dropdown menu with username and additional links
+                userLoginContainer.innerHTML = `
+            <div class="flex-container">
+            <p class="user-title" >`+username+` </p>
+               <div class="user-dropdown">
+                   <a href="#" class="user-menu">
+                        <i class="fa fa-user fa-2x"></i> <!-- User Icon -->
+                        <span class="arrow-down"></span>
+                    </a>
+                   <ul class="user-submenu">
+                       <li><a href="userProfile.jsp">Profile</a></li>
+                       <li><a href="orderHistory.jsp">My Orders</a></li>
+                       <li><a href="#" id="logout">Logout</a></li>
+                   </ul>
+               </div>
+            </div>`;
+
+                document.getElementById("logout").addEventListener("click", function() {
+                    sessionStorage.clear();
+                    userLoginContainer.innerHTML = `
+                    <a href="login.jsp">Login</a>
+                    <a href="registration.jsp">Register</a>`;
+                    window.location.href = 'index.jsp';
+                });
+            } else {
+                // Show Login and Register links if user is not logged in
+                userLoginContainer.innerHTML = `
+                <a href="login.jsp">Login</a>
+                <a href="registration.jsp">/  Register</a>
+            `;
+            }
+        });
+    </script>
+
     <!-- Header Section End -->

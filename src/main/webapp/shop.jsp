@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="favicon.ico">
-    <title>CHCILY</title>
+    <title>CHCILY - Shop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -393,7 +393,7 @@ function renderProducts(products) {
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.description+`</a></h6>
+                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.productName+`</a></h6>
                         <div class="product__price">$`+ product.price+`</div>
                     </div>
                 </div>
@@ -432,7 +432,7 @@ function renderProductsPages(products) {
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.description+`</a></h6>
+                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.productName+`</a></h6>
                         <div class="product__price">$`+ product.price+`</div>
                     </div>
                 </div>
