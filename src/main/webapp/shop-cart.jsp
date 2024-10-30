@@ -64,7 +64,7 @@
                             <li>TotalQuantity <span class="totalQuantity"> </span></li>
                             <li>Subtotal <span class="finalTotalPrice">  </span></li>
                         </ul>
-                        <a href="checkout.jsp" class="primary-btn">Proceed to checkout</a>
+                        <a href="checkout.jsp" class="primary-btn" id="checkoutBtn">Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -77,26 +77,32 @@ $(document).ready(function() {
     $(document).on('click', '.icon_close',deleteItem);
     $(document).on('change', '.quantity-input',updateQuantity);
 });
-
+document.getElementById("checkoutBtn").addEventListener("click", function(event) {
+        const userId = sessionStorage.getItem("id");
+        if (!userId) {
+            event.preventDefault();
+            alert("Please log in to proceed to checkout.");
+        }
+});
 function updateCartTotals() {
+    let subtotal = 0;
     let totalQuantity = 0;
-    let totalPrice = 0;
 
-    $.each(cartItems, function(index, row) {
-        const quantity = parseInt($(row).find(".quantity-input").val()) || 0;
-        const price = parseFloat($(row).find(".total-price").text().replace("$", "")) || 0;
+    // Loop through each product row and calculate totals
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        const quantity = parseInt(input.value);
+        const pricePerUnit = parseFloat(input.getAttribute('data-price'));
 
+        subtotal += quantity * pricePerUnit;
         totalQuantity += quantity;
-        totalPrice += price;
     });
 
-    // Update the Cart total section
-    $(".totalQuantity").text(totalQuantity); // Total Quantity
-    $(".finalTotalPrice").text("$"+totalPrice); // Total Price
-    // Store the updated totals in localStorage
-    localStorage.setItem('totalQuantity', totalQuantity);
-    localStorage.setItem('totalPrice', totalPrice);
+    // Update the subtotal and total quantity in the HTML
+    document.querySelector('.totalQuantity').textContent = totalQuantity; // Update total quantity
+    document.querySelector('.finalTotalPrice').textContent = '$ ' + subtotal.toFixed(2); // Update subtotal
+    sessionStorage.setItem("totalPrice",subtotal);
 }
+
 
 //Function to update quantity
 function updateQuantity(){
@@ -123,7 +129,7 @@ function updateQuantity(){
         contentType: "application/json",
         data: JSON.stringify(requestBody),
         success: function(response) {
-            //alert("Quantity updated successfully!");
+            updateCartTotals();
         },
         error: function(xhr, status, error) {
             console.error("Error updating quantity:", error);
@@ -161,7 +167,88 @@ function deleteItem() {
 
 // Function to get cart items by customer ID and then fetch sub-product details
 function fetchCartItemsAndDetails() {
-    const userId = sessionStorage.getItem("id"); ;
+   const userId_ = sessionStorage.getItem("id");
+   if(userId_){ loggedIn(); }
+   else{
+       const cart = JSON.parse(localStorage.getItem("cart"));
+
+       // Check if the cart has items and iterate over it
+       if (cart) {
+           cart.forEach((item, index) => {
+               var id=item.subProductId;
+               $.ajax({
+                   url: '/cartItems/subProduct/'+id,
+                   type: 'GET',
+                   success: function(subProductDetails) {
+                       // Process and display sub-product details
+                       $('#cartItemsTableBody').append(`
+                           <tr data-product-id="`+subProductDetails.id+`"  class="cart-item-row">
+                               <td>
+                               <img src="`+subProductDetails.imageURL+`" style="width: 90px; height: 90px;" alt="">
+                               <div class="cart__product__item__title">
+                                   <h6> `+subProductDetails.description+`</h6>
+                               </div>
+                               </td>
+                               <td>$ `+subProductDetails.price+`</td>
+                               <td>
+                                   <input type="text" value="`+item.quantity+`" data-price="`+subProductDetails.price+`" class="quantity-input" >
+                               </td>
+                               <td class="total-price">$ ` + (subProductDetails.price * item.quantity).toFixed(2) + `</td>
+                               <td><span class="icon_close"></span></td>
+                           </tr>
+                       `);
+                        updateCartTotals();
+                   },
+                   error: function(error) {
+                       console.error(`Error fetching details for subProduct ID ${subProductId}:`, error);
+                   }
+               });
+           });
+       } else {
+           console.log("The cart is empty.");
+       }
+   }
+}
+function cartFromLocal(){
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    if (cart && cart.length > 0) {
+        cart.forEach((item, index) => {
+            const customerId = sessionStorage.getItem("id");
+            const subProductId = item.subProductId; // Accessing item properties correctly
+            const quantity = item.quantity; // Accessing item properties correctly
+
+            if (customerId) {
+                const requestData = {
+                    customerId: customerId,
+                    subProductId: subProductId,
+                    quantity: quantity
+                };
+
+                // Send the AJAX POST request
+                $.ajax({
+                    url: "/cartItems",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(requestData), // Send the request data as JSON
+                    success: function (response) {
+                        localStorage.clear();
+                    },
+                    error: function (xhr, status, error) {
+                    }
+                });
+            } else {
+                alert("Customer ID is not available. Please log in.");
+            }
+        });
+    } else {
+        alert("Your cart is empty.");
+    }
+
+}
+
+function loggedIn(){
+    cartFromLocal();
+    const userId = sessionStorage.getItem("id");
      $.ajax({
         url: '/cartItems/'+userId,
         type: 'GET',
@@ -176,7 +263,7 @@ function fetchCartItemsAndDetails() {
                     success: function(subProductDetails) {
                         // Process and display sub-product details
                         $('#cartItemsTableBody').append(`
-                            <tr data-product-id="`+subProductDetails.id+`" class="cart-item-row">
+                            <tr data-product-id="`+subProductDetails.id+`"  class="cart-item-row">
                                 <td>
                                 <img src="`+subProductDetails.imageURL+`" style="width: 90px; height: 90px;" alt="">
                                 <div class="cart__product__item__title">
@@ -185,9 +272,10 @@ function fetchCartItemsAndDetails() {
                                 </td>
                                 <td>$ `+subProductDetails.price+`</td>
                                 <td>
-                                    <input type="text" value="`+cartItem.quantity+`" class="quantity-input" >
+                                    <input type="text" value="`+cartItem.quantity+`" data-price="`+subProductDetails.price+`" class="quantity-input" >
                                 </td>
-                                <td class="total-price">$ ` + (subProductDetails.price * cartItem.quantity).toFixed(2) + `</td>                                <td><span class="icon_close"></span></td>
+                                <td class="total-price">$ ` + (subProductDetails.price * cartItem.quantity).toFixed(2) + `</td>
+                                <td><span class="icon_close"></span></td>
                             </tr>
                         `);
                          updateCartTotals();

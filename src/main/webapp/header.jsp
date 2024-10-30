@@ -46,7 +46,7 @@
                    <ul class="user-submenu">
                        <li><a href="userProfile.jsp">Profile</a></li>
                        <li><a href="orderHistory.jsp">My Orders</a></li>
-                       <li><a href="" id="logout">Logout</a></li>
+                       <li><a href="#" id="logout">Logout</a></li>
                    </ul>
                </div>
             </div>`;
@@ -56,8 +56,9 @@
                 userLoginContainer.innerHTML = `
                     <a href="login.jsp">Login</a>
                     <a href="registration.jsp">Register</a>`;
+                    window.location.href = 'index.jsp';
                 });
-              //window.location.href = 'index.jsp';
+              //
         } else {
             // Show Login and Register links if user is not logged in
             userLoginContainer.innerHTML = `
