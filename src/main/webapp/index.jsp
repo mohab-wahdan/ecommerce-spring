@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Chicly</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
@@ -49,7 +49,7 @@
                     <div class="categories__text">
                         <h1>Women’s fashion</h1>
                         <p>Embrace your unique fashion journey and express yourself with our stunning collection. From chicly everyday essentials to bold statement pieces, we have everything you need.</p>
-                        <a href="/shop.jsp">Shop now</a>
+<%--                        <a href="/shop.jsp">Shop now</a>--%>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/clothes.jpg">
                             <div class="categories__text">
                                 <h4>Clothing</h4>
-                                <a href="/shop.jsp">Shop now</a>
+<%--                                <a href="/shop.jsp">Shop now</a>--%>
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/male.jpg">
                             <div class="categories__text">
                                 <h4>Men 's fashion</h4>
-                                <a href="/shop.jsp">Shop now</a>
+<%--                                <a href="/shop.jsp">Shop now</a>--%>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/footwear.jpg">
                             <div class="categories__text">
                                 <h4>Footwear</h4>
-                                <a href="/shop.jsp">Shop now</a>
+<%--                                <a href="/shop.jsp">Shop now</a>--%>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/accessories.jpg">
                             <div class="categories__text">
                                 <h4>Accessories</h4>
-                                <a href="/shop.jsp">Shop now</a>
+<%--                                <a href="/shop.jsp">Shop now</a>--%>
                             </div>
                         </div>
                     </div>

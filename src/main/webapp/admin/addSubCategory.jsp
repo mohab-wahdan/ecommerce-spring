@@ -34,7 +34,7 @@
 
         <div class="form-group">
             <label for="subcategory">SubCategory Name</label>
-            <input type="text" class="form-control" id="subcategory" name="subcategory" placeholder="Enter stock quantity" required>
+            <input type="text" class="form-control" id="subcategory" name="subcategory" placeholder="Enter subcategory name" required>
         </div>
 
 
