@@ -77,7 +77,6 @@ document.getElementById("checkoutBtn").addEventListener("click", function(event)
         const userId = sessionStorage.getItem("id");
         if (!userId) {
             event.preventDefault();
-            alert("Please log in to proceed to checkout.");
         }
 });
 function updateCartTotals() {
@@ -128,7 +127,6 @@ function updateQuantity(){
         },
         error: function(xhr, status, error) {
             console.error("Error updating quantity:", error);
-            alert("Failed to update quantity.");
         }
     });
 }
@@ -154,7 +152,6 @@ function deleteItem() {
             },
             error: function(xhr, status, error) {
                 console.error("Error deleting item:", error);
-                alert("Failed to remove item from the cart.");
             }
         });
     }
@@ -232,7 +229,6 @@ function cartFromLocal(){
                     }
                 });
             } else {
-                alert("Customer ID is not available. Please log in.");
             }
         });
     }

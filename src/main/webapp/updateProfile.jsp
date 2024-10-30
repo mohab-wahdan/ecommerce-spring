@@ -424,7 +424,6 @@
 
         function submitForm() {
             if(!checkCondition()){
-                alert("Please validate your data! ");
                 return;
             }else {
                 var updateBtn = document.getElementById("updateBtn");

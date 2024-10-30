@@ -197,18 +197,15 @@ function checkout2(){
                 },
                 success: function (response) {
                     console.log("Order placed successfully:", response);
-                    alert("Order placed successfully!");
                     const totalPrice = sessionStorage.getItem("totalPrice");
                      if (totalPrice) {
                          const payUrl ='${pageContext.request.contextPath}/pay/'+totalPrice;
                          window.location.href = payUrl; // Redirect to the pay URL
                      } else {
-                         alert("Total price is not set.");
                      }
                 },
                 error: function (xhr, status, error) {
                     console.error("Error placing order:", error);
-                    alert("Failed to place order.");
                 },
                 complete: function () {
                     // Hide loading overlay
@@ -218,7 +215,6 @@ function checkout2(){
         },
         error: function (xhr, status, error) {
             console.error("Error fetching cart items:", error);
-            alert("Failed to retrieve cart items.");
         }
     });
 }
@@ -312,7 +308,6 @@ function checkout(e){
                 },
                 error: function (xhr, status, error) {
                     console.error("Error placing order:", error);
-                    alert("Failed to place order.");
                 },
                 complete: function () {
                     // Hide loading overlay
@@ -324,7 +319,6 @@ function checkout(e){
         },
         error: function (xhr, status, error) {
             console.error("Error fetching cart items:", error);
-            alert("Failed to retrieve cart items.");
         }
     });
     }

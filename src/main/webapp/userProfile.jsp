@@ -163,7 +163,6 @@
             },
             error: function(error) {
                 console.error("Error fetching user data:", error);
-                alert("Unable to load user information.");
             }
         });
     });
