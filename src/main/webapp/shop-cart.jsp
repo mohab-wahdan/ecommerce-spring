@@ -8,8 +8,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="/"><i class="fa fa-home"></i> Home</a>
-                        <span class="order-history-title">Shopping Cart</span>
+                        <a href="index.jsp"><i class="fa fa-home"></i> Home</a>
+                        <span class="shopping-cart-title"><i class="fas fa-shopping-cart"></i> Shopping Cart</span>
                     </div>
                 </div>
             </div>
@@ -41,11 +41,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-6">
-                    <div class="cart__btn">
-                        <a href="shop.jsp">Continue Shopping</a>
-                    </div>
-                </div>
+                        <a href="shop.jsp" class="continue-btn">Continue Shopping</a>
             </div>
             <div class="row">
                 <div class="col-lg-6">
@@ -64,7 +60,7 @@
                             <li>TotalQuantity <span class="totalQuantity"> </span></li>
                             <li>Subtotal <span class="finalTotalPrice">  </span></li>
                         </ul>
-                        <a href="checkout.jsp" class="primary-btn" id="checkoutBtn">Proceed to checkout</a>
+                        <a href="checkout.jsp" class="primary-btn"><i class="fa fa-dollar-sign" id="checkoutBtn"></i> Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -95,6 +91,7 @@ function updateCartTotals() {
 
         subtotal += quantity * pricePerUnit;
         totalQuantity += quantity;
+        totalPrice += price;
     });
 
     // Update the subtotal and total quantity in the HTML
@@ -102,7 +99,6 @@ function updateCartTotals() {
     document.querySelector('.finalTotalPrice').textContent = '$ ' + subtotal.toFixed(2); // Update subtotal
     sessionStorage.setItem("totalPrice",subtotal);
 }
-
 
 //Function to update quantity
 function updateQuantity(){
@@ -267,7 +263,7 @@ function loggedIn(){
                                 <td>
                                 <img src="`+subProductDetails.imageURL+`" style="width: 90px; height: 90px;" alt="">
                                 <div class="cart__product__item__title">
-                                    <h6> `+subProductDetails.description+`</h6>
+                                    <h6> `+subProductDetails.productName+`</h6>
                                 </div>
                                 </td>
                                 <td>$ `+subProductDetails.price+`</td>
@@ -293,7 +289,6 @@ function loggedIn(){
 }
 </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
 
 <style>
@@ -338,12 +333,25 @@ function loggedIn(){
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-        .order-history-title {
+        .shopping-cart-title {
             font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
             font-weight: 700; /* Make the text bold */
             font-size: 32px; /* Larger font size */
-            color: #ca1515; /* A bold red color matching the theme */
-            background-color: #f8f9fa; /* Light background for contrast */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
+            padding: 10px 20px; /* Add padding for spacing */
+            border-radius: 50px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            display: inline-block; /* Keeps it inline but with block properties */
+            text-transform: uppercase; /* Makes the text uppercase */
+            letter-spacing: 2px; /* Adds spacing between letters */
+        }
+        .continue-btn {
+            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            font-weight: 80; /* Make the text bold */
+            font-size: 15px; /* Larger font size */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
             padding: 10px 20px; /* Add padding for spacing */
             border-radius: 50px; /* Rounded corners */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */

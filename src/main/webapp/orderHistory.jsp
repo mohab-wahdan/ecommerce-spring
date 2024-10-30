@@ -17,17 +17,17 @@
         }
 
         .order-history-title {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 32px;
-            color: #ca1515;
-            background-color: #f8f9fa;
-            padding: 10px 20px;
-            border-radius: 50px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            font-weight: 700; /* Make the text bold */
+            font-size: 32px; /* Larger font size */
+            background-color: #bb1818 !important; /* A bold red color matching the theme */
+            color: #f8f9fa !important; /* Light background for contrast */
+            padding: 10px 20px; /* Add padding for spacing */
+            border-radius: 50px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            display: inline-block; /* Keeps it inline but with block properties */
+            text-transform: uppercase; /* Makes the text uppercase */
+            letter-spacing: 2px; /* Adds spacing between letters */
         }
 
         /* Modal Styles */
@@ -52,8 +52,8 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="breadcrumb__links">
-                    <a href="/"><i class="fa fa-home"></i> Home</a>
-                    <span class="order-history-title">Order history</span>
+                    <a href="index.jsp"><i class="fa fa-home"></i> Home</a>
+                    <span class="order-history-title"><i class="fas fa-clipboard-list"></i> Order History</span>
                 </div>
             </div>
         </div>
@@ -181,9 +181,9 @@ function populateTable1(){
                            <td>`+order.status+`</td>
                            <td>
                                <a href="order-tracking.jsp?orderId=` + order.id + `" class="btn btn-primary">View Order</a>
-                                ` + (order.status === 'COMPLETED'
-                                        ? `<button class="btn btn-cancelled" disabled>Delivered</button>`
-                                        : `<button class="btn btn-danger cancel-order" data-order-id="${order.id}">Cancel Order</button>`) + `
+                                ` + (order.status != 'PENDING'
+                                        ? `<button class="btn btn-cancelled" disabled>"` + order.status + `"</button>`
+                                        : `<button class="btn btn-danger cancel-order" data-order-id= "` + order.id + `">Cancel Order</button>`) + `
                            </td>
                        </tr>`);
                });
@@ -202,7 +202,22 @@ function populateTable1(){
     $(document).on('click', '.cancel-order', function () {
         const orderId = $(this).data('order-id');
         // Handle order cancellation here
-        alert(`Cancel order functionality for order ID ${orderId} not yet implemented.`);
+        $.ajax({
+            url: '/orders/'+orderId+'/status/Cancelled',
+            type: 'PATCH',
+            contentType:'application/json',
+            success: function () {
+                alert("order canceled successfully")
+                window.location.href = 'orderHistory.jsp';
+            }
+            ,
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+                alert("Failed to cancel order: " + xhr.responseText);
+
+            }
+        });
+
     });
 }
 </script>

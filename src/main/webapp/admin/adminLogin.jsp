@@ -19,11 +19,6 @@
         </div>
         <h3 class="text-center mb-4">Admin Login</h3>
         <form id="loginform">
-            <c:if test="${error != null}">
-                <div class="alert alert-danger text-center" style="width: fit-content; margin: 0 auto;color: red">
-                        ${error}
-                </div>
-            </c:if>
             <div class="form-group mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>

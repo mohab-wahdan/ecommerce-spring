@@ -1,6 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+</head>
+<body>
 <%@ include file="header.jsp" %>
 <section class="categories">
     <div class="container-fluid">
+        <c:choose>
+            <c:when test="${not empty sessionScope.successMessage}">
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="font-size: 1.1em; font-weight: bold;">
+                    <i class="fas fa-check-circle"></i> ${sessionScope.successMessage}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="removeQueryParam()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Remove message after displaying -->
+                <c:remove var="successMessage" scope="session"/>
+            </c:when>
+            <c:when test="${not empty sessionScope.errorMessage}">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="font-size: 1.1em; font-weight: bold;">
+                    <i class="fas fa-exclamation-triangle"></i> ${sessionScope.errorMessage}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="removeQueryParam()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- Remove message after displaying -->
+                <c:remove var="errorMessage" scope="session"/>
+            </c:when>
+        </c:choose>
         <div class="row">
             <div class="col-lg-6 p-0">
                 <div class="categories__item categories__large__item set-bg"
@@ -8,7 +49,7 @@
                     <div class="categories__text">
                         <h1>Women’s fashion</h1>
                         <p>Embrace your unique fashion journey and express yourself with our stunning collection. From chicly everyday essentials to bold statement pieces, we have everything you need.</p>
-                        <a href="/shop.jsp">Shop now</a>
+<%--                        <a href="/shop.jsp">Shop now</a>--%>
                     </div>
                 </div>
             </div>
@@ -18,7 +59,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/clothes.jpg">
                             <div class="categories__text">
                                 <h4>Clothing</h4>
-                                <a href="/shop.jsp">Shop now</a>
+<%--                                <a href="/shop.jsp">Shop now</a>--%>
                             </div>
                         </div>
                     </div>
@@ -26,7 +67,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/male.jpg">
                             <div class="categories__text">
                                 <h4>Men 's fashion</h4>
-                                <a href="/shop.jsp">Shop now</a>
+<%--                                <a href="/shop.jsp">Shop now</a>--%>
                             </div>
                         </div>
                     </div>
@@ -34,7 +75,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/footwear.jpg">
                             <div class="categories__text">
                                 <h4>Footwear</h4>
-                                <a href="/shop.jsp">Shop now</a>
+<%--                                <a href="/shop.jsp">Shop now</a>--%>
                             </div>
                         </div>
                     </div>
@@ -42,7 +83,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/accessories.jpg">
                             <div class="categories__text">
                                 <h4>Accessories</h4>
-                                <a href="/shop.jsp">Shop now</a>
+<%--                                <a href="/shop.jsp">Shop now</a>--%>
                             </div>
                         </div>
                     </div>
@@ -140,3 +181,5 @@
     }
 </script>
 <%@ include file="footer.jsp" %>
+</body>
+</html>

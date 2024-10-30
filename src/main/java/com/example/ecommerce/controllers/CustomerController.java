@@ -5,10 +5,12 @@ import com.example.ecommerce.services.CustomerService;
 
 import com.example.ecommerce.dtos.CustomerDTO;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,10 +25,14 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO customerDTO) {
-        CustomerDTO createdCustomer = customerService.createCustomer(customerDTO);
-        System.out.println("Received customer data: " + customerDTO);
-        return ResponseEntity.ok(createdCustomer);
+    public void createCustomer(@RequestBody CustomerDTO customerDTO,
+                HttpSession session) throws IOException {
+        try {
+            CustomerDTO createdCustomer = customerService.createCustomer(customerDTO);
+            session.setAttribute("successMessage", "Registration success!");
+        }catch(Exception e){
+            session.setAttribute("errorMessage", "Failed to add register. Please try again.");
+        }
     }
     @GetMapping("/email/{email}")
     public ResponseEntity<String> checkEmailExists(@PathVariable String email) {

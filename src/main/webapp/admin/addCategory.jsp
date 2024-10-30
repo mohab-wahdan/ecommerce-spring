@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+
 <div class="container mt-5">
     <!-- Back Button -->
     <div class="mb-4">
@@ -30,5 +31,17 @@
         </button>
     </form>
 </div>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                var token = sessionStorage.getItem('jwt-token');
+                if (token) {
+                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

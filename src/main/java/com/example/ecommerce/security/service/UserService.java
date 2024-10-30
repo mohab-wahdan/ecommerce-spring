@@ -1,6 +1,7 @@
 package com.example.ecommerce.security.service;
 
 import com.example.ecommerce.dtos.CustomerDTO;
+import com.example.ecommerce.enums.Provider;
 import com.example.ecommerce.mappers.CustomerMapper;
 import com.example.ecommerce.models.Account;
 import com.example.ecommerce.models.Admin;
@@ -21,11 +22,13 @@ public class UserService implements UserDetailsService {
     private final AdminRepository adminRepository;
     private final CustomerMapper customerMapper;
 
+
     @Autowired
     public UserService(CustomerRepository customerRepository, AdminRepository adminRepository, CustomerMapper customerMapper) {
         this.customerRepository = customerRepository;
         this.adminRepository = adminRepository;
         this.customerMapper = customerMapper;
+
     }
 
     @Override
@@ -54,4 +57,35 @@ public class UserService implements UserDetailsService {
         }
         return null;
     }
+
+    public void processOAuthPostLogin(String username) {
+        Customer existUser = customerRepository.findByAccountUserName(username);
+
+        if (existUser == null) {
+            Account newUser = new Account();
+            Customer c = new Customer();
+            newUser.setUserName(username);
+//            newUser.setProvider(Provider.GOOGLE);
+//            newUser.setEnabled(true);
+            c.setAccount(newUser);
+            customerRepository.save(c);
+        }
+
+    }
+
+    public void processOAuthPostLoginFacebook(String username) {
+        Customer existUser = customerRepository.findByAccountUserName(username);
+
+        if (existUser == null) {
+            Account newUser = new Account();
+            Customer c = new Customer();
+            newUser.setUserName(username);
+//            newUser.setProvider(Provider.GOOGLE);
+//            newUser.setEnabled(true);
+            c.setAccount(newUser);
+            customerRepository.save(c);
+        }
+
+    }
+
 }

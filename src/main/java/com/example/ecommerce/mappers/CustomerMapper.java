@@ -3,10 +3,7 @@ import com.example.ecommerce.dtos.CartItemsDTO;
 import com.example.ecommerce.dtos.CustomerDTO;
 import com.example.ecommerce.dtos.CustomerViewDTO;
 import com.example.ecommerce.dtos.OrderDTO;
-import com.example.ecommerce.models.CartItems;
-import com.example.ecommerce.models.Customer;
-import com.example.ecommerce.models.Order;
-import com.example.ecommerce.models.SubProduct;
+import com.example.ecommerce.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -74,7 +71,9 @@ public class CustomerMapper {
         customer.setPhoneNumber(dto.getPhoneNumber());
         customer.setJob(dto.getJob());
         customer.setAddress(dto.getAddress()); // Set the address
-        customer.setAccount(dto.getAccount());
+        Account account = dto.getAccount();
+        account.setRoles("user");
+        customer.setAccount(account);
 
         // Map CartItemsDTO to CartItems
         Set<CartItems> cartItems = dto.getShoppingCart().stream()
