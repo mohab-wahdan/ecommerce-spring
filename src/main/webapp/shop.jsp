@@ -207,9 +207,11 @@
                 <div class="pagination__option">
                     <a href="#" class="page-link" data-page="1">1</a>
                     <a href="#" class="page-link" data-page="2">2</a>
-                    <a href="#" class="page-link p3" data-page="3">3</a>
-                    <a href="#" class="page-link p3" data-page="4">4</a>
-                    <a href="#" ><i class="fa fa-angle-right"></i></a>
+                    <a href="#" class="page-link" data-page="3">3</a>
+                    <a href="#" class="page-link" data-page="4">4</a>
+                    <a href="#" class="page-link" data-page="5">5</a>
+                    <a href="#" class="page-link" data-page="6">6</a>
+                    <a href="#" class="page-link" data-page="7">7</a>
                 </div>
             </div>
         </div>
@@ -225,7 +227,9 @@ function resetFilters() {
 }
 var customerId=sessionStorage.getItem("id");
 $(document).ready(function () {
-    localStorage.setItem("cart", JSON.stringify([]));
+    if(!localStorage.getItem("cart")){
+        localStorage.setItem("cart", JSON.stringify([]));
+    }
     fetchCategories();
     fetchAllProducts();
     filterSubProducts();
