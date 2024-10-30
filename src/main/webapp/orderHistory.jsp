@@ -207,13 +207,11 @@ function populateTable1(){
             type: 'PATCH',
             contentType:'application/json',
             success: function () {
-                alert("order canceled successfully")
                 window.location.href = 'orderHistory.jsp';
             }
             ,
             error: function (xhr, status, error) {
                 console.error("Error:", error);
-                alert("Failed to cancel order: " + xhr.responseText);
 
             }
         });

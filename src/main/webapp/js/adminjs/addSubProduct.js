@@ -68,8 +68,7 @@ $(document).ready(function () {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error('Error adding product:', textStatus, errorThrown);
-                alert('Failed to add product: ' + errorThrown);
-            }
+             }
         });
     });
     $('#image').on('change', function(event) {

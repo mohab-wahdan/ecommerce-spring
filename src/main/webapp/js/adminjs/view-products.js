@@ -84,8 +84,7 @@ function deleteProduct(subProductId) {
         },
         error: function(xhr, status, error) {
             console.error("Failed to delete product:", error);
-            alert("An error occurred while deleting the product.");
-        }
+         }
     });
 }
 

@@ -46,8 +46,7 @@ function updateSubProduct() {
         },
         error: function (xhr, status, error) {
             console.error('Update failed:', error);
-            alert('An error occurred while updating the product.');
-        }
+         }
     });
 }
 

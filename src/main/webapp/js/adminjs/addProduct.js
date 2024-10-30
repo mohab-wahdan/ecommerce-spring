@@ -35,8 +35,7 @@ $(document).ready(function () {
 
         // Validate form inputs
         if (!productData.name || !productData.description || !productData.gender || isNaN(productData.subCategoryId)) {
-            alert('Please fill out all fields before submitting.');
-            return;
+             return;
         }
 
         // Send data as JSON to the server

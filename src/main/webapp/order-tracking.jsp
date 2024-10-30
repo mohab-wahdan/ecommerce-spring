@@ -301,7 +301,6 @@
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching orders:", error);
-                alert("Failed to retrieve orders.");
             }
         });
 
@@ -329,7 +328,6 @@
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching order items:", error);
-                    alert("Failed to retrieve order items.");
                 }
             });
         }

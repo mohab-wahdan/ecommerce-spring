@@ -64,11 +64,9 @@ function updateStatus(orderId) {
         data: JSON.stringify({ orderId: orderId }), // Send data as JSON
         contentType: 'application/json', // Set the content type to JSON
         success: function(response) {
-            alert("Order status updated successfully");
-        },
+         },
         error: function(xhr, status, error) {
-            alert("Failed to update order status");
-        }
+         }
     });
 }
 
@@ -93,8 +91,7 @@ function viewOrderDetails(orderId) {
                 itemsBlock.style.display = "table-row";
             },
             error: function(xhr, status, error) {
-                alert("Failed to load order items");
-            }
+             }
         });
 
     } else {
