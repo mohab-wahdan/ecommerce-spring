@@ -141,8 +141,7 @@ function deleteItem() {
     // DELETE endpoint URL
     const deleteUrl = '/cartItems/'+ customerId+'/'+subProductId;
 
-    // Confirm delete action with the user (optional)
-    if (confirm("Are you sure you want to remove this item from the cart?")) {
+
         $.ajax({
             url: deleteUrl,
             method: "DELETE",
@@ -154,7 +153,6 @@ function deleteItem() {
                 console.error("Error deleting item:", error);
             }
         });
-    }
 }
 
 // Function to get cart items by customer ID and then fetch sub-product details
@@ -232,15 +230,11 @@ function cartFromLocal(){
             }
         });
     }
-    // else {
-    //     const cartItemsTableBody = document.getElementById('cartItemsTableBody');
-    //     cartItemsTableBody.innerText="Your cart is empty!";
-    // }
 
 }
 
 function loggedIn(){
-    cartFromLocal();
+
     const userId = sessionStorage.getItem("id");
      $.ajax({
         url: '/cartItems/'+userId,
@@ -252,7 +246,7 @@ function loggedIn(){
             }
             cartItems.forEach(function(cartItem) {
                 let subProductId = cartItem.subProductId; // Assuming cartItems contain subProductId
-
+                //cartFromLocal();
                 $.ajax({
                     url: '/cartItems/subProduct/'+subProductId,
                     type: 'GET',

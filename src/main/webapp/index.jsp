@@ -170,7 +170,7 @@
             success: function(response) {
                 console.log("Customer ID:", response.id);
                 sessionStorage.setItem("id",response.id);
-                // Use the customer ID for further operations, such as adding to cart
+                cartFromLocal();
             },
             error: function(error) {
                 console.error("Error retrieving customer ID:", error);
@@ -178,6 +178,40 @@
         });
     } else {
         console.error("Username not found in session.");
+    }
+
+    function cartFromLocal(){
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        if (cart && cart.length > 0) {
+            cart.forEach((item, index) => {
+                const customerId = sessionStorage.getItem("id");
+                const subProductId = item.subProductId; // Accessing item properties correctly
+                const quantity = item.quantity; // Accessing item properties correctly
+
+                if (customerId) {
+                    const requestData = {
+                        customerId: customerId,
+                        subProductId: subProductId,
+                        quantity: quantity
+                    };
+
+                    // Send the AJAX POST request
+                    $.ajax({
+                        url: "/cartItems",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(requestData), // Send the request data as JSON
+                        success: function (response) {
+                            localStorage.clear();
+                        },
+                        error: function (xhr, status, error) {
+                        }
+                    });
+                } else {
+                }
+            });
+        }
+
     }
 </script>
 <%@ include file="footer.jsp" %>
