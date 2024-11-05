@@ -1,7 +1,7 @@
 package com.example.ecommerce.exceptions;
 
 
-import com.example.ecommerce.dtos.SubProductDTO;
+import com.example.ecommerce.product.dto.SubProductDTO;
 import com.example.ecommerce.models.Order;
 
 public class OrderProcessError {

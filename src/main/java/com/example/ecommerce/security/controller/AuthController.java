@@ -1,7 +1,6 @@
 package com.example.ecommerce.security.controller;
 
-import com.example.ecommerce.dtos.CustomerDTO;
-import com.example.ecommerce.models.Account;
+import com.example.ecommerce.cutomer.dto.CustomerDTO;
 import com.example.ecommerce.security.UserPrinciple;
 import com.example.ecommerce.security.service.JwtService;
 import com.example.ecommerce.security.dto.LoginRequest;

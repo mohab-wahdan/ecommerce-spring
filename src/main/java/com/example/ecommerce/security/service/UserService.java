@@ -1,13 +1,12 @@
 package com.example.ecommerce.security.service;
 
-import com.example.ecommerce.dtos.CustomerDTO;
-import com.example.ecommerce.enums.Provider;
-import com.example.ecommerce.mappers.CustomerMapper;
+import com.example.ecommerce.cutomer.dto.CustomerDTO;
+import com.example.ecommerce.cutomer.mappers.CustomerMapper;
 import com.example.ecommerce.models.Account;
 import com.example.ecommerce.models.Admin;
 import com.example.ecommerce.models.Customer;
-import com.example.ecommerce.repositories.AdminRepository;
-import com.example.ecommerce.repositories.CustomerRepository;
+import com.example.ecommerce.admin.repository.AdminRepository;
+import com.example.ecommerce.cutomer.repository.CustomerRepository;
 import com.example.ecommerce.security.UserPrinciple;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

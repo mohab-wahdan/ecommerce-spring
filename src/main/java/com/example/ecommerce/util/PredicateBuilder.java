@@ -2,7 +2,7 @@ package com.example.ecommerce.util;
 
 
 
-import com.example.ecommerce.dtos.SubProductFilterDTO;
+import com.example.ecommerce.product.dto.SubProductFilterDTO;
 import com.example.ecommerce.models.SubProduct;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
