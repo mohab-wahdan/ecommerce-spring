@@ -53,6 +53,34 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping
+    public ResponseEntity<List<OrderViewDTO>> getAllOrders() {
+        try {
+            List<OrderViewDTO> orders = orderService.getAllOrders();
+            if (!orders.isEmpty()) {
+                return ResponseEntity.ok(orders);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<OrderViewDTO>> getAllOrdersByStatus(@PathVariable String status) {
+        try {
+            List<OrderViewDTO> orders = orderService.getAllOrdersByStatus(status);
+            if (!orders.isEmpty()) {
+                return ResponseEntity.ok(orders);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<OrderViewDTO>> getAllOrdersOfWithCustomerId(@PathVariable Integer customerId) {
         try {

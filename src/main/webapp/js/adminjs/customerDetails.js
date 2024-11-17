@@ -14,13 +14,14 @@ $(document).ready(function() {
     console.log("Orders Data:", orders); // Should display orders data in the console
     if (customer) {
         // Populate customer details
-        $('.card-title').text(`${customer.firstName} ${customer.lastName}`);
-        $('.card-text').eq(0).text(`Username: ${customer.userName}`);
-        $('.card-text').eq(1).text(`Email: ${customer.email}`);
-        $('.card-text').eq(2).text(`Phone: ${customer.phoneNumber}`);
-        $('.card-text').eq(3).text(`Address: ${customer.street}, ${customer.city}, ${customer.zip}`);
-        $('.card-text').eq(4).text(`Description: ${customer.description}`);
+        $('#customerName').text(`${customer.firstName} ${customer.lastName}`);
+        $('#customerUsername').text(customer.userName);
+        $('#customerEmail').text(customer.email);
+        $('#customerPhone').text(customer.phoneNumber);
+        $('#customerAddress').text(`${customer.street}, ${customer.city}, ${customer.zip}`);
+        $('#customerDescription').text(customer.description);
     }
+
 
     if (orders && orders.length > 0) {
         let ordersHtml = '';
@@ -64,12 +65,19 @@ function updateStatus(orderId) {
         data: JSON.stringify({ orderId: orderId }), // Send data as JSON
         contentType: 'application/json', // Set the content type to JSON
         success: function(response) {
-         },
+            showNotification("Order status updated successfully!", "success");
+        },
         error: function(xhr, status, error) {
-         }
+            showNotification("Error updating order status.", "danger");
+        }
     });
 }
-
+function showNotification(message) {
+    const notification = document.getElementById('notification-container');
+    notification.textContent = message;
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 3000); // Hide after 3 seconds
+}
 function viewOrderDetails(orderId) {
     const itemsBlock = document.getElementById(`order-items-${orderId}`);
     const itemsList = document.getElementById(`items-list-${orderId}`);

@@ -162,6 +162,15 @@ public class OrderService {
     public OrderViewDTO getOrderById(Integer orderId) {
         return orderMapperStruct.toDTO(orderRepository.findOrderById(orderId));
     }
+    public List<OrderViewDTO> getAllOrders() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(orderMapperStruct::toDTO).collect(Collectors.toList());
+    }
+    public List<OrderViewDTO> getAllOrdersByStatus(String status) {
+        List<Order> orders = orderRepository.findOrdersByStatus(status);
+        return orders.stream().map(orderMapperStruct::toDTO).collect(Collectors.toList());
+    }
+
 
     public Order saveOrder(Order order) {
         orderRepository.save(order);

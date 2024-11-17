@@ -49,7 +49,7 @@
             <h4>Filter Products</h4>
             <form id="filterForm">
                 <div class="form-group">
-                    <label for="subcategory">Subcategory</label>
+                    <label for="subcategory"></label>
                     <select class="form-control" id="subcategory" name="subcategory">
                         <option value="">Select Subcategory</option>
                         <c:forEach var="subcategory" items="${sessionScope.subcategories}">
