@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="favicon.ico">
-    <title>CHCILY</title>
+    <title>CHCILY - Shop</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
@@ -207,9 +207,11 @@
                 <div class="pagination__option">
                     <a href="#" class="page-link" data-page="1">1</a>
                     <a href="#" class="page-link" data-page="2">2</a>
-                    <a href="#" class="page-link p3" data-page="3">3</a>
-                    <a href="#" class="page-link p3" data-page="4">4</a>
-                    <a href="#" ><i class="fa fa-angle-right"></i></a>
+                    <a href="#" class="page-link" data-page="3">3</a>
+                    <a href="#" class="page-link" data-page="4">4</a>
+                    <a href="#" class="page-link" data-page="5">5</a>
+                    <a href="#" class="page-link" data-page="6">6</a>
+                    <a href="#" class="page-link" data-page="7">7</a>
                 </div>
             </div>
         </div>
@@ -225,6 +227,9 @@ function resetFilters() {
 }
 var customerId=sessionStorage.getItem("id");
 $(document).ready(function () {
+    if(!localStorage.getItem("cart")){
+        localStorage.setItem("cart", JSON.stringify([]));
+    }
     fetchCategories();
     fetchAllProducts();
     filterSubProducts();
@@ -255,27 +260,38 @@ function handleAddToCartClick(){
     const customerId = sessionStorage.getItem("id");
     const subProductId = $(this).data("id");
     const quantity = 1; // Set the quantity here (or get it from another element)
+    if (customerId){
+        const requestData = {
+            customerId: customerId,
+            subProductId: subProductId,
+            quantity: quantity
+        };
 
-    // Define the data object for the request
-    const requestData = {
-        customerId: customerId,
+        // Send the AJAX POST request
+        $.ajax({
+            url: "/cartItems",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(requestData), // Send the request data as JSON
+            success: function (response) {
+                VshowNotification("Product Added To Cart");
+            },
+            error: function (xhr, status, error) {
+               WshowNotification("Error adding product to cart. Please try again.");
+            }
+        });
+    }
+    else{
+        const requestData = {
         subProductId: subProductId,
         quantity: quantity
-    };
+        };
+        let cart = JSON.parse(localStorage.getItem("cart"));
+        cart.push(requestData);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        VshowNotification("Product Added To Cart");
 
-    // Send the AJAX POST request
-    $.ajax({
-        url: "/cartItems",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(requestData), // Send the request data as JSON
-        success: function (response) {
-            VshowNotification("Product Added To Cart");
-        },
-        error: function (xhr, status, error) {
-           WshowNotification("Error adding product to cart. Please try again.");
-        }
-    });
+    }
 }
 
 
@@ -393,7 +409,7 @@ function renderProducts(products) {
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.description+`</a></h6>
+                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.productName+`</a></h6>
                         <div class="product__price">$`+ product.price+`</div>
                     </div>
                 </div>
@@ -432,7 +448,7 @@ function renderProductsPages(products) {
                         </ul>
                     </div>
                     <div class="product__item__text">
-                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.description+`</a></h6>
+                        <h6><a href="product-details.jsp?product.id=` + product.id + `" class="product-detail-button">`+product.productName+`</a></h6>
                         <div class="product__price">$`+ product.price+`</div>
                     </div>
                 </div>

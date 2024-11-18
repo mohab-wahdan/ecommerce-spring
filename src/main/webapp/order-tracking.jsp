@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Order Tracking</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
@@ -228,76 +228,82 @@
         });
         // Step 1: Retrieve order IDs
         $.ajax({
-            url: '/orders/customer/'+customerId,
+            url: '/orders/customer/' + customerId,
             method: "GET",
             success: function (orders) {
                 // You can add logic here to display the orders, if necessary
                 console.log("Retrieved orders:", orders);
-                  if (orders.length > 0) {
-                     const order = orders[0]; // Get the first order (adjust as needed)
-                     const orderId = order.id;
-                     const orderStatus = order.status;
-                     const orderCreatedAt = new Date(order.createdAt); // Convert to Date object
+                if (orders.length > 0) {
+                    for (let i = 0; i < orders.length; i++) {
+                        const order = orders[i]; // Get the current order
 
-                     // Add 2 days to orderCreatedAt
-                     const deliveryDate = new Date(orderCreatedAt);
-                     deliveryDate.setDate(deliveryDate.getDate() + 2);
+                        if (order.id == orderId) {
+                            // Do not redeclare orderId, just use it directly
+                            // const orderId = order.id; // This line should be removed if orderId is defined in the outer scope
+                            const orderStatus = order.status;
+                            const orderCreatedAt = new Date(order.createdAt); // Convert to Date object
 
-                     // Format the delivery date (if needed)
-                     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-                     const formattedDeliveryDate = deliveryDate.toLocaleDateString(undefined, options);
-                     const orderCreatedAt2 = orderCreatedAt.toLocaleString();
+                            // Add 2 days to orderCreatedAt
+                            const deliveryDate = new Date(orderCreatedAt);
+                            deliveryDate.setDate(deliveryDate.getDate() + 2);
 
-                     // Populate order status
-                     if (orderStatus === 'CANCELLED') {
-                         $('.track-lines').html('<div class="canceled-status">Your order has been cancelled.</div>');
-                     } else {
-                         $('.track-lines').html(`
-                             <div class="col-md-3 col-sm-3">
-                                 <div class="single-tracking-inner text-center">
-                                     <img src="order/img/icons/torder.png" alt="Order Placed">
-                                     <h5>Order Placed</h5>
-                                     <p>`+orderCreatedAt2+`</p> <!-- Displaying order created date -->
-                                 </div>
-                             </div>
-                             <div class="col-md-3 col-sm-3">
-                                 <div class="single-tracking-inner text-center">
-                                     <img src="order/img/icons/tpacked.png" alt="Packed">
-                                     <h5>Packed</h5>
-                                     <p>`+orderCreatedAt2+`</p>
-                                 </div>
-                             </div>
-                             <div class="col-md-3 col-sm-3">
-                                 <div class="single-tracking-inner text-center">
-                                     <img src="order/img/icons/ttransit.png" alt="In Transit">
-                                     <h5>In Transit</h5>
-                                     <p>`+formattedDeliveryDate+`</p> <!-- Using the calculated delivery date -->
-                                 </div>
-                             </div>
-                             <div class="col-md-3 col-sm-3">
-                                 <div class="single-tracking-inner text-center">
-                                     <img src="order/img/icons/tdeliverd.png" alt="Delivered">
-                                     <h5>Delivered</h5>
-                                     <p>`+formattedDeliveryDate+`</p> <!-- Same date for delivery -->
-                                 </div>
-                             </div>
-                         `);
-                     }
+                            // Format the delivery date (if needed)
+                            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                            const formattedDeliveryDate = deliveryDate.toLocaleDateString(undefined, options);
+                            const orderCreatedAt2 = orderCreatedAt.toLocaleString();
 
-                     // Populate the order delivery date
-                     $('.order-deliverd-date span').text(formattedDeliveryDate);
+                            // Populate order status
+                            if (orderStatus === 'CANCELLED') {
+                                $('.track-lines').html('<div class="canceled-status">Your order has been cancelled.</div>');
+                            } else {
+                                $('.track-lines').html(`
+                                    <div class="col-md-3 col-sm-3">
+                                        <div class="single-tracking-inner text-center">
+                                            <img src="order/img/icons/torder.png" alt="Order Placed">
+                                            <h5>Order Placed</h5>
+                                            <p>` + orderCreatedAt2 + `</p> <!-- Displaying order created date -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <div class="single-tracking-inner text-center">
+                                            <img src="order/img/icons/tpacked.png" alt="Packed">
+                                            <h5>Packed</h5>
+                                            <p>` + orderCreatedAt2 + `</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <div class="single-tracking-inner text-center">
+                                            <img src="order/img/icons/ttransit.png" alt="In Transit">
+                                            <h5>In Transit</h5>
+                                            <p>` + formattedDeliveryDate + `</p> <!-- Using the calculated delivery date -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <div class="single-tracking-inner text-center">
+                                            <img src="order/img/icons/tdeliverd.png" alt="Delivered">
+                                            <h5>Delivered</h5>
+                                            <p>` + formattedDeliveryDate + `</p> <!-- Same date for delivery -->
+                                        </div>
+                                    </div>
+                                `);
+                            }
 
-                     // Populate order details
-                     $('.order-no span').text(orderId);
-                     $('.shipping-to-area p').text(order.destination);
-                     fetchOrderItems(orderId);
-                 }
+                            // Populate the order delivery date
+                            $('.order-deliverd-date span').text(formattedDeliveryDate);
+
+                            // Populate order details
+                            $('.order-no span').text(order.id); // Using order.id directly
+                            $('.shipping-to-area p').text(order.destination);
+                            fetchOrderItems(order.id); // Using order.id directly
+                        }
+                    }
+                }
             },
             error: function (xhr, status, error) {
                 console.error("Error fetching orders:", error);
-                alert("Failed to retrieve orders.");
             }
         });
+
 
         // Step 2: Fetch order items for a specific order ID
         function fetchOrderItems(orderId) {
@@ -322,7 +328,6 @@
                 },
                 error: function (xhr, status, error) {
                     console.error("Error fetching order items:", error);
-                    alert("Failed to retrieve order items.");
                 }
             });
         }

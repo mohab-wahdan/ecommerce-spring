@@ -39,7 +39,7 @@ public class LoginController {
         Map<String, Object> responseMap = new Gson().fromJson(userProfileJson, Map.class);
 
         // Add the profile page URL to the response
-        responseMap.put("redirectUrl", "/UserProfile");  // Update with actual profile page path
+        responseMap.put("redirectUrl", "/UserProfile");
 
         return ResponseEntity.ok(responseMap);
     }

@@ -1,6 +1,8 @@
 package com.example.ecommerce.repositories;
 
+import com.example.ecommerce.enums.Status;
 import com.example.ecommerce.models.Order;
+import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +25,5 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     List<Order> findOrdersByCustomerId(Integer id);
 
 
+    long countOrdersByStatus(@NonNull Status status);
 }

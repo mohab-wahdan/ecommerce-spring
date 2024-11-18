@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Chicly</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
@@ -18,6 +18,74 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
+
+<!-- Banner Section Begin -->
+<section class="banner set-bg" data-setbg="img/banner/banner-1.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-7 col-lg-8 m-auto">
+                <div class="banner__slider owl-carousel">
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>The Chloe Collection</span>
+                            <h1>The Project Jacket</h1>
+                            <a href="/shop.jsp">Shop now</a>
+                        </div>
+                    </div>
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>The Chloe Collection</span>
+                            <h1>The Project Jacket</h1>
+                            <a href="/shop.jsp">Shop now</a>
+                        </div>
+                    </div>
+                    <div class="banner__item">
+                        <div class="banner__text">
+                            <span>The Chloe Collection</span>
+                            <h1>The Project Jacket</h1>
+                            <a href="/shop.jsp">Shop now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="services spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-car"></i>
+                    <h6>Free Shipping</h6>
+                    <p>For all oder over $99</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-money"></i>
+                    <h6>Money Back Guarantee</h6>
+                    <p>If good have Problems</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-support"></i>
+                    <h6>Online Support 24/7</h6>
+                    <p>Dedicated support</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="services__item">
+                    <i class="fa fa-headphones"></i>
+                    <h6>Payment Secure</h6>
+                    <p>100% secure payment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="categories">
     <div class="container-fluid">
         <c:choose>
@@ -83,7 +151,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/accessories.jpg">
                             <div class="categories__text">
                                 <h4>Accessories</h4>
-                                <a href="/shop.jsp">Shop now</a>
+                               <a href="/shop.jsp">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -92,72 +160,7 @@
         </div>
     </div>
 </section>
-<!-- Banner Section Begin -->
-<section class="banner set-bg" data-setbg="img/banner/banner-1.jpg">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-7 col-lg-8 m-auto">
-                <div class="banner__slider owl-carousel">
-                    <div class="banner__item">
-                        <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
-                    <div class="banner__item">
-                        <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
-                    <div class="banner__item">
-                        <div class="banner__text">
-                            <span>The Chloe Collection</span>
-                            <h1>The Project Jacket</h1>
-                            <a href="#">Shop now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section class="services spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="services__item">
-                    <i class="fa fa-car"></i>
-                    <h6>Free Shipping</h6>
-                    <p>For all oder over $99</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="services__item">
-                    <i class="fa fa-money"></i>
-                    <h6>Money Back Guarantee</h6>
-                    <p>If good have Problems</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="services__item">
-                    <i class="fa fa-support"></i>
-                    <h6>Online Support 24/7</h6>
-                    <p>Dedicated support</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-                <div class="services__item">
-                    <i class="fa fa-headphones"></i>
-                    <h6>Payment Secure</h6>
-                    <p>100% secure payment</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 <script>
 // Assume you have the username stored in sessionStorage or retrieved via another session method
     const username = sessionStorage.getItem("username");
@@ -170,7 +173,7 @@
             success: function(response) {
                 console.log("Customer ID:", response.id);
                 sessionStorage.setItem("id",response.id);
-                // Use the customer ID for further operations, such as adding to cart
+                cartFromLocal();
             },
             error: function(error) {
                 console.error("Error retrieving customer ID:", error);
@@ -178,6 +181,40 @@
         });
     } else {
         console.error("Username not found in session.");
+    }
+
+    function cartFromLocal(){
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        if (cart && cart.length > 0) {
+            cart.forEach((item, index) => {
+                const customerId = sessionStorage.getItem("id");
+                const subProductId = item.subProductId; // Accessing item properties correctly
+                const quantity = item.quantity; // Accessing item properties correctly
+
+                if (customerId) {
+                    const requestData = {
+                        customerId: customerId,
+                        subProductId: subProductId,
+                        quantity: quantity
+                    };
+
+                    // Send the AJAX POST request
+                    $.ajax({
+                        url: "/cartItems",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(requestData), // Send the request data as JSON
+                        success: function (response) {
+                            localStorage.clear();
+                        },
+                        error: function (xhr, status, error) {
+                        }
+                    });
+                } else {
+                }
+            });
+        }
+
     }
 </script>
 <%@ include file="footer.jsp" %>
