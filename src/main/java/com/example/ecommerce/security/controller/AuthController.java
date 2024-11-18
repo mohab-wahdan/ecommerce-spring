@@ -33,10 +33,15 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> getLoginInfo(@RequestBody LoginRequest loginRequest) {
 
+        System.out.println("***************************UserName Before"+loginRequest.getUsername());
+        System.out.println("***************************Password Before"+loginRequest.getPassword());
         Authentication authentication=authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        System.out.println("After Authentication");
         Map<String,String> map=new HashMap<>();
         if(authentication.isAuthenticated()) {
+
+            System.out.println("Inside If");
             map.put("username",loginRequest.getUsername());
             UserPrinciple userPrinciple=(UserPrinciple) authentication.getPrincipal();
             map.put("role",userPrinciple.getAccount().getRoles());
@@ -44,6 +49,8 @@ public class AuthController {
             map.values().forEach(System.out::println);
            return ResponseEntity.ok(map);
         }else {
+            System.out.println("Inside Else");
+
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

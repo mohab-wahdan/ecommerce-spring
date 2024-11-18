@@ -1,11 +1,7 @@
 package com.example.ecommerce.models;
 
-import com.example.ecommerce.enums.Provider;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
