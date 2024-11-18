@@ -1,58 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
-          rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #f9f9f9;
+            background-color: #f8f9fa;
+            font-family: 'Montserrat', sans-serif;
         }
-        .card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
+
+        .breadcrumb-option {
+            margin: 20px 0;
         }
-        .card-body {
-            padding: 20px;
+
+        .breadcrumb__links {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .card-title {
-            font-size: 24px;
-            color: #333;
-        }
-        /*p {*/
-        /*    font-size: 18px;*/
-        /*    color: #333;*/
-        /*    display: flex; !* Use flexbox to align items on the same line *!*/
-        /*    align-items: center; !* Vertically align items *!*/
-        /*}*/
-        .site-btn {
-            font-size: 14px;
-            color: #ffffff;
-            background: #ca1515;
-            font-weight: 600;
-            border: none;
+
+        .breadcrumb__links a, .breadcrumb__links span {
+            font-size: 18px;
+            color: #bb1818;
             text-transform: uppercase;
-            display: inline-block;
-            padding: 12px 30px;
-            border-radius: 50px;
+            text-decoration: none;
         }
+
+        .breadcrumb__links a:hover {
+            text-decoration: underline;
+        }
+
         .user-profile-title {
-            font-family: 'Montserrat', sans-serif; /* Use a nice modern font */
+            ont-family: 'Montserrat', sans-serif; /* Use a nice modern font */
             font-weight: 700; /* Make the text bold */
             font-size: 32px; /* Larger font size */
             background-color: #bb1818 !important; /* A bold red color matching the theme */
@@ -63,50 +46,72 @@
             display: inline-block; /* Keeps it inline but with block properties */
             text-transform: uppercase; /* Makes the text uppercase */
             letter-spacing: 2px; /* Adds spacing between letters */
+
         }
-        .user-info-title {
-            font-size: 20px;
-            color: #ca1515; /* Bold red color for title */
-            background-color: #f8f9fa;
-            padding: 10px 20px;
+
+        .card {
+            border: none;
             border-radius: 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
-            display: inline-block;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        p {
-            font-size: 18px;
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .user-info-title {
+            font-size: 22px;
             color: #333;
-            display: flex;
-            align-items: center;
-            margin: 10px 0; /* Add vertical spacing between rows */
+            font-weight: 700;
+            border-bottom: 2px solid #bb1818;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
         .user-info-card-title {
             font-size: 16px;
-            margin-right: 10px; /* Space between title and value */
-            background-color: #f8f9fa;
-            padding: 5px 10px;
-            border-radius: 10px;
+            color: #555;
+            font-weight: 600;
             text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 1px;
             display: inline-block;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 180px; /* Set fixed width to align all labels */
+            width: 180px;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #333;
+            display: flex;
+            align-items: center;
         }
 
         span {
-            display: inline-block;
-            flex-grow: 1; /* Ensures that the data aligns to the same start point */
+            flex-grow: 1;
         }
 
+        .site-btn {
+            font-size: 16px;
+            color: #fff;
+            background-color: #bb1818;
+            padding: 12px 30px;
+            text-transform: uppercase;
+            font-weight: 700;
+            border: none;
+            border-radius: 50px;
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .site-btn:hover {
+            background-color: #9c1414;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
 <%@ include file="header.jsp" %>
+
 <div class="breadcrumb-option">
     <div class="container">
         <div class="row">
@@ -120,38 +125,35 @@
     </div>
 </div>
 
-<div class="container mt-5">
+<div class="container">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title user-info-title">User Information</h4>
-            <p><strong class="user-info-card-title">Username</strong><strong><span id="username"></span></strong></p>
-            <p><strong class="user-info-card-title">First Name</strong><strong><span id="firstName"></span></strong></p>
-            <p><strong class="user-info-card-title">Last Name</strong><strong><span id="lastName"></span></strong></p>
-            <p><strong class="user-info-card-title">Credit Limit</strong><strong><span id="creditLimit"></span></strong></p>
-            <p><strong class="user-info-card-title">Email</strong><strong><span id="email"></span></strong></p>
-            <p><strong class="user-info-card-title">Phone Number</strong><strong><span id="phoneNumber"></span></strong></p>
-            <p><strong class="user-info-card-title">Job</strong><strong><span id="job"></span></strong></p>
-            <p><strong class="user-info-card-title">Address</strong><strong><span id="address"></span></strong></p>
+            <h4 class="user-info-title">User Information</h4>
+            <p><strong class="user-info-card-title">Username</strong><span id="username"></span></p>
+            <p><strong class="user-info-card-title">First Name</strong><span id="firstName"></span></p>
+            <p><strong class="user-info-card-title">Last Name</strong><span id="lastName"></span></p>
+            <p><strong class="user-info-card-title">Credit Limit</strong><span id="creditLimit"></span></p>
+            <p><strong class="user-info-card-title">Email</strong><span id="email"></span></p>
+            <p><strong class="user-info-card-title">Phone Number</strong><span id="phoneNumber"></span></p>
+            <p><strong class="user-info-card-title">Job</strong><span id="job"></span></p>
+            <p><strong class="user-info-card-title">Address</strong><span id="address"></span></p>
         </div>
     </div>
 
-    <!-- Update Button -->
-    <div class="mt-4">
-        <a href="updateProfile.jsp" class="site-btn">
-            <i class="fas fa-edit"></i> Update Profile</a>
-    </div>
+    <a href="updateProfile.jsp" class="site-btn">
+        <i class="fas fa-edit"></i> Update Profile
+    </a>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Replace with the actual ID from the session or context
         var userId = sessionStorage.getItem("id");
 
         $.ajax({
             url: '/customers/' + userId,
             type: 'GET',
             success: function(data) {
-                // Populate the fields with data from the response
                 $('#username').text(data.account.userName);
                 $('#firstName').text(data.firstName);
                 $('#lastName').text(data.lastName);
@@ -159,7 +161,9 @@
                 $('#email').text(data.email);
                 $('#phoneNumber').text(data.phoneNumber);
                 $('#job').text(data.job);
-                $('#address').text(data.address.street + ', ' + data.address.city + ', ' + data.address.zip + ', ' + data.address.description);
+                $('#address').text(
+                    `${data.address.street}, ${data.address.city}, ${data.address.zip}, ${data.address.description}`
+                );
             },
             error: function(error) {
                 console.error("Error fetching user data:", error);
@@ -168,6 +172,6 @@
     });
 </script>
 
-</body>
 <%@ include file="footer.jsp" %>
+</body>
 </html>
