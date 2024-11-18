@@ -13,6 +13,8 @@ import com.example.ecommerce.repositories.OrderRepository;
 import com.example.ecommerce.repositories.SubProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -41,6 +43,7 @@ public class OrderService {
     private List<SubProductDTO> convertCartServiceMapToList(CartItemsService cartService){
         return cartService.getItems().keySet().stream().collect(Collectors.toList());
     }
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public Order createOrder(OrderRequestDTO orderRequestDTO) {
         Customer customer = customerRepository.findById(orderRequestDTO.getCustomerId())
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
