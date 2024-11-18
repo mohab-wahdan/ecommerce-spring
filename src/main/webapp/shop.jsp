@@ -242,10 +242,28 @@ $(document).ready(function () {
 });
 
 function pagination(number){
+    const color = $('input[name="color"]:checked').val(); // Assuming radio buttons for color
+    const size = $('input[name="size"]:checked').val();   // Assuming radio buttons for size
+    const minPrice = $('#minamount').val();              // Assuming input field for minPrice
+    const maxPrice = $('#maxamount').val();              // Assuming input field for maxPrice
+    const gender = $('input[name="gender"]:checked').val(); // Assuming radio buttons for gender
+    const category = $('input[name="category"]:checked').val(); // Assuming radio buttons for category
+    const page = number;                  // Assuming input field or default value for page
+
+    // Build the data object
+    const data = {
+        color: color,
+        size: size,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
+        gender: gender,
+        category: category,
+        page: page
+    };
     $.ajax({
         url: '/subProducts/filter',
         type: 'POST',
-        data: { page: number }, // Send the page parameter as query
+        data: data, // Send the page parameter as query
         success: function(response) {
             renderProductsPages(response);
         },
@@ -344,6 +362,7 @@ function fetchAllProducts() {
         success: function (data) {
             // Render all products
             renderProducts(data);
+
         },
         error: function (xhr, status, error) {
             // Handle error

@@ -1,8 +1,6 @@
 package com.example.ecommerce.controllers;
 
-import com.example.ecommerce.dtos.SubProductDTO;
-import com.example.ecommerce.dtos.SubProductFilterDTO;
-import com.example.ecommerce.dtos.SubProductForAdminDTO;
+import com.example.ecommerce.dtos.*;
 import com.example.ecommerce.enums.Color;
 import com.example.ecommerce.enums.Gender;
 import com.example.ecommerce.enums.Size;
@@ -47,6 +45,7 @@ public class SubProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping("/subproductId/{id}")
     public ResponseEntity<SubProductForAdminDTO> getSubProductForAdmin(@PathVariable Integer id) {
 
@@ -57,71 +56,28 @@ public class SubProductController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @GetMapping("/subcategoryId/{id}")
     public ResponseEntity<List<SubProductDTO>> getSubProductBySubCategoryIdForAdmin(@PathVariable Integer id) {
         return ResponseEntity.ok(subProductService.findSubProductBySubCategoryIdForAdmin(id));
-
     }
 
 
     @PostMapping("/filter")
-    public ResponseEntity<List<SubProductDTO>> filterSubProducts(@RequestParam(value = "color", required = false) String colorParam,
-                                                                 @RequestParam(value = "size", required = false) String size,
-                                                                 @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
-                                                                 @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
-                                                                 @RequestParam(value = "searchkeyword", required = false) String searchkeyword,
-                                                                 @RequestParam(value = "gender", required = false) String gender,
-                                                                 @RequestParam(value = "category", required = false) String category,
+    public ResponseEntity<List<SubProductDTO>> filterSubProducts( @ModelAttribute FilterRequest filterRequest ,
                                                                  @RequestParam(value = "page", defaultValue = "1") String page) {
-        SubProductFilterDTO filterDTO = new SubProductFilterDTO();
-        if (searchkeyword != null && !searchkeyword.isEmpty()) {
-            searchkeyword = searchkeyword.replaceAll("\\s+", "%");
-        }
-        filterDTO.setSearchKeyword(searchkeyword);
-        filterDTO.setMinPrice(minPrice);
-        filterDTO.setMaxPrice(maxPrice);
-        if (size != null && !size.isEmpty()) {
-            try {
-                filterDTO.setSize(Size.valueOf(size.toUpperCase()));
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid size value: " + size);
-            }
-        }
-        if (colorParam != null && !colorParam.isEmpty()) {
-            try {
-                filterDTO.setColor(Color.valueOf(colorParam.toUpperCase()));
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid color value: " + colorParam);
-            }
-        }
-
-        if (gender != null && !gender.isEmpty()) {
-            try {
-                filterDTO.setGender(Gender.valueOf(gender.toUpperCase()));
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid gender value: " + gender);
-            }
-        }
-
-        filterDTO.setPageNumber(Integer.valueOf(page));
-        filterDTO.setSubCategoryName(category);
-        System.out.println(filterDTO);
-        return ResponseEntity.ok(subProductService.filterSubProducts(filterDTO));
-
+       filterRequest.setPage(page);
+        return ResponseEntity.ok(subProductService.filterSubProducts(filterRequest));
     }
 
 
     @PostMapping
-    public ResponseEntity<String> createSubProductDTO(
-            @RequestParam("color") String colorParam,
-            @RequestParam("mainProduct") String mainProductId,
-            @RequestParam("size") String size,
-            @RequestParam("quantity") int stock,
-            @RequestParam("price") BigDecimal price,
-            @RequestPart(value = "image", required = false) MultipartFile imagePart,
+    public ResponseEntity<String> createSubProductDTO(@ModelAttribute SubProductRequest subProductRequest,
+                                                      @RequestPart(value = "image", required = false) MultipartFile imagePart,
             HttpSession session) throws IOException {
         try {
-            SubProductDTO subProductDTO = subProductService.createSubProductDTO(colorParam, mainProductId, size, stock, price, imagePart);
+            subProductRequest.setImage(imagePart);
+            SubProductDTO subProductDTO = subProductService.createSubProductDTO(subProductRequest);
             session.setAttribute("successMessage", "SubProduct added successfully!");
             return ResponseEntity.ok("Product added successfully!"); // Send a success message
         }catch (Exception e){
@@ -132,12 +88,8 @@ public class SubProductController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateSubProductDTO(@PathVariable int id,
-                                                    @RequestParam("quantity") int stock,
-                                                    @RequestParam("price") BigDecimal price,
-                                                    @RequestPart(value = "newImage", required = false) MultipartFile  imagePart,
-                                                    HttpSession session,
-                                                    HttpServletResponse response) {
+    public ResponseEntity<Void> updateSubProductDTO(@PathVariable int id, @RequestParam("quantity") int stock, @RequestParam("price") BigDecimal price,
+                                                    @RequestPart(value = "newImage", required = false) MultipartFile  imagePart, HttpSession session) {
         try {
             subProductService.updateSubProduct(id, stock, price, imagePart); // Make sure this handles the image file
             session.setAttribute("successMessage", "subproduct updated successfully!");

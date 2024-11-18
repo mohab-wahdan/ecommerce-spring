@@ -1,7 +1,6 @@
 package com.example.ecommerce.security.service;
 
 import com.example.ecommerce.dtos.CustomerDTO;
-import com.example.ecommerce.enums.Provider;
 import com.example.ecommerce.mappers.CustomerMapper;
 import com.example.ecommerce.models.Account;
 import com.example.ecommerce.models.Admin;

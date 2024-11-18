@@ -37,10 +37,7 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
     }
-//    @DeleteMapping("/{id}")
-//    public void deleteProduct(@PathVariable int id) {
-//        productService.deleteProduct(id);
-//    }
+
 
     @PostMapping
     public ResponseEntity<String> addProduct(@RequestBody ProductJsonAddDTO product,
