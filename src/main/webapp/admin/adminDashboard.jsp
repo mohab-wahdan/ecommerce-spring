@@ -33,6 +33,9 @@
             <a href="/admin/customerProfiles.jsp" class="list-group-item list-group-item-action bg-black text-white">
                 <i class="fas fa-users"></i> Customer Profiles
             </a>
+            <a href="/admin/ordersView.jsp" class="list-group-item list-group-item-action bg-black text-white">
+                <i class="fas fa-clipboard-list order-items-container"></i> Manage Orders
+            </a>
             <a href="../index.jsp" class="list-group-item list-group-item-action bg-black text-white" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>

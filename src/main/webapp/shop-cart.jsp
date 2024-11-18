@@ -15,7 +15,9 @@
             </div>
         </div>
     </div>
-
+    <!-- Breadcrumb End -->
+    <c:set var="cart" value="${sessionScope.cart}" />
+    <!-- Shop Cart Section Begin -->
     <section class="shop-cart spad">
         <div class="container">
             <div class="row">

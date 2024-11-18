@@ -162,7 +162,7 @@
 </section>
 
 <script>
-// Assume you have the username stored in sessionStorage or retrieved via another session method
+    // Assume you have the username stored in sessionStorage or retrieved via another session method
     const username = sessionStorage.getItem("username");
     console.log("username:", username);
     if (username) {

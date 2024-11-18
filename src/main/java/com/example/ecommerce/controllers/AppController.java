@@ -14,9 +14,17 @@ import org.springframework.web.bind.annotation.*;
 public class AppController {
     @Value("${stripe.api.publicKey}")
     private String publicKey;
+//    @GetMapping("/")
+//    public String home(Model model){
+//        model.addAttribute("request", new Request());
+//        return "index";
+//    }
 
     @GetMapping("/{amount}")
     public String showCard(Model model, @PathVariable int amount) {
+//        if (bindingResult.hasErrors()){
+//            return "index";
+//        }
         model.addAttribute("publicKey", publicKey);
         model.addAttribute("amount", amount);
         model.addAttribute("email", "chickly_app@gmail.com");

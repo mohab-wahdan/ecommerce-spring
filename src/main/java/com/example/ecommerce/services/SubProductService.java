@@ -1,8 +1,9 @@
 package com.example.ecommerce.services;
 
-import com.example.ecommerce.dtos.SubProductDTO;
-import com.example.ecommerce.dtos.SubProductFilterDTO;
-import com.example.ecommerce.dtos.SubProductForAdminDTO;
+import com.example.ecommerce.dtos.*;
+import com.example.ecommerce.enums.Color;
+import com.example.ecommerce.enums.Gender;
+import com.example.ecommerce.enums.Size;
 import com.example.ecommerce.mappers.SubProductMapper;
 import com.example.ecommerce.models.Product;
 import com.example.ecommerce.models.SubProduct;
@@ -89,14 +90,16 @@ public class SubProductService {
     }
 
 
-    public List<SubProductDTO> filterSubProducts(SubProductFilterDTO filterDTO) {
+    public List<SubProductDTO> filterSubProducts(FilterRequest request) {
+        SubProductFilterDTO filterDTO=validateFilter(request);
         List<SubProduct> subProducts = subProductRepository.findSubProductsByFilters(filterDTO);
 
         return subProducts.stream()
                 .map(SubProductMapper::convertEntityToDTO)
                 .collect(Collectors.toList());
     }
-    public long countFilteredSubProducts(SubProductFilterDTO filterDTO) {
+    public long countFilteredSubProducts(FilterRequest request) {
+        SubProductFilterDTO filterDTO=validateFilter(request);
         return subProductRepository.countSubProductsByFilters(filterDTO);
     }
     public void addSubProduct(SubProductDTO subProductDTO,int mainProductId) {
@@ -105,14 +108,15 @@ public class SubProductService {
         subProductRepository.save(subProductEntity);
     }
 
-    public SubProductDTO createSubProductDTO(String colorParam, String mainProductId, String size, int stock, BigDecimal price, MultipartFile imagePart) throws IOException {
+    public SubProductDTO createSubProductDTO(SubProductRequest request ) throws IOException {
         SubProductDTO subProduct = new SubProductDTO();
-        subProduct.setProductName(mainProductId);
-        subProduct.setStock(stock);
-        subProduct.setPrice(price);
-        subProduct.setColor(colorParam);
-        subProduct.setSize(size);
+        subProduct.setProductName(request.getMainProduct());
+        subProduct.setStock(request.getQuantity());
+        subProduct.setPrice(request.getPrice());
+        subProduct.setColor(request.getColor());
+        subProduct.setSize(request.getSize());
         subProduct.setIsDeleted(false);
+        MultipartFile imagePart=request.getImage();
         if (!imagePart.isEmpty()) {
             String fileName = Paths.get(imagePart.getOriginalFilename()).getFileName().toString();
             String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
@@ -182,5 +186,42 @@ public class SubProductService {
     public List<SubProductDTO> findSubProductBySubCategoryIdForAdmin(Integer id) {
         List<SubProduct> subProducts = subProductRepository.findBySubCategoryId(id);
         return subProducts.stream().map(SubProductMapper::convertEntityToDTO).collect(Collectors.toList());
+    }
+
+    private SubProductFilterDTO validateFilter(FilterRequest request){
+        SubProductFilterDTO filterDTO = new SubProductFilterDTO();
+        if (request.getSearchkeyword() != null && !request.getSearchkeyword().isEmpty()) {
+            request.setSearchkeyword(request.getSearchkeyword().replaceAll("\\s+", "%"));
+        }
+        filterDTO.setSearchKeyword(request.getSearchkeyword());
+        filterDTO.setMinPrice(request.getMinPrice());
+        filterDTO.setMaxPrice(request.getMaxPrice());
+        if (request.getSize() != null && !request.getSize().isEmpty()) {
+            try {
+                filterDTO.setSize(Size.valueOf(request.getSize().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid size value: " + request.getSize());
+            }
+        }
+        if (request.getColor() != null && !request.getColor().isEmpty()) {
+            try {
+                filterDTO.setColor(Color.valueOf(request.getColor().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid color value: " + request.getColor());
+            }
+        }
+
+        if (request.getGender() != null && !request.getGender().isEmpty()) {
+            try {
+                filterDTO.setGender(Gender.valueOf(request.getGender().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid gender value: " + request.getGender());
+            }
+        }
+
+        filterDTO.setPageNumber(Integer.valueOf(request.getPage()));
+        filterDTO.setSubCategoryName(request.getCategory());
+        System.out.println(filterDTO);
+        return filterDTO;
     }
 }

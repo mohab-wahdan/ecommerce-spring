@@ -1,11 +1,7 @@
 package com.example.ecommerce.models;
 
-import com.example.ecommerce.enums.Provider;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -26,8 +22,5 @@ public class Account {
 
     private String roles;
 
-//    @Enumerated(EnumType.STRING)
-//    private Provider provider;
-//
-//    private boolean enabled;
+
 }
