@@ -17,7 +17,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -64,10 +66,15 @@ public class SubProductController {
 
 
     @PostMapping("/filter")
-    public ResponseEntity<List<SubProductDTO>> filterSubProducts( @ModelAttribute FilterRequest filterRequest ,
+    public ResponseEntity filterSubProducts( @ModelAttribute FilterRequest filterRequest ,
                                                                  @RequestParam(value = "page", defaultValue = "1") String page) {
        filterRequest.setPage(page);
-        return ResponseEntity.ok(subProductService.filterSubProducts(filterRequest));
+        List<SubProductDTO> products=subProductService.filterSubProducts(filterRequest);
+        Long total =subProductService.countFilteredSubProducts(filterRequest);
+        Map<String, Object> response = new HashMap<>();
+        response.put("products", products);
+        response.put("total", total);
+        return ResponseEntity.ok(response);
     }
 
 

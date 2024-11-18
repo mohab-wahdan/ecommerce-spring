@@ -98,7 +98,8 @@ public class SubProductService {
                 .map(SubProductMapper::convertEntityToDTO)
                 .collect(Collectors.toList());
     }
-    public long countFilteredSubProducts(SubProductFilterDTO filterDTO) {
+    public long countFilteredSubProducts(FilterRequest request) {
+        SubProductFilterDTO filterDTO=validateFilter(request);
         return subProductRepository.countSubProductsByFilters(filterDTO);
     }
     public void addSubProduct(SubProductDTO subProductDTO,int mainProductId) {

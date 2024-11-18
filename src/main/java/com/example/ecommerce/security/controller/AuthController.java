@@ -41,9 +41,11 @@ public class AuthController {
             UserPrinciple userPrinciple=(UserPrinciple) authentication.getPrincipal();
             map.put("role",userPrinciple.getAccount().getRoles());
             map.put("jwt-token",jwtService.generateToken(loginRequest.getUsername()));
+            System.out.println("********************************** user is authinticated ");
             map.values().forEach(System.out::println);
            return ResponseEntity.ok(map);
         }else {
+            System.out.println("********************************** user is not authinticated ");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }

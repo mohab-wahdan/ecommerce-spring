@@ -205,13 +205,6 @@
             </div>
             <div class="col-lg-12 text-center">
                 <div class="pagination__option">
-                    <a href="#" class="page-link" data-page="1">1</a>
-                    <a href="#" class="page-link" data-page="2">2</a>
-                    <a href="#" class="page-link" data-page="3">3</a>
-                    <a href="#" class="page-link" data-page="4">4</a>
-                    <a href="#" class="page-link" data-page="5">5</a>
-                    <a href="#" class="page-link" data-page="6">6</a>
-                    <a href="#" class="page-link" data-page="7">7</a>
                 </div>
             </div>
         </div>
@@ -220,7 +213,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/product-display.js"></script>
-<script>
+<script type="text/javascript">
 function resetFilters() {
     // Redirect to the servlet to refresh the customer list
     window.location.href = '/shop.jsp';
@@ -241,6 +234,8 @@ $(document).ready(function () {
     });
 });
 
+
+
 function pagination(number){
     const color = $('input[name="color"]:checked').val(); // Assuming radio buttons for color
     const size = $('input[name="size"]:checked').val();   // Assuming radio buttons for size
@@ -250,6 +245,7 @@ function pagination(number){
     const category = $('input[name="category"]:checked').val(); // Assuming radio buttons for category
     const page = number;                  // Assuming input field or default value for page
 
+    console.log("pagination for page number "+page)
     // Build the data object
     const data = {
         color: color,
@@ -265,7 +261,9 @@ function pagination(number){
         type: 'POST',
         data: data, // Send the page parameter as query
         success: function(response) {
-            renderProductsPages(response);
+            console.log("products num of products = "+response.total)
+            renderProductsPages(response.products);
+             renderPagesNumber(response.total)
         },
         error: function(error) {
             console.error("Error fetching data:", error);
@@ -323,7 +321,7 @@ function filterSubProducts() {
     const maxPrice = $('#maxamount').val();              // Assuming input field for maxPrice
     const gender = $('input[name="gender"]:checked').val(); // Assuming radio buttons for gender
     const category = $('input[name="category"]:checked').val(); // Assuming radio buttons for category
-    const page = $('#page').val() || 1;                  // Assuming input field or default value for page
+    const page =  1;                  // Assuming input field or default value for page
 
     // Build the data object
     const data = {
@@ -345,7 +343,8 @@ function filterSubProducts() {
         success: function (response) {
             // Handle success - response is a list of SubProductDTOs
             console.log(response);
-            renderProductsPages(response); // Function to render the products on the page
+            renderProductsPages(response.products);
+            renderPagesNumber(response.total)
         },
         error: function (xhr, status, error) {
             // Handle error
@@ -356,19 +355,20 @@ function filterSubProducts() {
 }
 
 function fetchAllProducts() {
-    $.ajax({
-        url: '/subProducts', // Assuming this endpoint returns all products
-        type: 'GET',
-        success: function (data) {
-            // Render all products
-            renderProducts(data);
-
-        },
-        error: function (xhr, status, error) {
-            // Handle error
-            console.error(error);
-        }
-    });
+    // $.ajax({
+    //     url: '/subProducts', // Assuming this endpoint returns all products
+    //     type: 'GET',
+    //     success: function (data) {
+    //         // Render all products
+    //         renderProducts(data);
+    //
+    //     },
+    //     error: function (xhr, status, error) {
+    //         // Handle error
+    //         console.error(error);
+    //     }
+    // });
+    pagination(1)
 }
 
 function fetchCategories() {
@@ -485,6 +485,7 @@ function renderProductsPages(products) {
 </script>
 
 <script src="js/main.js"></script>
+<script src="js/shop.js"></script>
 <script src="js/product-display.js"></script>
 <link rel="stylesheet" href="css/shop.css" type="text/css">
 <%@ include file="footer.jsp" %>
