@@ -54,7 +54,7 @@
                 </button>
             </div>
             <div class="signin-icons">
-
+<!--
                 <a href="https://accounts.google.com/o/oauth2/v2/auth?redirect_uri=http://localhost:8083/grantcode&response_type=code&client_id=500520249170-r75a36k8tkdqfpm0dka0tci28vq881ke.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+openid&access_type=offline">
                     <i class="fab fa-google icon"></i> Sign in with Google
                 </a> <br>
@@ -63,7 +63,7 @@
                 <a href="https://github.com/login/oauth/authorize?client_id=Ov23liFHDlx4fenno3Su&redirect_uri=http://localhost:8083/login/oauth2/code/github&scope=user:email">
                     <i class="fab fa-github github-icon"></i> Sign in with GitHub
                 </a>
-
+-->
             </div>
             <div class="sign-up form-group text-center">
                 <p>Not a member? <a href="registration.jsp">

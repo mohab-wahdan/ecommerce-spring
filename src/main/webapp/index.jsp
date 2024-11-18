@@ -49,7 +49,7 @@
                     <div class="categories__text">
                         <h1>Women’s fashion</h1>
                         <p>Embrace your unique fashion journey and express yourself with our stunning collection. From chicly everyday essentials to bold statement pieces, we have everything you need.</p>
-<%--                        <a href="/shop.jsp">Shop now</a>--%>
+                        <a href="/shop.jsp">Shop now</a>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/clothes.jpg">
                             <div class="categories__text">
                                 <h4>Clothing</h4>
-<%--                                <a href="/shop.jsp">Shop now</a>--%>
+                                <a href="/shop.jsp">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/male.jpg">
                             <div class="categories__text">
                                 <h4>Men 's fashion</h4>
-<%--                                <a href="/shop.jsp">Shop now</a>--%>
+                                <a href="/shop.jsp">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/footwear.jpg">
                             <div class="categories__text">
                                 <h4>Footwear</h4>
-<%--                                <a href="/shop.jsp">Shop now</a>--%>
+                                <a href="/shop.jsp">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/accessories.jpg">
                             <div class="categories__text">
                                 <h4>Accessories</h4>
-<%--                                <a href="/shop.jsp">Shop now</a>--%>
+                               <a href="/shop.jsp">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
             success: function(response) {
                 console.log("Customer ID:", response.id);
                 sessionStorage.setItem("id",response.id);
-                // Use the customer ID for further operations, such as adding to cart
+                cartFromLocal();
             },
             error: function(error) {
                 console.error("Error retrieving customer ID:", error);
@@ -178,6 +178,40 @@
         });
     } else {
         console.error("Username not found in session.");
+    }
+
+    function cartFromLocal(){
+        const cart = JSON.parse(localStorage.getItem("cart"));
+        if (cart && cart.length > 0) {
+            cart.forEach((item, index) => {
+                const customerId = sessionStorage.getItem("id");
+                const subProductId = item.subProductId; // Accessing item properties correctly
+                const quantity = item.quantity; // Accessing item properties correctly
+
+                if (customerId) {
+                    const requestData = {
+                        customerId: customerId,
+                        subProductId: subProductId,
+                        quantity: quantity
+                    };
+
+                    // Send the AJAX POST request
+                    $.ajax({
+                        url: "/cartItems",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(requestData), // Send the request data as JSON
+                        success: function (response) {
+                            localStorage.clear();
+                        },
+                        error: function (xhr, status, error) {
+                        }
+                    });
+                } else {
+                }
+            });
+        }
+
     }
 </script>
 <%@ include file="footer.jsp" %>
