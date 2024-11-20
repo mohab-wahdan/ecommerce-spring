@@ -5,6 +5,7 @@ import com.example.ecommerce.models.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Query(value = "SELECT * FROM orders WHERE status = ?1", nativeQuery = true)
     List<Order> findOrdersByStatus(String status);
 
-    int countOrdersByCreatedAtGreaterThan(Date createdAt);
+    @Query(value = "SELECT * FROM orders WHERE created_at >= CURRENT_DATE - INTERVAL 5 DAY", nativeQuery = true)
+    List<Order> findOrdersFromLastFiveDays();
     long countOrdersByStatus(Status status);
 }

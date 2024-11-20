@@ -102,7 +102,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Customer Statistics</h5>
                             <p id="totalCustomers">Total Customers: </p>
-                            <p id="newCustomers">New Customers (Last 7 Days): </p>
+                            <p id="newCustomers">Active Customers (Last 7 Days): </p>
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
 
                 // Populate Customer Statistics
                 $("#totalCustomers").text('Total Customers: '+data.totalCustomers );
-                $("#newCustomers").text('New Customers (Last 7 Days): '+data.newCustomers );
+                $("#newCustomers").text('Active Customers (Last 7 Days): '+data.newCustomers );
 
                 // Populate Order Statistics
                 $("#ordersInProgress").text('Orders in Progress: '+data.progressOrders );

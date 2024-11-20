@@ -45,7 +45,7 @@ public class AdminStatsService {
         calendar.add(Calendar.DAY_OF_MONTH, -5);
 
         Date newDate = calendar.getTime();
-        int newOrders = orderRepository.countOrdersByCreatedAtGreaterThan(currentDate);
+        int newOrders = orderRepository.findOrdersFromLastFiveDays().size();
         stats.setNumOfNewOrders(newOrders);
         return stats;
     }
