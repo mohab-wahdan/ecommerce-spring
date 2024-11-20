@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -26,6 +27,6 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Query(value = "SELECT * FROM orders WHERE status = ?1", nativeQuery = true)
     List<Order> findOrdersByStatus(String status);
 
-
+    int countOrdersByCreatedAtGreaterThan(Date createdAt);
     long countOrdersByStatus(Status status);
 }

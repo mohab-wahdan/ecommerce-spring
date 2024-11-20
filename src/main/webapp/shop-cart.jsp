@@ -1,5 +1,6 @@
 <%@ include file="header.jsp" %>
-
+<jsp:include page="common/VNotification.jsp"/>
+<jsp:include page="common/WNotification.jsp"/>
 <!--Notification Section -->
     <jsp:include page="common/WarningNotification.jsp"/>
     <!-- Breadcrumb Begin -->
@@ -60,19 +61,50 @@
                             <li>TotalQuantity <span class="totalQuantity"> </span></li>
                             <li>Subtotal <span class="finalTotalPrice">  </span></li>
                         </ul>
-                        <a href="checkout.jsp" class="proceed-btn"><i class="fa fa-dollar-sign" id="checkoutBtn"></i> Proceed to checkout</a>
+                        <a href="checkout.jsp" class="proceed-btn" id="checkoutBtn"><i class="fa fa-dollar-sign" ></i> Proceed to checkout</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Shop Cart Section End -->
+
+<style>
+    /* Optional: Styling for disabled button */
+    .proceed-btn.disabled {
+        pointer-events: none;
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+</style>
 <script>
 $(document).ready(function() {
     fetchCartItemsAndDetails();
     $(document).on('click', '.icon_close',deleteItem);
     $(document).on('change', '.quantity-input',updateQuantity);
+    disableButton();
 });
+function disableButton() {
+const userId_ = sessionStorage.getItem("id");
+if(userId_){ $.ajax({
+            url: '/cartItems/count/'+userId_,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if(data==0){
+                checkoutBtn.classList.add("disabled");
+                checkoutBtn.removeAttribute("href");}
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching tip value:", error);
+                $("#tipNumber").text("Error loading tip."); // Fallback message
+            }
+        }); }
+else{checkoutBtn.classList.add("disabled");
+     checkoutBtn.removeAttribute("href");
+    }
+
+}
 document.getElementById("checkoutBtn").addEventListener("click", function(event) {
         const userId = sessionStorage.getItem("id");
         if (!userId) {
@@ -106,48 +138,66 @@ function updateQuantity(){
     const newQuantity = $(this).val();  // Get the new quantity value
     const price = parseFloat($row.find("td:nth-child(2)").text().replace('$', ''));
     const total = (price * newQuantity).toFixed(2); // Calculate new total price
-
-    // Update the displayed total price in the table
-    $row.find(".total-price").text('$' +total);
-
-    // Update quantity on the server
-    const updateUrl = '/cartItems/'+ customerId+'/'+subProductId;
-    const requestBody = {
-        quantity: newQuantity
-    };
-
-    // Send the PUT request to update quantity
+    //check if quantity is enough
     $.ajax({
-        url: updateUrl,
-        method: "PUT",
-        contentType: "application/json",
-        data: JSON.stringify(requestBody),
-        success: function(response) {
-            updateCartTotals();
+        url: '/cartItems/subProduct/'+subProductId,
+        method: 'GET',
+        success: function (response) {
+            const availableStock = response.stock;
+
+            // Check if the new quantity exceeds stock
+            if (newQuantity > availableStock) {
+
+                WshowNotification('No enough stock available');
+                $(this).closest("tr");
+                $(this).val().text(availableStock);
+
+            } else {
+                // Update the displayed total price in the table
+                $row.find(".total-price").text('$' +total);
+
+                // Update quantity on the server
+                const updateUrl = '/cartItems/'+ customerId+'/'+subProductId;
+                const requestBody = {
+                    quantity: newQuantity
+                };
+            // Send the PUT request to update quantity
+                $.ajax({
+                    url: updateUrl,
+                    method: "PUT",
+                    contentType: "application/json",
+                    data: JSON.stringify(requestBody),
+                    success: function(response) {
+                        updateCartTotals();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error updating quantity:", error);
+                    }
+                });
+            }
         },
-        error: function(xhr, status, error) {
-            console.error("Error updating quantity:", error);
+        error: function () {
+            alert('Failed to fetch product stock. Please try again.');
         }
     });
+
 }
 
 // Function to delete cart items
 function deleteItem() {
-    // Prevent default action if necessary
     const $row = $(this).closest('tr');  // Get the row of the clicked delete icon
     const subProductId = $row.data('product-id'); // Extract subProductId from data attribute
     const customerId =sessionStorage.getItem("id");
 
     // DELETE endpoint URL
     const deleteUrl = '/cartItems/'+ customerId+'/'+subProductId;
-
-
         $.ajax({
             url: deleteUrl,
             method: "DELETE",
             success: function(response) {
                 // Remove the row from the table
                 $row.remove();
+                updateCartTotals();
             },
             error: function(xhr, status, error) {
                 console.error("Error deleting item:", error);
@@ -181,7 +231,7 @@ function fetchCartItemsAndDetails() {
                                </td>
                                <td>$ `+subProductDetails.price+`</td>
                                <td>
-                                   <input type="text" value="`+item.quantity+`" data-price="`+subProductDetails.price+`" class="quantity-input" >
+                                   <input type="text" value="`+item.quantity+`" data-price="`+subProductDetails.price+`" class="quantity-input" id="productQuantity">
                                </td>
                                <td class="total-price">$ ` + (subProductDetails.price * item.quantity).toFixed(2) + `</td>
                                <td><span class="icon_close"></span></td>
