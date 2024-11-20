@@ -3,7 +3,9 @@ package com.example.ecommerce.repositories;
 import com.example.ecommerce.models.SubProduct;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import com.example.ecommerce.dtos.ProductColorDTO;
 
 
 import java.util.List;
@@ -39,5 +41,12 @@ Long countSubProducts();
     List<SubProduct> findByIsDeletedFalse();
 
     Optional<SubProduct> findById(Integer subProductId);
+
+    @Query("SELECT new com.example.ecommerce.dtos.ProductColorDTO(p.name, sp.color)" +
+            "FROM SubProduct sp " +
+            "JOIN sp.product p " +
+            "WHERE sp.stock < :stockThreshold")
+    List<ProductColorDTO> findLowStockProducts(@Param("stockThreshold") int stockThreshold);
+
 
 }

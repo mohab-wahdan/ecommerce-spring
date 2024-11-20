@@ -151,7 +151,7 @@
                         <div class="categories__item set-bg" data-setbg="img/categories/accessories.jpg">
                             <div class="categories__text">
                                 <h4>Accessories</h4>
-                                <a href="/shop.jsp">Shop now</a>
+                               <a href="/shop.jsp">Shop now</a>
                             </div>
                         </div>
                     </div>

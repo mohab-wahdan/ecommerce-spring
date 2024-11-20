@@ -1,5 +1,6 @@
 package com.example.ecommerce.repositories;
 
+import com.example.ecommerce.enums.Status;
 import com.example.ecommerce.models.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,4 +25,7 @@ public interface OrderRepository extends JpaRepository<Order,Integer> {
 
     @Query(value = "SELECT * FROM orders WHERE status = ?1", nativeQuery = true)
     List<Order> findOrdersByStatus(String status);
+
+
+    long countOrdersByStatus(Status status);
 }
