@@ -127,7 +127,7 @@
             <p><strong class="user-info-card-title">Username</strong><strong><span id="username"></span></strong></p>
             <p><strong class="user-info-card-title">First Name</strong><strong><span id="firstName"></span></strong></p>
             <p><strong class="user-info-card-title">Last Name</strong><strong><span id="lastName"></span></strong></p>
-            <p><strong class="user-info-card-title">Credit Limit</strong><strong><span id="creditLimit"></span></strong></p>
+            <p><strong class="user-info-card-title">Chicly Balance</strong><strong><span id="creditLimit"></span></strong></p>
             <p><strong class="user-info-card-title">Email</strong><strong><span id="email"></span></strong></p>
             <p><strong class="user-info-card-title">Phone Number</strong><strong><span id="phoneNumber"></span></strong></p>
             <p><strong class="user-info-card-title">Job</strong><strong><span id="job"></span></strong></p>

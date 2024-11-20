@@ -141,8 +141,8 @@
                             <input type="text" class="form-control" id="lastName" name="lastName" value="">
                         </div>
                         <div class="form-group">
-                            <label for="creditLimit" class="user-update-field">Credit Limit:</label>
-                            <input type="number" class="form-control" id="creditLimit" name="creditLimit" step="0.01" value="" onblur="checkCreditLimitForUpdate();">
+                            <label for="creditLimit" class="user-update-field">Chicly Balance:</label>
+                            <input type="number" class="form-control" id="creditLimit" name="creditLimit" step="0.01" value="" onblur="checkCreditLimitForUpdate();" disabled>
                             <span class="error-message" id="crediterror"></span>
                         </div>
                     </div>

@@ -39,18 +39,18 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 ///////////////////////////////Handling Credit Limit Validation//////////////////////////////////////////////////////////
-function CheckCreditLimit() {
-    var creditValue = document.getElementById("creditLimit").value;
-    if (creditValue < 0) {
-        document.getElementById("crediterror").innerText = "Credit limit must be more than 0";
-    } else if (creditValue > 1000000) {
-        document.getElementById("crediterror").innerText = "Credit limit must not exceed 1,000,000";
-    }else if (creditValue[0] === '0') {
-        document.getElementById("crediterror").innerText = "Credit limit must not start with 0";
-    } else {
-        document.getElementById("crediterror").innerText = "";
-    }
-}
+// function CheckCreditLimit() {
+//     var creditValue = document.getElementById("creditLimit").value;
+//     if (creditValue < 0) {
+//         document.getElementById("crediterror").innerText = "Credit limit must be more than 0";
+//     } else if (creditValue > 1000000) {
+//         document.getElementById("crediterror").innerText = "Credit limit must not exceed 1,000,000";
+//     }else if (creditValue[0] === '0') {
+//         document.getElementById("crediterror").innerText = "Credit limit must not start with 0";
+//     } else {
+//         document.getElementById("crediterror").innerText = "";
+//     }
+// }
 
 // ////////////////////////////Handling Phone Number Validation//////////////////////////////////////////////////////////
 function CheckPhoneNumber() {

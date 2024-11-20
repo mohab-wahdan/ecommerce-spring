@@ -73,8 +73,7 @@
                         <span class="error-message" id="phoneerror"></span>
                     </div>
                     <div class="input-field">
-                        <label>Credit Limit</label>
-                        <input type="number" id="creditLimit" name="creditLimit" onblur="CheckCreditLimit()" required>
+                        <input type="number" id="creditLimit" name="creditLimit" onblur="CheckCreditLimit()" hidden="hidden">
                         <span class="error-message" id="crediterror"></span>
                     </div>
                     <div class="input-field">
@@ -141,7 +140,7 @@
             var formData = {
                 firstName: document.getElementById("firstName").value,
                 lastName: document.getElementById("lastName").value,
-                creditLimit: document.getElementById("creditLimit").value,
+                creditLimit: 0.0,
                 dateOfBirth:  document.getElementById("dateOfBirth").value,
                 email:  document.getElementById("email").value,
                 phoneNumber:  document.getElementById("phoneNumber").value,

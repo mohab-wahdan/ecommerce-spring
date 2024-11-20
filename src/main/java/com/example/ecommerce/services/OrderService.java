@@ -37,9 +37,9 @@ public class OrderService {
         this.orderMapperStruct = orderMapperStruct;
         this.cartRepository = cartRepository;
     }
-    private BigDecimal decreaseCustomerCreditLimit(Customer customer, CartItemsService cartService){
-        return customer.getCreditLimit().subtract(cartService.getTotalPrice());
-    }
+//    private BigDecimal decreaseCustomerCreditLimit(Customer customer, CartItemsService cartService){
+//        return customer.getCreditLimit().subtract(cartService.getTotalPrice());
+//    }
     private List<SubProductDTO> convertCartServiceMapToList(CartItemsService cartService){
         return cartService.getItems().keySet().stream().collect(Collectors.toList());
     }
@@ -76,8 +76,8 @@ public class OrderService {
         }
         return false;
     }
-    private boolean isOrderValid(CartItemsService cartService, BigDecimal remainingCreditLimit) {
-        return cartService != null && remainingCreditLimit.compareTo(BigDecimal.ZERO) > 0;
+    private boolean isOrderValid(CartItemsService cartService) {
+        return cartService != null;
     }
     private Order createPendingOrder(Customer customer) {
         Order order = new Order();
@@ -120,7 +120,7 @@ public class OrderService {
         order.getOrderItems().addAll(orderItems);
 
         BigDecimal totalPrice = cartService.getTotalPrice();
-        customer.setCreditLimit(customer.getCreditLimit().subtract(totalPrice));
+//        customer.setCreditLimit(customer.getCreditLimit().subtract(totalPrice));
 
         clearCustomerShoppingCart(customer);
         customerRepository.save(customer);
@@ -132,14 +132,14 @@ public class OrderService {
         }
     }
     public OrderProcessError createOrder(CartItemsService cartService, Customer customer) {
-        BigDecimal remainingCustomerCreditLimit = decreaseCustomerCreditLimit(customer,cartService);
+//        BigDecimal remainingCustomerCreditLimit = decreaseCustomerCreditLimit(customer,cartService);
         List<SubProductDTO> subProductList = convertCartServiceMapToList(cartService);
         OrderProcessError orderProcessError = new OrderProcessError();
         if (hasStockErrors(subProductList, orderProcessError)) {
             return orderProcessError;
         }
 
-        if (isOrderValid(cartService, remainingCustomerCreditLimit)) {
+        if (isOrderValid(cartService)) {
             Order order = createPendingOrder(customer);
             Set<OrderItem> orderItems = createOrderItems(subProductList, cartService, order, orderProcessError);
 
