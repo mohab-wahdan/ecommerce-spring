@@ -6,6 +6,8 @@ import com.example.ecommerce.enums.Status;
 import com.example.ecommerce.repositories.*;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,13 +32,22 @@ public class AdminStatsService {
         stats.setTotalCategories(categoryRepository.count());
         stats.setTotalProducts(subProductRepository.count());
         stats.setTotalCustomers(customerRepository.count());
-        stats.setNewCustomers(10);
+        stats.setNewCustomers(customerRepository.countByOrdersIsNotEmpty());
         stats.setProgressOrders(orderRepository.countOrdersByStatus(Status.PENDING));
         stats.setCompletedOrders(orderRepository.countOrdersByStatus(Status.COMPLETED));
         List<String> lowStockProducts = subProductRepository.findLowStockProducts(lowStock).
                 stream().map(ProductColorDTO::toString).toList();
         stats.setNumOfLowStock(lowStockProducts.size());
         stats.setLowStock(lowStockProducts);
+
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DAY_OF_MONTH, -5);
+
+        Date newDate = calendar.getTime();
+        int newOrders = orderRepository.countOrdersByCreatedAtGreaterThan(currentDate);
+        stats.setNumOfNewOrders(newOrders);
         return stats;
     }
 

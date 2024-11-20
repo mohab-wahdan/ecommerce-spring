@@ -22,4 +22,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     boolean existsByAccount_UserName(String username);
     boolean existsByPhoneNumber(String phonenumber);
+    int countByOrdersIsNotEmpty();
 }

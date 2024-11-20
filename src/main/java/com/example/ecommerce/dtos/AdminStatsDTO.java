@@ -15,5 +15,6 @@ public class AdminStatsDTO {
     private long progressOrders;
     private long completedOrders;
     private long numOfLowStock;
+    private int numOfNewOrders;
     private List<String> lowStock;
 }
