@@ -30,9 +30,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function() {
+        tipNumber();
+        setInterval(tipNumber, 2000);
         const userLoginContainer = document.getElementById("user-login");
         const username = sessionStorage.getItem("username");
-
         if (username) {
             // Show dropdown menu with username and additional links
             userLoginContainer.innerHTML = `
@@ -66,6 +67,29 @@
             `;
         }
     });
+
+
+
+     function tipNumber() {
+        const userId_ = sessionStorage.getItem("id");
+       if(userId_){ $.ajax({
+                    url: '/cartItems/count/'+userId_,
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#tipNumber").text(data);
+                        $("#tipNumbers").text(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error fetching tip value:", error);
+                        $("#tipNumber").text("Error loading tip."); // Fallback message
+                    }
+                }); }
+       else{$("#tipNumber").text('0');
+            $("#tipNumbers").text('0');
+            }
+
+}
 </script>
 
 <style>
@@ -170,17 +194,13 @@
     <div class="offcanvas-menu-overlay"></div>
     <div class="offcanvas-menu-wrapper">
         <div class="offcanvas__close">+</div>
-<%--        <ul class="offcanvas__widget">--%>
-<%--            <li><a href="shop-cart.jsp"><span class="icon_bag_alt"></span>--%>
-<%--            </a></li>--%>
-<%--        </ul>--%>
         <div class="offcanvas__logo">
 
             <a href="index.jsp"><img src="img/logo.png" width="98" height="31" alt=""></a>
 
         </div>
-        <a href="shop-cart.jsp"></a><span class="icon_bag_alt"></span>
-
+        <a href="shop-cart.jsp"><span class="icon_bag_alt"></span>
+         <div class="tip" id="tipNumbers"> </div></a>
         <div id="mobile-menu-wrap">
             <div class="offcanvas__auth">
                 <a href="login.jsp">Login  /</a>
@@ -217,7 +237,7 @@
                     </div>
                     <ul class="header__right__widget">
                         <li><a href="shop-cart.jsp"><span class="icon_bag_alt"></span>
-                        </a></li>
+                        <div class="tip" id="tipNumber"> </div></a></li>
                     </ul>
                     </div>
                 </div>

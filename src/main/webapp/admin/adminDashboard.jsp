@@ -83,44 +83,48 @@
                 </c:choose>
             </div>
 
-            <div class="row">
+            <div class="row" id="statistics">
+                <!-- Product Statistics -->
                 <div class="col-md-4">
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Product Statistics</h5>
-                            <p>Total Categories: 4</p>
-                            <p>Total Products: 33</p>
-                            <p>Low Stock Alerts: 1</p>
+                            <p id="totalCategories">Total Categories: </p>
+                            <p id="totalProducts">Total Products: </p>
+                            <p id="lowStockAlerts">Low Stock Alerts: </p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Customer Statistics -->
                 <div class="col-md-4">
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Customer Statistics</h5>
-                            <p>Total Customers: 43</p>
-                            <p>New Customers (Last 7 Days): 42</p>
+                            <p id="totalCustomers">Total Customers: </p>
+                            <p id="newCustomers">Active Customers (Last 7 Days): </p>
                         </div>
                     </div>
                 </div>
 
+                <!-- Orders Statistics -->
                 <div class="col-md-4">
                     <div class="card mb-4">
                         <div class="card-body">
                             <h5 class="card-title">Orders</h5>
-                            <p>Orders in Progress: 34</p>
-                            <p>Completed Orders: 56</p>
+                            <p id="ordersInProgress">Orders in Progress: </p>
+                            <p id="completedOrders">Completed Orders: </p>
+                            <p id="newOrders">New Orders (Last 5 Days): </p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <h4>Notifications</h4>
-            <div class="alert alert-warning" role="alert">
-                Low Stock Alert: Blue Jacket with pouch pocket and logo (20 units remaining).
+            <div class="alert alert-warning" id="lowStockNotification" role="alert">
+                <!-- Low stock alert message will be populated here -->
             </div>
-        </div>
+
     </div>
 </div>
 
@@ -139,8 +143,43 @@
         sessionStorage.clear();
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // AJAX request to fetch statistics
+        $.ajax({
+            url: '/stats', // Replace with your API URL
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Populate Product Statistics
+                $("#totalCategories").text('Total Categories: '+ data.totalCategories );
+                $("#totalProducts").text( 'Total Products: '+data.totalProducts);
+                $("#lowStockAlerts").text('Low Stock Alerts: '+data.numOfLowStock );
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                // Populate Customer Statistics
+                $("#totalCustomers").text('Total Customers: '+data.totalCustomers );
+                $("#newCustomers").text('Active Customers (Last 7 Days): '+data.newCustomers );
+
+                // Populate Order Statistics
+                $("#ordersInProgress").text('Orders in Progress: '+data.progressOrders );
+                $("#completedOrders").text('Completed Orders: '+data.completedOrders );
+                $("#newOrders").text('New Orders (Last 5 Days): '+data.numOfNewOrders );
+
+                // Populate Low Stock Notification
+                if (data.lowStock && data.lowStock.length > 0) {
+                    const lowStockList = data.lowStock.join('<br>'); // Join items with <br> for new lines
+                    $("#lowStockNotification").html('Low Stock Alert:<br>' + lowStockList);
+                } else {
+                    $("#lowStockNotification").hide(); // Hide the alert if no low stock
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching data:", error);
+            }
+        });
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

@@ -37,6 +37,16 @@ public class CartItemsController {
         return ResponseEntity.ok(cartItems);
     }
 
+    @GetMapping("/count/{customerId}")
+    public int getCartCountByCustomerId(@PathVariable Integer customerId) {
+        try {
+            List<CartItemsDTO> cartItems = cartItemsService.getCartByCustomerId(customerId);
+            return cartItems.size();
+        } catch (EntityNotFoundException e) {
+            return 0;
+        }
+    }
+
     @DeleteMapping
     public ResponseEntity<CartItemsDTO> deleteAllCartItems() {
         cartItemsService.deleteAllCartItems();

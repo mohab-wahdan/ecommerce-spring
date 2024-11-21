@@ -188,17 +188,7 @@ $(document).ready(function() {
                             <h3>`+ product.productName +`</h3>
                             <div class="product__details__price">$ `+ product.price+` </div>
                             <p>`+ product.description +`</p>
-                            <div class="product__details__button">
-                                <div class="quantity">
-                                    <span>Quantity:</span>
-                                    <div class="pro-qtyy">
-                                        <button type="button" class="qtybtn dec">-</button>
-                                        <input type="text" id="quantity" value="1" min="1" max="200" readonly>
-                                        <button type="button" class="qtybtn inc">+</button>
-                                    </div>
-                                </div>
-                                <a class="cart-btn" onclick="addToCart(${product.id}, '${product.productName}', '${product.imageURL}', ${product.price}, ${product.stock})"><span class="icon_bag_alt"></span> Add to cart</a>
-                            </div>
+
                             <div class="product__details__widget">
                                 <ul>
                                     <li>
