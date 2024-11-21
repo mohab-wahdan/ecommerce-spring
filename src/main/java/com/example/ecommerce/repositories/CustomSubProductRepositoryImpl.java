@@ -36,7 +36,6 @@ public class CustomSubProductRepositoryImpl implements CustomSubProductRepositor
 
     @Override
     public List<SubProduct> findSubProductsByFilters(SubProductFilterDTO filterDTO) {
-
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<SubProduct> cq = cb.createQuery(SubProduct.class);
         Root<SubProduct> subProductRoot = cq.from(SubProduct.class);
